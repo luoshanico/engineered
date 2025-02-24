@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Set up the project folder
+# already done
+
+# Initialize a virtual environment
+python3 -m venv venv
+
+# Activate the virtual environment
+source venv/bin/activate
+
+# Install necessary packages
+pip install streamlit pymunk pygame
+
+# Create the basic directory structure
+mkdir -p src assets docs
+
+# Create a simple app template (main.py) for Streamlit
+cat > src/main.py <<EOL
+import streamlit as st
+import pymunk
+
+def main():
+    st.title("B'Eng'd")
+    st.write("Build machines and see them in action!")
+    
+    # Initialize the physics space
+    space = pymunk.Space()
+    space.gravity = (0, -1000)
+
+    # Simple simulation loop (placeholder for now)
+    st.write("Physics simulation will go here.")
+
+if __name__ == "__main__":
+    main()
+EOL
+
+# Create a requirements.txt for dependencies
+pip freeze > requirements.txt
+
+# Print project structure
+echo "Project folder setup complete!"
+echo "Directory structure:"
+tree .
+
+# Deactivate the virtual environment
+deactivate
