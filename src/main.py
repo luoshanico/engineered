@@ -12,7 +12,7 @@ class Game():
     def __init__(self):
         pg.init()
 
-        self.game_canvas = pg.Surface(settings.RES)
+        self.surface = pg.Surface(settings.RES)
         print(f"{settings.RES=}")
         self.screen = pg.display.set_mode(settings.RES)
         self.running, self.playing = True, True
@@ -40,15 +40,14 @@ class Game():
                 self.running = False
             elif event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:  # Left mouse button press
-                    print("Mouse click")
                     self.actions['click'] = True
 
     def update(self):
         self.state_stack[-1].update(self.dt, self.actions)
 
     def render(self):
-        self.state_stack[-1].render(self.game_canvas)
-        self.screen.blit(self.game_canvas, (0,0))
+        self.state_stack[-1].render(self)
+        self.screen.blit(self.surface, (0,0))
         pg.display.flip()
 
     def get_dt(self):
