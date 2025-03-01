@@ -17,8 +17,8 @@ class Game():
         self.screen = pg.display.set_mode(settings.RES)
         self.running, self.playing = True, True
         self.actions = {'click':False}
-        #self.clock = pg.time.Clock()
-        self.dt, self.prev_time = 0, 0
+        self.clock = pg.time.Clock()
+        self.dt = 0
         self.font = pg.font.Font(None, settings.fontsizes['title'])
 
         self.state_stack = []
@@ -28,10 +28,11 @@ class Game():
 
     def game_loop(self):
         while self.playing:
-            self.get_dt()
+            # self.get_dt()
             self.get_events()
             self.update()
             self.render()
+            self.clock.tick(settings.FPS)
 
     def get_events(self):
         for event in pg.event.get():
@@ -43,17 +44,15 @@ class Game():
                     self.actions['click'] = True
 
     def update(self):
-        self.state_stack[-1].update(self.dt, self.actions)
+        self.state_stack[-1].update(self.actions)
 
     def render(self):
         self.state_stack[-1].render(self)
         self.screen.blit(self.surface, (0,0))
         pg.display.flip()
 
-    def get_dt(self):
-        now = time.time()
-        self.dt = now - self.prev_time
-        self.prev_time = now
+    #def get_dt(self):
+        #self.dt = self.clock.get_time() / 1000.0 
 
     def draw_text(self, surface, text, color, x, y):
         text_surface = self.font.render(text, True, color)

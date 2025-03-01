@@ -8,7 +8,7 @@ class Title(State):
     def __init__(self, game):
         State.__init__(self,game)
 
-    def update(self, dt, actions):
+    def update(self, actions):
         if actions["click"]:
             print("updating to Builder")
             new_state = Builder(self.game)

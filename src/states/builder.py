@@ -15,11 +15,12 @@ class Builder(State):
         self.ball_button, self.damped_spring_button = None, None
         self.back_button = None
         self.menu_location = "main"
+        self.physics_environment(game)
         
 
-    def update(self, dt, actions):
+    def update(self, actions):
         # Step the physics space forward (advance simulation)
-        self.game.space.step(dt)
+        self.game.space.step(1 / settings.FPS)
         if actions["click"]:
             self.mouseclick()
         self.game.reset_keys()
@@ -27,7 +28,6 @@ class Builder(State):
     def render(self, game):
         self.builder_title(game)
         self.builder_menu(game)
-        self.physics_environment(game)
         game.space.debug_draw(game.draw_options)
         
     
@@ -101,13 +101,14 @@ class Builder(State):
     def physics_environment(self,game):
         self.physics_space(game)
         self.add_ground(game)
-        self.create_ball(game, pos=(settings.WIDTH // 2, settings.HEIGHT - 100))
+        self.create_ball(game, pos=(settings.WIDTH // 2, 250))
     
     def physics_space(self, game):
         # Initialize the physics space
         game.draw_options = pymunk.pygame_util.DrawOptions(game.surface)
         game.space = pymunk.Space()
         game.space.gravity = 0, 2000
+        
 
     def add_ground(self, game):
         # Create a ground (static segment)
@@ -124,8 +125,8 @@ class Builder(State):
         game.ball_body = pymunk.Body(game.ball_mass, game.ball_moment)
         game.ball_body.position = pos
         game.ball_shape = pymunk.Circle(game.ball_body, game.ball_radius)
-        game.ball_shape.elasticity = 0.8
-        game.ball_shape.friction = 0.5
+        game.ball_shape.elasticity = 0.9
+        game.ball_shape.friction = 0.3
         game.ball_shape.collision_type = settings.OBJECT_CAT
         game.space.add(game.ball_body, game.ball_shape)
 
