@@ -29,6 +29,7 @@ class Builder(State):
         self.builder_menu(game)
         self.physics_environment(game)
         game.space.debug_draw(game.draw_options)
+        
     
     def builder_title(self,game):
         game.surface.fill((255, 255, 255))  # background color
