@@ -11,10 +11,7 @@ class Builder(State):
     def __init__(self, game):
         State.__init__(self, game)
         self.game = game
-        self.object_button, self.constraint_button = None, None
-        self.ball_button, self.damped_spring_button = None, None
-        self.back_button = None
-        self.menu_location = "main"
+        self.initialise_menu()      
         self.physics_environment(game)
         
 
@@ -26,45 +23,90 @@ class Builder(State):
         self.game.reset_keys()
     
     def render(self, game):
-        self.builder_title(game)
-        self.builder_menu(game)
+        self.render_title(game)
+        self.render_menu(game)
         game.space.debug_draw(game.draw_options)
         
-    
-    def builder_title(self,game):
+    def render_title(self,game):
         game.surface.fill((255, 255, 255))  # background color
-        game.draw_text(game.surface, "Builder", (0, 0, 0), 50, 40)  # Title text
-
-    def builder_menu(self,game):
-        if self.menu_location == "main":
-            self.builder_menu_main(game)
-        elif self.menu_location == "object":
-            self.builder_menu_object(game)
-        elif self.menu_location == "constraint":
-            self.builder_menu_constraint(game)
+        game.draw_text(game.surface, "Builder", (0, 0, 0), 50, 40)  # title text
     
-    def builder_menu_main(self, game):
+    # MENU #
+    ## INITIALISE MENU ##
+
+    def initialise_menu(self):
+        self.menu_map = {
+            'main': {
+                'active': True,
+                'buttons': {
+                    'object': None,
+                    'constraint': None
+                }
+            },
+            'object': {
+                'active': False,
+                'buttons': {
+                    'ball': None,
+                    'square': None,
+                    'main': None
+                }
+            },
+            'constraint': {
+                'active': False,
+                'buttons': {
+                    'damped_spring': None,
+                    'main': None
+                }
+            }
+        }
+    
+    ## RENDER MENU ##
+
+    def render_menu(self,game):
+        menu_location = self.get_menu_location()
+        
+        if menu_location == "main":
+            self.render_menu_main(game)
+        elif menu_location == "object":
+            self.render_menu_object(game)
+        elif menu_location == "constraint":
+            self.render_menu_constraint(game)
+        else:
+            raise Exception('Builder menu location is not set to a known location')
+    
+    def get_menu_location(self):
+        self.assert_exactly_one_active_menu_location()
+        return next((key for key, value in self.menu_map.items() if value.get('active')), None)
+    
+    def assert_exactly_one_active_menu_location(self):
+        active_locations = [key for key, value in self.menu_map.items() if value.get('active')]
+        assert len(active_locations) == 1, f"Expected exactly one active menu location, but found {len(active_locations)}: {active_locations}"
+    
+    def render_menu_main(self, game):
         self.add_object_button(game)
         self.add_constraint_button(game)
+        self.delete_buttons_from_inactive_menus()
 
-    def builder_menu_object(self, game):
-        self.object_button = None
-        self.constraint_button = None
-        self.add_ball_button(game)
-        self.add_back_button(game)
+    def render_menu_object(self, game):
+        self.add_object_ball_button(game)
+        self.add_object_back_button(game)
+        self.delete_buttons_from_inactive_menus()
 
-    def builder_menu_constraint(self, game):
-        self.object_button = None
-        self.constraint_button = None
-        self.add_damped_spring_button(game)
+    def render_menu_constraint(self, game):
+        self.add_constraint_damped_spring_button(game)
+        self.add_constraint_back_button(game)
+        self.delete_buttons_from_inactive_menus()
         
+    ## MENU BUTTONS ##
+    ### MAIN MENU BUTTONS ###
+    
     def add_object_button(self, game):
         location = (150, 40, 140, 30)
         color = settings.BLUE
         text = "Add Object"
         font_size = settings.fontsizes['header_1']
         font_color = settings.WHITE
-        self.object_button = utils.add_button(game.surface, location, color, text, font_size, font_color)
+        self.menu_map['main']['buttons']['object'] = utils.add_button(game.surface, location, color, text, font_size, font_color)
 
     def add_constraint_button(self, game):
         location = (320, 40, 140, 30)
@@ -72,32 +114,64 @@ class Builder(State):
         text = "Add Constraint"
         font_size = settings.fontsizes['header_1']
         font_color = settings.WHITE
-        self.constraint_button = utils.add_button(game.surface, location, color, text, font_size, font_color)
+        self.menu_map['main']['buttons']['constraint'] = utils.add_button(game.surface, location, color, text, font_size, font_color)
 
-    def add_ball_button(self, game):
+    ### OBJECT MENU BUTTONS ###
+    
+    def add_object_ball_button(self, game):
         location = (150, 40, 140, 30)
         color = settings.GREEN
         text = "Add Ball"
         font_size = settings.fontsizes['header_1']
         font_color = settings.WHITE
-        self.ball_button = utils.add_button(game.surface, location, color, text, font_size, font_color)
+        self.menu_map['object']['buttons']['ball'] = utils.add_button(game.surface, location, color, text, font_size, font_color)
 
-    def add_damped_spring_button(self, game):
+    def add_object_back_button(self, game):
+        location = (350, 40, 140, 30)
+        color = settings.GREEN
+        text = "Back"
+        font_size = settings.fontsizes['header_1']
+        font_color = settings.WHITE
+        self.menu_map['object']['buttons']['main'] = utils.add_button(game.surface, location, color, text, font_size, font_color)
+    
+    ### CONSTRAINT MENU BUTTONS ###
+    
+    def add_constraint_damped_spring_button(self, game):
         location = (150, 40, 140, 30)
         color = settings.RED
         text = "Add Spring"
         font_size = settings.fontsizes['header_1']
         font_color = settings.WHITE
-        self.damped_spring_button = utils.add_button(game.surface, location, color, text, font_size, font_color)
+        self.menu_map['constraint']['buttons']['damped_spring'] = utils.add_button(game.surface, location, color, text, font_size, font_color)
 
-    def add_back_button(self, game):
+    def add_constraint_back_button(self, game):
         location = (350, 40, 140, 30)
-        color = settings.BLACK
+        color = settings.GREEN
         text = "Back"
         font_size = settings.fontsizes['header_1']
         font_color = settings.WHITE
-        self.back_button = utils.add_button(game.surface, location, color, text, font_size, font_color)
+        self.menu_map['constraint']['buttons']['main'] = utils.add_button(game.surface, location, color, text, font_size, font_color)
 
+    ## MENU UTILS ##
+
+    def get_button_target(self, button):
+        for _, info in self.menu_map.items():
+            for target, btn in info['buttons'].items():
+                if btn is button:
+                    return target
+        return None
+    
+    def delete_buttons_from_inactive_menus(self):
+        for location in self.menu_map.keys():
+            if not self.menu_map[location]['active']:
+                for btn in self.menu_map[location]['buttons']:
+                    self.menu_map[location]['buttons'][btn] = None
+        
+
+
+
+    # PHYSICS #
+    
     def physics_environment(self,game):
         self.physics_space(game)
         self.add_ground(game)
@@ -109,7 +183,6 @@ class Builder(State):
         game.space = pymunk.Space()
         game.space.gravity = 0, 2000
         
-
     def add_ground(self, game):
         # Create a ground (static segment)
         game.segment_shape = pymunk.Segment(game.space.static_body, (0, settings.HEIGHT), (settings.RES), 20)
@@ -118,6 +191,8 @@ class Builder(State):
         game.segment_shape.collision_type = settings.WORLD_CAT
         game.space.add(game.segment_shape)
 
+    # OBJECTS #
+    
     def create_ball(self, game, pos):
         # Create a ball (dynamic body)
         game.ball_mass, game.ball_radius = 1, 60
@@ -130,19 +205,21 @@ class Builder(State):
         game.ball_shape.collision_type = settings.OBJECT_CAT
         game.space.add(game.ball_body, game.ball_shape)
 
+    # ACTIONS #
+    
     def mouseclick(self):
         mouse_pos = pg.mouse.get_pos()
-        if self.object_button is not None:
-            if self.object_button.collidepoint(mouse_pos):
-                self.menu_location = "object"
-                print("Add object...")
-        elif self.constraint_button is not None:
-            if self.constraint_button.collidepoint(mouse_pos):
-                self.menu_location = "constraint"
-                print("Add constraint...")
-        elif self.back_button is not None:
-            if self.back_button.collidepoint(mouse_pos):
-                self.menu_location = "main"
-                print("Main menu...")
+        menu_location = self.get_menu_location()
+
+        for button in self.menu_map[menu_location]['buttons'].values():
+            if button:
+                if button.collidepoint(mouse_pos):
+                    target = self.get_button_target(button)
+                    self.menu_map[target]['active'] = True
+                    self.menu_map[menu_location]['active'] = False
+                    print(f"Menu location changed from {menu_location} to {target}")
+
+
+    
     
     
