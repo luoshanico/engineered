@@ -59,6 +59,11 @@ class Builder(State):
                 }
             }
         }
+        self.button_locations = [
+            (150, 40, 120, 30),
+            (300, 40, 120, 30),
+            (450, 40, 120, 30)
+        ]
     
     ## RENDER MENU ##
 
@@ -101,7 +106,7 @@ class Builder(State):
     ### MAIN MENU BUTTONS ###
     
     def add_object_button(self, game):
-        location = (150, 40, 140, 30)
+        location = self.button_locations[0]
         color = settings.BLUE
         text = "Add Object"
         font_size = settings.fontsizes['header_1']
@@ -109,7 +114,7 @@ class Builder(State):
         self.menu_map['main']['buttons']['object'] = utils.add_button(game.surface, location, color, text, font_size, font_color)
 
     def add_constraint_button(self, game):
-        location = (320, 40, 140, 30)
+        location = self.button_locations[1]
         color = settings.BLUE
         text = "Add Constraint"
         font_size = settings.fontsizes['header_1']
@@ -119,7 +124,7 @@ class Builder(State):
     ### OBJECT MENU BUTTONS ###
     
     def add_object_ball_button(self, game):
-        location = (150, 40, 140, 30)
+        location = self.button_locations[0]
         color = settings.GREEN
         text = "Add Ball"
         font_size = settings.fontsizes['header_1']
@@ -127,7 +132,7 @@ class Builder(State):
         self.menu_map['object']['buttons']['ball'] = utils.add_button(game.surface, location, color, text, font_size, font_color)
 
     def add_object_back_button(self, game):
-        location = (350, 40, 140, 30)
+        location = self.button_locations[1]
         color = settings.GREEN
         text = "Back"
         font_size = settings.fontsizes['header_1']
@@ -137,7 +142,7 @@ class Builder(State):
     ### CONSTRAINT MENU BUTTONS ###
     
     def add_constraint_damped_spring_button(self, game):
-        location = (150, 40, 140, 30)
+        location = self.button_locations[0]
         color = settings.RED
         text = "Add Spring"
         font_size = settings.fontsizes['header_1']
@@ -145,7 +150,7 @@ class Builder(State):
         self.menu_map['constraint']['buttons']['damped_spring'] = utils.add_button(game.surface, location, color, text, font_size, font_color)
 
     def add_constraint_back_button(self, game):
-        location = (350, 40, 140, 30)
+        location = self.button_locations[1]
         color = settings.GREEN
         text = "Back"
         font_size = settings.fontsizes['header_1']
