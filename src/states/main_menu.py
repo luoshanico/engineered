@@ -7,12 +7,14 @@ class Title(State):
     def __init__(self, game):
         State.__init__(self,game)
 
-    def update(self, actions):
-        if actions["click"]:
+    def get_events(self, event):
+        if event.type == pg.MOUSEBUTTONDOWN:
             print("updating to Builder")
             new_state = Builder(self.game)
             new_state.enter_state()
-        self.game.reset_keys()
+    
+    def update(self):
+        pass
 
     def render(self, game):
         game.surface.fill((255,255,255))

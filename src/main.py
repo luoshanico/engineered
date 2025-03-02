@@ -15,7 +15,6 @@ class Game():
         self.screen = pg.display.set_mode(settings.RES)
         self.running, self.playing = True, True
         print("init called, resetting keys")
-        self.actions = {'click':False}
         self.clock = pg.time.Clock()
         self.dt = 0
         self.font = pg.font.Font(None, settings.fontsizes['title'])
@@ -38,17 +37,10 @@ class Game():
             if event.type == pg.QUIT:
                 self.playing = False
                 self.running = False
-            elif event.type == pg.MOUSEBUTTONDOWN:
-                print("DOWN")
-                if event.button == 1:  # Left mouse button press
-                    self.actions['click'] = True
-            elif event.type == pg.MOUSEBUTTONUP:
-                print("UP")
-                if event.button == 1:  # Release left mouse button
-                    self.actions['click'] = False
+            self.state_stack[-1].get_events(event)
 
     def update(self):
-        self.state_stack[-1].update(self.actions)
+        self.state_stack[-1].update()
 
     def render(self):
         self.state_stack[-1].render(self)
@@ -68,11 +60,6 @@ class Game():
         self.title_screen = Title(self)
         self.state_stack.append(self.title_screen)
         print(self.state_stack[-1])
-
-    def reset_keys(self):
-            #print("resetting keys")
-            for action in self.actions:
-                self.actions[action] = False
 
 
 if __name__ == "__main__":

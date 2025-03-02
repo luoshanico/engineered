@@ -1,3 +1,4 @@
+import pygame as pg
 from states.state import State
 from builder_menu import BuilderMenu
 from builder_physics import BuilderPhysics 
@@ -12,10 +13,16 @@ class Builder(State):
         self.physics = BuilderPhysics(game)
         self.controls = BuilderControls(game)
     
-    def update(self, actions):
+    def get_events(self, event):
+        self.physics.get_events(event)
+        self.controls.get_events(event)
+        self.menu.get_events(event)
+
+
+    def update(self):
         self.physics.update()
-        self.controls.update(actions)
-        self.menu.update(actions)
+        self.controls.update()
+        self.menu.update()
         
     
     def render(self, game):

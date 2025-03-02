@@ -50,10 +50,13 @@ class BuilderMenu:
         font_color = settings.WHITE
         btn['button'] = utils.add_button(self.game.surface, location, color, btn['text'], font_size, font_color)
 
-    def update(self, actions):
-        if actions.get('click'):
+    
+    def get_events(self,event):
+        if event.type == pg.MOUSEBUTTONDOWN:
             self.handle_click()
-            self.game.reset_keys()
+    
+    def update(self):
+        pass
 
     def get_active_menu(self):
         # Return the first menu in menu_map where 'active' is True

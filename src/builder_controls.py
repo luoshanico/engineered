@@ -11,9 +11,11 @@ class BuilderControls():
         self.mouse_joint = None
         self.mouse_body = pymunk.Body(body_type=pymunk.Body.KINEMATIC)
 
-    def update(self, actions):
-        self.mouse_body.position = pg.mouse.get_pos()
-        if actions["click"]:
+    def get_events(self, event):
+        
+        self.mouse_body.position = pg.mouse.get_pos()  ## maybe put this in a seperate update function
+
+        if event.type == pg.MOUSEBUTTONDOWN:
             if self.mouse_joint is None:  # Only create a new mouse joint if one doesn't already exist.
                 p = Vec2d(*pg.mouse.get_pos())
                 hit = self.game.space.point_query_nearest(p, 5, pymunk.ShapeFilter())
@@ -32,9 +34,11 @@ class BuilderControls():
                     self.mouse_joint.error_bias = (1 - 0.15) ** 60
                     self.game.space.add(self.mouse_joint)
 
-        else:
+        elif event.type == pg.MOUSEBUTTONUP:
             if self.mouse_joint is not None:
                 print("removing mousejoint")
                 self.game.space.remove(self.mouse_joint)
                 self.mouse_joint = None
 
+    def update(self):
+        pass

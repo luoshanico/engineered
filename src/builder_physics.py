@@ -35,6 +35,9 @@ class BuilderPhysics:
         self.game.draw_text(self.game.surface, "LOADING BAY", settings.RED, 200, 200)
 
 
+    def get_events(self,event):
+        pass
+    
     def update(self):
         # Use a fixed step time or dt from the game if available
         self.game.space.step(1 / settings.FPS)
