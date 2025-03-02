@@ -8,6 +8,7 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
+GREY = (128,128,128)
 FPS = 60
 
 
@@ -27,7 +28,12 @@ OBJECT_CAT = 1
 WORLD_CAT = 2
 MENU_CAT = 3
 
-
+button_locations = [
+    (20, 40, 120, 30),
+    (160, 40, 120, 30),
+    (300, 40, 120, 30),
+    (440, 40, 120, 30)
+]
 
 # Default constraint values
 DefaultConstraintValues = {

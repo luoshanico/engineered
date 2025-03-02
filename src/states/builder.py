@@ -3,7 +3,7 @@ from states.state import State
 from builder_menu import BuilderMenu
 from builder_physics import BuilderPhysics 
 from builder_controls import BuilderControls
-from builder_objects import Ball
+
 
 class Builder(State):
     def __init__(self, game):
@@ -15,8 +15,10 @@ class Builder(State):
     
     def get_events(self, event):
         self.physics.get_events(event)
-        self.controls.get_events(event)
         self.menu.get_events(event)
+        if not self.menu.event_was_menu_button_hit: 
+            self.controls.get_events(event)
+        
 
 
     def update(self):
@@ -32,8 +34,5 @@ class Builder(State):
         self.physics.render()
 
     def add_object(self, target):
-        if target == 'ball':
-            self.ball = Ball(self.game)
-            print("Added a ball!")
-        else:
-            print("Add object target not recognized:", target)
+        self.controls.add_object(target)
+

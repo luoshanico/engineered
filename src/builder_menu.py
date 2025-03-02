@@ -24,17 +24,12 @@ class BuilderMenu:
             'constraint': {
                 'active': False,
                 'buttons': [
-                    {'action': 'nav', 'target': 'damped_spring', 'button': None, 'text': 'Add spring', 'position': 0},
+                    {'action': 'add', 'target': 'damped_spring', 'button': None, 'text': 'Add spring', 'position': 0},
                     {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 1}
                 ]
             }
         }
-        self.button_locations = [
-            (20, 40, 120, 30),
-            (160, 40, 120, 30),
-            (300, 40, 120, 30),
-            (440, 40, 120, 30)
-        ]
+        self.event_was_menu_button_hit = False
     
     def render(self):
         active_menu = self.get_active_menu()
@@ -44,7 +39,7 @@ class BuilderMenu:
             
     def render_button(self,btn):
         pos_index = btn.get('position')
-        location = self.button_locations[pos_index]
+        location = settings.button_locations[pos_index]
         color = settings.BLUE if btn['target'] != 'main' else settings.BLACK
         font_size = settings.fontsizes['header_1']
         font_color = settings.WHITE
@@ -52,6 +47,7 @@ class BuilderMenu:
 
     
     def get_events(self,event):
+        self.event_was_menu_button_hit = False
         if event.type == pg.MOUSEBUTTONDOWN:
             self.handle_click()
     
@@ -66,12 +62,13 @@ class BuilderMenu:
                 return menu
         return None
 
-    def handle_click(self):
+    def handle_click(self): 
         mouse_pos = pg.mouse.get_pos()
         active_menu = self.get_active_menu()
         for btn_info in active_menu['buttons']:
             btn = btn_info.get('button')
             if btn and btn.collidepoint(mouse_pos):
+                self.event_was_menu_button_hit = True
                 action = btn_info.get('action')
                 target = btn_info.get('target')
                 if action == 'nav':
@@ -91,8 +88,7 @@ class BuilderMenu:
             print("Target is not a menu, perform alternative action:", target)
 
     def perform_add(self, target):
-        builder_state = self.game.state_stack[-1]  # Assuming Builder is active
-        builder_state.add_object(target)
+        self.game.state_stack[-1].add_object(target)
 
     def assert_exactly_one_active_menu(self):
         active_menus = [key for key, menu in self.menu_map.items() if menu.get('active')]
