@@ -1,6 +1,5 @@
 import pygame as pg
 from states.state import State
-from states.simple import Simple
 from states.builder import Builder
 import settings
 
