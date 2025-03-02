@@ -2,7 +2,7 @@ import pymunk
 import pymunk.pygame_util
 import settings
 
-class BuilderEnvironment:
+class BuilderPhysics:
     def __init__(self, game):
         self.game = game
         self.setup_space()

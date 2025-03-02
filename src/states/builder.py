@@ -1,14 +1,14 @@
 from states.state import State
 import settings
 from builder_menu import BuilderMenu  # Assume you saved the menu class in builder_menu.py
-from builder_environment import BuilderEnvironment  # from physics_environment.py
+from builder_physics import BuilderPhysics  # from physics_environment.py
 
 class Builder(State):
     def __init__(self, game):
         State.__init__(self, game)
         # Create the separate components
         self.menu = BuilderMenu(game)
-        self.physics = BuilderEnvironment(game)
+        self.physics = BuilderPhysics(game)
         self.physics.add_ground()
         self.physics.create_ball((settings.WIDTH // 2, 250))
     
