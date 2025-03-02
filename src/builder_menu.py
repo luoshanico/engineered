@@ -15,8 +15,10 @@ class BuilderMenu:
             'object': {
                 'active': False,
                 'buttons': [
-                    {'action': 'nav', 'target': 'ball', 'button': None, 'text': 'Add ball', 'position': 0},
-                    {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 1}
+                    {'action': 'add', 'target': 'ball', 'button': None, 'text': 'Ball', 'position': 0},
+                    {'action': 'add', 'target': 'ball', 'button': None, 'text': 'Rectangle', 'position': 1},
+                    {'action': 'add', 'target': 'ball', 'button': None, 'text': 'Triangle', 'position': 2},
+                    {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 3}
                 ]
             },
             'constraint': {
@@ -25,19 +27,13 @@ class BuilderMenu:
                     {'action': 'nav', 'target': 'damped_spring', 'button': None, 'text': 'Add spring', 'position': 0},
                     {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 1}
                 ]
-            },
-            'ball': {
-                'active': False,
-                'buttons': [
-                    {'action':'nav', 'target':'main', 'button': None, 'text': 'Back', 'position': 1},
-                    {'action':'add', 'target':None, 'button': None, 'text': 'Add', 'position': 0}                    
-                ]
             }
         }
         self.button_locations = [
-            (150, 40, 120, 30),
+            (20, 40, 120, 30),
+            (160, 40, 120, 30),
             (300, 40, 120, 30),
-            (450, 40, 120, 30)
+            (440, 40, 120, 30)
         ]
     
     def render(self):
@@ -72,8 +68,12 @@ class BuilderMenu:
         for btn_info in active_menu['buttons']:
             btn = btn_info.get('button')
             if btn and btn.collidepoint(mouse_pos):
+                action = btn_info.get('action')
                 target = btn_info.get('target')
-                self.navigate_to(target)
+                if action == 'nav':
+                    self.navigate_to(target)
+                elif action == 'add':
+                    self.perform_add(target)
                 break
 
     def navigate_to(self, target):
@@ -85,6 +85,10 @@ class BuilderMenu:
             self.menu_map[target]['active'] = True
         else:
             print("Target is not a menu, perform alternative action:", target)
+
+    def perform_add(self, target):
+        builder_state = self.game.state_stack[-1]  # Assuming Builder is active
+        builder_state.add_object(target)
 
     def assert_exactly_one_active_menu(self):
         active_menus = [key for key, menu in self.menu_map.items() if menu.get('active')]

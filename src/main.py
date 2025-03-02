@@ -4,7 +4,6 @@ from pygame.locals import *
 pymunk.pygame_util.positive_y_is_up = False
 import settings
 from states.main_menu import Title
-import time
 
 
 class Game():

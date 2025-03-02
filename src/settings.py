@@ -17,6 +17,11 @@ world = {
     'friction':0.2
     }
 
+loading_bay = {
+    'width':200,
+    'height':150
+}
+
 # Collision categories
 OBJECT_CAT = 1
 WORLD_CAT = 2
@@ -33,7 +38,7 @@ DefaultConstraintValues = {
 
 fontsizes = {
     'title':30,
-    'header_1':25,
-    'header_2':20,
-    'text':15,
+    'header_1':20,
+    'header_2':15,
+    'text':10
 }
