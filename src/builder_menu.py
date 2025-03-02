@@ -53,6 +53,7 @@ class BuilderMenu:
     def update(self, actions):
         if actions.get('click'):
             self.handle_click()
+            self.game.reset_keys()
 
     def get_active_menu(self):
         # Return the first menu in menu_map where 'active' is True

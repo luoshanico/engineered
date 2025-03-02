@@ -32,6 +32,7 @@ class BuilderPhysics:
         segment.friction = settings.world['friction']
         segment.collision_type = settings.WORLD_CAT
         self.game.space.add(segment)
+        self.game.draw_text(self.game.surface, "LOADING BAY", settings.RED, 200, 200)
 
 
     def update(self):

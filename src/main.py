@@ -14,6 +14,7 @@ class Game():
         print(f"{settings.RES=}")
         self.screen = pg.display.set_mode(settings.RES)
         self.running, self.playing = True, True
+        print("init called, resetting keys")
         self.actions = {'click':False}
         self.clock = pg.time.Clock()
         self.dt = 0
@@ -38,8 +39,13 @@ class Game():
                 self.playing = False
                 self.running = False
             elif event.type == pg.MOUSEBUTTONDOWN:
+                print("DOWN")
                 if event.button == 1:  # Left mouse button press
                     self.actions['click'] = True
+            elif event.type == pg.MOUSEBUTTONUP:
+                print("UP")
+                if event.button == 1:  # Release left mouse button
+                    self.actions['click'] = False
 
     def update(self):
         self.state_stack[-1].update(self.actions)
@@ -48,9 +54,6 @@ class Game():
         self.state_stack[-1].render(self)
         self.screen.blit(self.surface, (0,0))
         pg.display.flip()
-
-    #def get_dt(self):
-        #self.dt = self.clock.get_time() / 1000.0 
 
     def draw_text(self, surface, text, color, x, y):
         text_surface = self.font.render(text, True, color)
@@ -67,6 +70,7 @@ class Game():
         print(self.state_stack[-1])
 
     def reset_keys(self):
+            #print("resetting keys")
             for action in self.actions:
                 self.actions[action] = False
 

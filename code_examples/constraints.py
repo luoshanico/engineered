@@ -190,6 +190,7 @@ def main():
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                print(f"{event.type=}")
                 if mouse_joint is not None:
                     space.remove(mouse_joint)
                     mouse_joint = None
@@ -197,6 +198,7 @@ def main():
                 p = Vec2d(*event.pos)
                 hit = space.point_query_nearest(p, 5, pymunk.ShapeFilter())
                 if hit is not None and hit.shape.body.body_type == pymunk.Body.DYNAMIC:
+                    print("creating mousejoint")
                     shape = hit.shape
                     # Use the closest point on the surface if the click is outside
                     # of the shape.
@@ -213,9 +215,12 @@ def main():
                     mouse_joint.max_force = 50000
                     mouse_joint.error_bias = (1 - 0.15) ** 60
                     space.add(mouse_joint)
+                    print("created mousejoint")
 
             elif event.type == pygame.MOUSEBUTTONUP:
+                print(f"{event.type=}")
                 if mouse_joint is not None:
+                    print("removing mousejoint")
                     space.remove(mouse_joint)
                     mouse_joint = None
 
