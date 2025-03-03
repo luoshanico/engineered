@@ -1,34 +1,11 @@
 import pygame as pg
-import settings, utils
+import settings.menu
+import settings.colours
 
 class BuilderMenu:
     def __init__(self, game):
         self.game = game
-        self.menu_map = {
-            'main': {
-                'active': True,
-                'buttons': [
-                    {'action': 'nav', 'target': 'object', 'button': None, 'text': 'Add object', 'position': 0},
-                    {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1},
-                ]
-            },
-            'object': {
-                'active': False,
-                'buttons': [
-                    {'action': 'add', 'target': 'ball', 'button': None, 'text': 'Ball', 'position': 0},
-                    {'action': 'add', 'target': 'ball', 'button': None, 'text': 'Rectangle', 'position': 1},
-                    {'action': 'add', 'target': 'ball', 'button': None, 'text': 'Triangle', 'position': 2},
-                    {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 3}
-                ]
-            },
-            'constraint': {
-                'active': False,
-                'buttons': [
-                    {'action': 'add', 'target': 'damped_spring', 'button': None, 'text': 'Add spring', 'position': 0},
-                    {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 1}
-                ]
-            }
-        }
+        self.menu_map = settings.menu.menu_map
         self.event_was_menu_button_hit = False
     
     def render(self):
@@ -39,11 +16,29 @@ class BuilderMenu:
             
     def render_button(self,btn):
         pos_index = btn.get('position')
-        location = settings.button_locations[pos_index]
-        color = settings.BLUE if btn['target'] != 'main' else settings.BLACK
-        font_size = settings.fontsizes['header_1']
-        font_color = settings.WHITE
-        btn['button'] = utils.add_button(self.game.surface, location, color, btn['text'], font_size, font_color)
+        location = settings.menu.button_locations[pos_index]
+        color = settings.colours.BLUE if btn['target'] != 'main' else settings.colours.BLACK
+        font_size = settings.menu.fontsizes['header_1']
+        font_color = settings.colours.WHITE
+        btn['button'] = self.add_button(self.game.surface, location, color, btn['text'], font_size, font_color)
+
+
+    def add_button(self, surface, location, color, text, font_size, font_color):    
+        button_rect = pg.draw.rect(surface, color, location)
+        font = pg.font.Font(None, font_size)
+        button_text = font.render(text, True, font_color)
+        text_location = self.center_text_in_rectangle(location, font_size, text)
+        surface.blit(button_text, text_location)
+        return button_rect
+    
+
+    def center_text_in_rectangle(self, rectangle_dims, font_size, text):
+        font = pg.font.Font(None, font_size)
+        text_surface = font.render(text, True, (255, 255, 255))
+        text_width, text_height = text_surface.get_size()
+        x = rectangle_dims[0] + (rectangle_dims[2] - text_width) // 2
+        y = rectangle_dims[1] + (rectangle_dims[3] - text_height) // 2
+        return (x, y)
 
     
     def get_events(self,event):

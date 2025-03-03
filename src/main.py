@@ -2,7 +2,8 @@ import pymunk.pygame_util
 import pygame as pg
 from pygame.locals import *
 pymunk.pygame_util.positive_y_is_up = False
-import settings
+import settings.general
+import settings.menu
 from states.main_menu import Title
 
 
@@ -10,14 +11,12 @@ class Game():
     def __init__(self):
         pg.init()
 
-        self.surface = pg.Surface(settings.RES)
-        print(f"{settings.RES=}")
-        self.screen = pg.display.set_mode(settings.RES)
+        self.surface = pg.Surface(settings.general.RES)
+        self.screen = pg.display.set_mode(settings.general.RES)
         self.running, self.playing = True, True
-        print("init called, resetting keys")
         self.clock = pg.time.Clock()
-        self.dt = 0
-        self.font = pg.font.Font(None, settings.fontsizes['title'])
+        self.FPS = settings.general.FPS
+        self.font = pg.font.Font(None, settings.menu.fontsizes['title'])
 
         self.state_stack = []
 
@@ -26,11 +25,10 @@ class Game():
 
     def game_loop(self):
         while self.playing:
-            # self.get_dt()
             self.get_events()
             self.update()
             self.render()
-            self.clock.tick(settings.FPS)
+            self.clock.tick(self.FPS)
 
     def get_events(self):
         for event in pg.event.get():

@@ -3,8 +3,7 @@ from pygame.locals import *
 import pymunk
 import pymunk.pygame_util
 from pymunk.vec2d import Vec2d
-import settings
-from builder_objects import Ball
+from builder_objects import Ball, Rectangle
 from builder_constraints import DampedSpring
 
 
@@ -70,6 +69,8 @@ class BuilderControls():
     def add_object(self, target):
         if target == 'ball':
             self.game.state_stack[-1].objects.objects.append(Ball(self.game))
+        if target == 'rectangle':
+            self.game.state_stack[-1].objects.objects.append(Rectangle(self.game))
         elif target == 'damped_spring':
             if len(self.selected_objects) == 2:
                 DampedSpring(self.game, *self.selected_objects)

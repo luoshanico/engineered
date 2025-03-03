@@ -1,7 +1,7 @@
 import pymunk.pygame_util
 import pygame as pg
 from pygame.locals import *
-import settings
+import settings.menu as menu
 
 class DampedSpring:
     def __init__(self, game, obj1, obj2):
