@@ -69,7 +69,7 @@ class BuilderControls():
     
     def add_object(self, target):
         if target == 'ball':
-            Ball(self.game)
+            self.game.state_stack[-1].objects.objects.append(Ball(self.game))
         elif target == 'damped_spring':
             if len(self.selected_objects) == 2:
                 DampedSpring(self.game, *self.selected_objects)

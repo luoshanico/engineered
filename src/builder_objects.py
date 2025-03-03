@@ -3,6 +3,16 @@ import pygame as pg
 from pygame.locals import *
 import settings
 
+class BuilderObjects:
+    def __init__(self,game):
+        self.game = game
+        self.objects = []
+
+    def render(self):
+        for object in self.objects:
+            object.render(self.game.surface)
+
+
 class Ball:
     def __init__(self,game):
         self.pos = (settings.loading_bay['width'] // 2, 250)
@@ -18,5 +28,11 @@ class Ball:
         game.space.add(self.body, self.shape)
         game.ball_body = self.body
         game.ball_shape = self.shape
+
+    def render(self, surface):
+        pos = self.body.position
+        radius = self.radius
+        self.color = settings.BLACK
+        pg.draw.circle(surface, self.color, (int(pos.x), int(pos.y)), int(radius))
         
 

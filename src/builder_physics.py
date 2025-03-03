@@ -1,6 +1,7 @@
 import pymunk
 import pymunk.pygame_util
 import settings
+from builder_objects import Ball
 
 class BuilderPhysics:
     def __init__(self, game):
