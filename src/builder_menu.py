@@ -1,6 +1,5 @@
 import pygame as pg
 import settings.menu
-import settings.colours
 
 class BuilderMenu:
     def __init__(self, game):
@@ -17,9 +16,9 @@ class BuilderMenu:
     def render_button(self,btn):
         pos_index = btn.get('position')
         location = settings.menu.button_locations[pos_index]
-        color = settings.colours.BLUE if btn['target'] != 'main' else settings.colours.BLACK
+        color = settings.general.BLUE if btn['target'] != 'main' else settings.general.BLACK
         font_size = settings.menu.fontsizes['header_1']
-        font_color = settings.colours.WHITE
+        font_color = settings.general.WHITE
         btn['button'] = self.add_button(self.game.surface, location, color, btn['text'], font_size, font_color)
 
 

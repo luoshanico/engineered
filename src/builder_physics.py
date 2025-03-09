@@ -1,8 +1,6 @@
 import pymunk
 import pymunk.pygame_util
-import settings.colours
 import settings.general
-import settings.colours
 from builder_objects import Ball
 
 class BuilderPhysics:
@@ -40,7 +38,7 @@ class BuilderPhysics:
         segment.friction = settings.general.world['friction']
         segment.collision_type = settings.general.WORLD_CAT
         self.game.space.add(segment)
-        self.game.draw_text(self.game.surface, "LOADING BAY", settings.colours.RED, 200, 200)
+        self.game.draw_text(self.game.surface, "LOADING BAY", settings.general.RED, 200, 200)
 
 
     def get_events(self,event):

@@ -2,7 +2,7 @@ import pygame as pg
 from states.state import State
 from builder_menu import BuilderMenu
 from builder_physics import BuilderPhysics 
-from builder_controls import BuilderControls
+# from builder_controls import BuilderControls
 from builder_objects import BuilderObjects
 
 
@@ -12,7 +12,7 @@ class Builder(State):
         # Create the separate components
         self.menu = BuilderMenu(game)
         self.physics = BuilderPhysics(game)
-        self.controls = BuilderControls(game)
+        # self.controls = BuilderControls(game)
         self.objects = BuilderObjects(game)
 
     
@@ -20,11 +20,11 @@ class Builder(State):
         self.physics.get_events(event)
         self.menu.get_events(event)
         if not self.menu.event_was_menu_button_hit: 
-            self.controls.get_events(event)
+            self.objects.get_events(event)
         
     def update(self):
         self.physics.update()
-        self.controls.update()
+        self.objects.update()
         self.menu.update()
         
     def render(self, game):
@@ -35,5 +35,5 @@ class Builder(State):
         self.objects.render()
 
     def add_object(self, target):
-        self.controls.add_object(target)
+        self.objects.add_object(target)
 
