@@ -3,6 +3,7 @@ import pygame as pg
 from pygame.locals import *
 from pymunk.vec2d import Vec2d
 from settings import general_settings
+from settings.menu_settings import menu_map
 from builder_constraints import DampedSpring
 
 class BuilderObjects:
@@ -90,7 +91,7 @@ class BuilderObjects:
 class Ball:
     def __init__(self,game):
         self.pos = (general_settings.loading_bay['width'] // 2, 250)
-        self.get_default_values()
+        self.get_attribute_values()
         self.color = general_settings.BLACK
         self.moment = pymunk.moment_for_circle(self.mass, 0, self.radius)
         self.body = pymunk.Body(self.mass, self.moment)
@@ -103,11 +104,11 @@ class Ball:
         game.ball_body = self.body
         game.ball_shape = self.shape
 
-    def get_default_values(self):
-        self.mass = general_settings.default_object_settings['ball']['mass']
-        self.radius = general_settings.default_object_settings['ball']['radius']
-        self.elasticity = general_settings.default_object_settings['ball']['elasticity']
-        self.friction = general_settings.default_object_settings['ball']['friction']
+    def get_attribute_values(self):
+        self.mass = float(menu_map['ball']['inputs'][0]['input_field'].value)
+        self.radius = float(menu_map['ball']['inputs'][1]['input_field'].value)
+        self.elasticity = float(menu_map['ball']['inputs'][2]['input_field'].value)
+        self.friction = float(menu_map['ball']['inputs'][3]['input_field'].value)
 
     def render(self, surface):
         pos = self.body.position
