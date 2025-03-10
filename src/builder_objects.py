@@ -28,9 +28,10 @@ class BuilderObjects:
             if pg.key.get_mods() & pg.KMOD_CTRL:
                 hit, _ = self.get_hit_object_if_dynamic()
                 if hit is not None:
-                    shape = hit.shape.body
+                    shape = hit.shape
                     if shape not in self.selected_objects:
                         self.selected_objects.append(shape)
+                        print(shape.object_type)
                         #shape.color = settings.GREY   
             else:
                 self.selected_objects = []
@@ -100,6 +101,7 @@ class Ball:
         self.shape.elasticity = self.elasticity
         self.shape.friction = self.friction
         self.shape.collision_type = general_settings.OBJECT_CAT
+        self.shape.object_type = 'ball'
         game.space.add(self.body, self.shape)
         game.ball_body = self.body
         game.ball_shape = self.shape

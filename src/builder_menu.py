@@ -69,12 +69,19 @@ class BuilderMenu:
         pass
 
     def get_active_menu(self):
-        # Return the first menu in menu_map where 'active' is True
+        self.update_active_menu_if_object_selected()
         self.assert_exactly_one_active_menu()
         for _, menu in self.menu_map.items():
             if menu.get('active'):
                 return menu
         return None
+
+    def update_active_menu_if_object_selected(self):
+        selected_objects = self.game.state_stack[-1].objects.selected_objects
+        if len(selected_objects) > 0:
+            #print(selected_objects[-1])
+            pass
+
 
     def handle_click(self): 
         mouse_pos = pg.mouse.get_pos()
