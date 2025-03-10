@@ -32,10 +32,10 @@ menu_map = {
             {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 1}
         ],
         'inputs': [
-            {'input':'mass','entry': 'simple', 'position': 0, 'input_field': None},
-            {'input':'radius','entry': 'simple', 'position': 1, 'input_field': None},
-            {'input':'elasticity','entry': 'simple', 'position': 2, 'input_field': None},
-            {'input':'friction','entry': 'simple', 'position': 3, 'input_field': None}
+            {'input':'mass','default_value':1 ,'entry': 'simple', 'position': 0, 'input_field': None},
+            {'input':'radius','default_value':60 ,'entry': 'simple', 'position': 1, 'input_field': None},
+            {'input':'elasticity','default_value':0.9 ,'entry': 'simple', 'position': 2, 'input_field': None},
+            {'input':'friction','default_value':0.3,'entry': 'simple', 'position': 3, 'input_field': None}
             # {'input':'colour', 'default value': 'Black','entry': 'dropdown', 'position': 4, 'input_field': None}
         ]   
     },

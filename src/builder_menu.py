@@ -15,10 +15,11 @@ class BuilderMenu:
             for input in menu['inputs']:
                 border_rect_dims = menu_settings.input_locations[input['position']]
                 input_name = input['input']
+                default_value = input['default_value']
                 input['input_field'] = InputField(
                     border_rect_dims,
                     input_name,
-                    general_settings.default_object_settings[key][input_name]
+                    default_value
                 )
 
 
@@ -69,19 +70,11 @@ class BuilderMenu:
         pass
 
     def get_active_menu(self):
-        self.update_active_menu_if_object_selected()
         self.assert_exactly_one_active_menu()
         for _, menu in self.menu_map.items():
             if menu.get('active'):
                 return menu
         return None
-
-    def update_active_menu_if_object_selected(self):
-        selected_objects = self.game.state_stack[-1].objects.selected_objects
-        if len(selected_objects) > 0:
-            #print(selected_objects[-1])
-            pass
-
 
     def handle_click(self): 
         mouse_pos = pg.mouse.get_pos()
@@ -110,6 +103,15 @@ class BuilderMenu:
 
     def perform_add(self, target):
         self.game.state_stack[-1].add_object(target)
+
+    def load_selected_object_menu(self,shape):
+        self.navigate_to(shape.object_type)
+        active_menu = self.get_active_menu()
+        #for i in range(len(active_menu['inputs'])):
+            #active_menu['inputs'][i]['input_field'].value = str(shape.attributes[i])
+
+        for idx, input in enumerate(active_menu['inputs']):
+            input['input_field'].value = str(shape.attributes[idx])
 
     def assert_exactly_one_active_menu(self):
         active_menus = [key for key, menu in self.menu_map.items() if menu.get('active')]

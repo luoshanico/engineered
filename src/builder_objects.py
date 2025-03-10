@@ -5,6 +5,7 @@ from pymunk.vec2d import Vec2d
 from settings import general_settings
 from settings.menu_settings import menu_map
 from builder_constraints import DampedSpring
+from collections import namedtuple
 
 class BuilderObjects:
     def __init__(self,game):
@@ -29,9 +30,9 @@ class BuilderObjects:
                 hit, _ = self.get_hit_object_if_dynamic()
                 if hit is not None:
                     shape = hit.shape
+                    self.game.state_stack[-1].menu.load_selected_object_menu(shape)
                     if shape not in self.selected_objects:
                         self.selected_objects.append(shape)
-                        print(shape.object_type)
                         #shape.color = settings.GREY   
             else:
                 self.selected_objects = []
@@ -91,26 +92,42 @@ class BuilderObjects:
 
 class Ball:
     def __init__(self,game):
+        self.get_starting_position()
+        self.get_attributes()
+        self.create_physical_ball()
+        self.create_shape()
+        self.add_labels_to_shape()
+        self.add_to_space(game)
+        
+        
+    def get_starting_position(self):
         self.pos = (general_settings.loading_bay['width'] // 2, 250)
-        self.get_attribute_values()
+    
+    def get_attributes(self):
+        self.attributes = tuple([float(inputs['input_field'].value) for inputs in menu_map['ball']['inputs']])
+        self.mass, self.radius, self.elasticity, self.friction = self.attributes
         self.color = general_settings.BLACK
+
+    def create_physical_ball(self):
         self.moment = pymunk.moment_for_circle(self.mass, 0, self.radius)
         self.body = pymunk.Body(self.mass, self.moment)
         self.body.position = self.pos
+
+    def create_shape(self):
         self.shape = pymunk.Circle(self.body, self.radius)
         self.shape.elasticity = self.elasticity
         self.shape.friction = self.friction
         self.shape.collision_type = general_settings.OBJECT_CAT
+    
+    def add_labels_to_shape(self):
         self.shape.object_type = 'ball'
+        self.shape.attributes = self.attributes
+
+    def add_to_space(self,game):
         game.space.add(self.body, self.shape)
         game.ball_body = self.body
         game.ball_shape = self.shape
-
-    def get_attribute_values(self):
-        self.mass = float(menu_map['ball']['inputs'][0]['input_field'].value)
-        self.radius = float(menu_map['ball']['inputs'][1]['input_field'].value)
-        self.elasticity = float(menu_map['ball']['inputs'][2]['input_field'].value)
-        self.friction = float(menu_map['ball']['inputs'][3]['input_field'].value)
+        
 
     def render(self, surface):
         pos = self.body.position

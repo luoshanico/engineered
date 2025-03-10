@@ -19,7 +19,7 @@ class InputField:
         x_pos, y_pos, width, height = border_rect
         return (x_pos + width * (2/3), y_pos , width * (1/3), height)
 
-    def get_display_strings(self,input_name="", default_value=""):
+    def get_display_strings(self,input_name, default_value):
         self.input_name = str(input_name)
         self.value = str(default_value)
     
