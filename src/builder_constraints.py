@@ -27,6 +27,7 @@ class Constraints:
                 hit, _ = self.get_hit_constraint_if_dynamic()
                 if hit is not None:
                     shape = hit.shape.body
+                    print(f"selected constraint {shape}")
                     if shape not in self.selected_constraints:
                         self.selected_constraints.append(shape)
                         #shape.color = settings.GREY   
