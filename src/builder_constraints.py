@@ -2,7 +2,7 @@ import pymunk.pygame_util
 import pygame as pg
 from pygame.locals import *
 from pymunk.vec2d import Vec2d
-import settings.menu as menu
+import settings.menu_settings as menu_settings
 
 class Constraints:
     def __init__(self,game):

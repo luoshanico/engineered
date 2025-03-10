@@ -1,7 +1,7 @@
 import pygame as pg
 from states.state import State
 from states.builder import Builder
-import settings.general
+import settings.general_settings
 
 class Title(State):
     def __init__(self, game):
@@ -22,8 +22,8 @@ class Title(State):
             game.surface,
             "Engineered",
             (0,0,0),
-            settings.general.WIDTH/2,
-            settings.general.HEIGHT/2
+            settings.general_settings.WIDTH/2,
+            settings.general_settings.HEIGHT/2
         )
 
                     

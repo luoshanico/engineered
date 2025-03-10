@@ -2,8 +2,8 @@ import pymunk.pygame_util
 import pygame as pg
 from pygame.locals import *
 pymunk.pygame_util.positive_y_is_up = False
-import settings.general
-import settings.menu
+import settings.general_settings
+import settings.menu_settings
 from states.main_menu import Title
 
 
@@ -11,12 +11,12 @@ class Game():
     def __init__(self):
         pg.init()
 
-        self.surface = pg.Surface(settings.general.RES)
-        self.screen = pg.display.set_mode(settings.general.RES)
+        self.surface = pg.Surface(settings.general_settings.RES)
+        self.screen = pg.display.set_mode(settings.general_settings.RES)
         self.running, self.playing = True, True
         self.clock = pg.time.Clock()
-        self.FPS = settings.general.FPS
-        self.font = pg.font.Font(None, settings.menu.fontsizes['title'])
+        self.FPS = settings.general_settings.FPS
+        self.font = pg.font.Font(None, settings.menu_settings.fontsizes['title'])
 
         self.state_stack = []
 

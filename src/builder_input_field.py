@@ -1,6 +1,6 @@
 import pygame as pg
-from settings import general
-from settings import menu
+from settings import general_settings
+from settings import menu_settings
 
 class InputField:
     def __init__(self, border_rect_dims, input_name="", default_value=""):
@@ -17,21 +17,21 @@ class InputField:
 
     def get_value_rect_dims(self, border_rect):
         x_pos, y_pos, width, height = border_rect
-        return (x_pos + width * (3/4), y_pos , width * (1/4), height)
+        return (x_pos + width * (2/3), y_pos , width * (1/3), height)
 
     def get_display_strings(self,input_name="", default_value=""):
         self.input_name = str(input_name)
         self.value = str(default_value)
     
     def get_formats(self):
-        self.input_name_font_size = menu.fontsizes['text']
+        self.input_name_font_size = menu_settings.fontsizes['header_2']
         self.input_name_font = pg.font.Font(None, self.input_name_font_size)
-        self.value_font_size = menu.fontsizes['text']
+        self.value_font_size = menu_settings.fontsizes['header_2']
         self.value_font = pg.font.Font(None, self.value_font_size)
-        self.input_name_color = general.BLACK
-        self.value_color = general.BLACK
-        self.bg_color = general.WHITE
-        self.border_color = general.BLACK
+        self.input_name_color = general_settings.BLACK
+        self.value_color = general_settings.BLACK
+        self.bg_color = general_settings.WHITE
+        self.border_color = general_settings.BLACK
 
     def draw(self, surface):
         self.draw_input_name(surface)
@@ -40,9 +40,9 @@ class InputField:
         
 
     def draw_input_name(self,surface):
-        input_name_surface = self.font.render(self.input_name, True, self.input_name_color)
+        input_name_surface = self.input_name_font.render(self.input_name, True, self.input_name_color)
         text_location = self.align_left_middle_text_in_rectangle(
-            self.border_rect_dims,
+            self.border_rect,
             self.input_name_font_size,
             self.input_name,
             5)
@@ -62,8 +62,13 @@ class InputField:
         pg.draw.rect(surface, border_color, self.value_rect, 2)
 
     def draw_value(self, surface):
-        value_surface = self.font.render(self.value, True, self.value_color)
-        surface.blit(value_surface, (self.value_rect.x + 5, self.value_rect.y + 5))
+        value_surface = self.value_font.render(self.value, True, self.value_color)
+        text_location = self.align_left_middle_text_in_rectangle(
+            self.value_rect,
+            self.value_font_size,
+            self.value,
+            5)
+        surface.blit(value_surface, text_location)
 
     
     def handle_event(self, event):

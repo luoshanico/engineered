@@ -1,6 +1,6 @@
 import pymunk
 import pymunk.pygame_util
-import settings.general
+import settings.general_settings
 from builder_objects import Ball
 
 class BuilderPhysics:
@@ -18,27 +18,27 @@ class BuilderPhysics:
     def add_ground(self):
         segment = pymunk.Segment(
             self.game.space.static_body,
-            (0, settings.general.HEIGHT),
-            (settings.general.RES),
+            (0, settings.general_settings.HEIGHT),
+            (settings.general_settings.RES),
             20
             )
-        segment.elasticity = settings.general.world['elasticity']
-        segment.friction = settings.general.world['friction']
-        segment.collision_type = settings.general.WORLD_CAT
+        segment.elasticity = settings.general_settings.world['elasticity']
+        segment.friction = settings.general_settings.world['friction']
+        segment.collision_type = settings.general_settings.WORLD_CAT
         self.game.space.add(segment)
 
     def add_object_loading_bay(self):
         segment = pymunk.Segment(
             self.game.space.static_body,
-            (settings.general.loading_bay['width'], settings.general.HEIGHT-20),
-            (settings.general.loading_bay['width'],settings.general.HEIGHT-settings.general.loading_bay['height']),
+            (settings.general_settings.loading_bay['width'], settings.general_settings.HEIGHT-20),
+            (settings.general_settings.loading_bay['width'],settings.general_settings.HEIGHT-settings.general_settings.loading_bay['height']),
             10
             )
-        segment.elasticity = settings.general.world['elasticity']
-        segment.friction = settings.general.world['friction']
-        segment.collision_type = settings.general.WORLD_CAT
+        segment.elasticity = settings.general_settings.world['elasticity']
+        segment.friction = settings.general_settings.world['friction']
+        segment.collision_type = settings.general_settings.WORLD_CAT
         self.game.space.add(segment)
-        self.game.draw_text(self.game.surface, "LOADING BAY", settings.general.RED, 200, 200)
+        self.game.draw_text(self.game.surface, "LOADING BAY", settings.general_settings.RED, 200, 200)
 
 
     def get_events(self,event):

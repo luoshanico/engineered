@@ -1,24 +1,40 @@
 import pygame as pg
-import settings.menu
+from settings import menu_settings
+from settings import general_settings
+from builder_input_field import InputField
 
 class BuilderMenu:
     def __init__(self, game):
         self.game = game
-        self.menu_map = settings.menu.menu_map
+        self.menu_map = menu_settings.menu_map
+        self.initialise_input_fields()
         self.event_was_menu_button_hit = False
     
+    def initialise_input_fields(self):
+        for key, menu in self.menu_map.items():
+            for input in menu['inputs']:
+                border_rect_dims = menu_settings.input_locations[input['position']]
+                input_name = input['input']
+                input['input_field'] = InputField(
+                    border_rect_dims,
+                    input_name,
+                    general_settings.default_object_settings[key][input_name]
+                )
+
+
     def render(self):
         active_menu = self.get_active_menu()
         for btn in active_menu['buttons']:
             self.render_button(btn)
-            
-            
+        for input in active_menu['inputs']:
+            input['input_field'].render(self.game.surface)
+                    
     def render_button(self,btn):
         pos_index = btn.get('position')
-        location = settings.menu.button_locations[pos_index]
-        color = settings.general.BLUE if btn['target'] != 'main' else settings.general.BLACK
-        font_size = settings.menu.fontsizes['header_1']
-        font_color = settings.general.WHITE
+        location = menu_settings.button_locations[pos_index]
+        color = general_settings.BLUE if btn['target'] != 'main' else general_settings.BLACK
+        font_size = menu_settings.fontsizes['header_2']
+        font_color = general_settings.WHITE
         btn['button'] = self.add_button(self.game.surface, location, color, btn['text'], font_size, font_color)
 
 
@@ -51,7 +67,7 @@ class BuilderMenu:
     def get_active_menu(self):
         # Return the first menu in menu_map where 'active' is True
         self.assert_exactly_one_active_menu()
-        for key, menu in self.menu_map.items():
+        for _, menu in self.menu_map.items():
             if menu.get('active'):
                 return menu
         return None
