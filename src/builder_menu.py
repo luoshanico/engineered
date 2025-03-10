@@ -57,9 +57,13 @@ class BuilderMenu:
 
     
     def get_events(self,event):
+        active_menu = self.get_active_menu()
+        for input in active_menu['inputs']:
+            input['input_field'].get_events(event)
         self.event_was_menu_button_hit = False
         if event.type == pg.MOUSEBUTTONDOWN:
             self.handle_click()
+        
     
     def update(self):
         pass

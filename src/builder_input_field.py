@@ -38,7 +38,6 @@ class InputField:
         self.draw_value_rectangle(surface)
         self.draw_value(surface)
         
-
     def draw_input_name(self,surface):
         input_name_surface = self.input_name_font.render(self.input_name, True, self.input_name_color)
         text_location = self.align_left_middle_text_in_rectangle(
@@ -71,7 +70,7 @@ class InputField:
         surface.blit(value_surface, text_location)
 
     
-    def handle_event(self, event):
+    def get_events(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
             # Toggle active state if the user clicks inside the input field.
             if self.value_rect.collidepoint(event.pos):
