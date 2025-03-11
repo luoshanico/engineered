@@ -3,7 +3,8 @@ from settings import general_settings
 from settings import menu_settings
 
 class InputField:
-    def __init__(self, border_rect_dims, input_name="", default_value=""):
+    def __init__(self, game, border_rect_dims, input_name="", default_value=""):
+        self.game = game
         self.get_input_field_rectangles(border_rect_dims)
         self.get_display_strings(input_name, default_value)
         self.get_formats()
@@ -83,6 +84,7 @@ class InputField:
             elif event.key in (pg.K_RETURN, pg.K_KP_ENTER):
                 # You might decide to deactivate on enter, if desired.
                 self.active = False
+                self.game.state_stack[-1].objects.update_selected_objects()
             else:
                 # Optionally, filter input so only numbers are accepted:
                 if event.unicode.isdigit() or (event.unicode == '.' and '.' not in self.value):

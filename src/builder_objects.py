@@ -19,10 +19,6 @@ class BuilderObjects:
         for object in self.objects:
             object.render(self.game.surface)
 
-    def update_default_values(self):
-        # self.attributes = ..
-        pass
-
     def get_events(self, event):
         self.mouse_body.position = pg.mouse.get_pos()
         if event.type == pg.MOUSEBUTTONDOWN:
@@ -30,12 +26,14 @@ class BuilderObjects:
                 hit, _ = self.get_hit_object_if_dynamic()
                 if hit is not None:
                     shape = hit.shape
-                    self.game.state_stack[-1].menu.load_selected_object_menu(shape)
-                    if shape not in self.selected_objects:
-                        self.selected_objects.append(shape)
-                        #shape.color = settings.GREY   
+                    selected_object = getattr(shape, 'owner', None) 
+                    if selected_object is not None:
+                        self.game.state_stack[-1].menu.load_selected_object_menu(selected_object)
+                        if shape not in self.selected_objects:
+                            self.selected_objects.append(selected_object) 
+                else:
+                    self.selected_objects = []
             else:
-                self.selected_objects = []
                 self.grab_object()
         elif event.type == pg.MOUSEBUTTONUP:
             self.release_object()
@@ -86,22 +84,31 @@ class BuilderObjects:
             print("Add object target not recognized:", target)
     
     def update(self):
-        # for things that I want to run once per frame
         pass
+
+    def update_selected_objects(self):
+        print(self.selected_objects)
+        if len(self.selected_objects) > 0:
+            lastly_selected_object_type = self.selected_objects[-1].object_type
+            for object in self.selected_objects:
+                if object.object_type == lastly_selected_object_type:
+                    object.update(self.game)
+            
 
 
 class Ball:
     def __init__(self,game):
+        self.game = game
         self.get_starting_position()
         self.get_attributes()
         self.create_physical_ball()
         self.create_shape()
-        self.add_labels_to_shape()
-        self.add_to_space(game)
+        self.add_labels()
+        self.add_to_space()
         
         
     def get_starting_position(self):
-        self.pos = (general_settings.loading_bay['width'] // 2, 250)
+        self.starting_position = (general_settings.loading_bay['width'] // 2, 250)
     
     def get_attributes(self):
         self.attributes = tuple([float(inputs['input_field'].value) for inputs in menu_map['ball']['inputs']])
@@ -111,7 +118,7 @@ class Ball:
     def create_physical_ball(self):
         self.moment = pymunk.moment_for_circle(self.mass, 0, self.radius)
         self.body = pymunk.Body(self.mass, self.moment)
-        self.body.position = self.pos
+        self.body.position = self.starting_position
 
     def create_shape(self):
         self.shape = pymunk.Circle(self.body, self.radius)
@@ -119,20 +126,42 @@ class Ball:
         self.shape.friction = self.friction
         self.shape.collision_type = general_settings.OBJECT_CAT
     
-    def add_labels_to_shape(self):
-        self.shape.object_type = 'ball'
-        self.shape.attributes = self.attributes
+    def add_labels(self):
+        self.object_type = 'ball'
+        self.shape.owner = self  # Now when we hit shape with mouse we can identify the underlying object
 
-    def add_to_space(self,game):
-        game.space.add(self.body, self.shape)
-        game.ball_body = self.body
-        game.ball_shape = self.shape
+    def add_to_space(self):
+        self.game.space.add(self.body, self.shape)
+        self.game.ball_body = self.body
+        self.game.ball_shape = self.shape
         
-
     def render(self, surface):
         pos = self.body.position
         radius = self.radius
         pg.draw.circle(surface, self.color, (int(pos.x), int(pos.y)), int(radius))
+
+    def update(self, game):
+        self.game.space.remove(self.shape)
+        self.get_attributes()
+        self.update_physical_ball()
+        self.create_shape()
+        # self.add_to_space()
+
+    def delete_previous_shape(self):
+        self.game.space.remove(self.shape)#
+    
+    def update_physical_ball(self):
+        self.body.mass = self.mass
+        self.moment = pymunk.moment_for_circle(self.mass, 0, self.radius)
+        self.body.moment = self.moment
+
+    def update_shape(self):
+        self.shape.body = self.body
+        self.shape.radius = self.radius
+        self.shape.elasticity = self.elasticity
+        self.shape.friction = self.friction
+
+        
         
 
 

@@ -19,8 +19,7 @@ class Builder(State):
     def get_events(self, event):
         self.physics.get_events(event)
         self.menu.get_events(event)
-        if not self.menu.event_was_menu_button_hit: 
-            self.objects.get_events(event)
+        self.objects.get_events(event)
         
     def update(self):
         self.physics.update()

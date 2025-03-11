@@ -8,7 +8,6 @@ class BuilderMenu:
         self.game = game
         self.menu_map = menu_settings.menu_map
         self.initialise_input_fields()
-        self.event_was_menu_button_hit = False
     
     def initialise_input_fields(self):
         for key, menu in self.menu_map.items():
@@ -17,6 +16,7 @@ class BuilderMenu:
                 input_name = input['input']
                 default_value = input['default_value']
                 input['input_field'] = InputField(
+                    self.game,
                     border_rect_dims,
                     input_name,
                     default_value
@@ -61,7 +61,6 @@ class BuilderMenu:
         active_menu = self.get_active_menu()
         for input in active_menu['inputs']:
             input['input_field'].get_events(event)
-        self.event_was_menu_button_hit = False
         if event.type == pg.MOUSEBUTTONDOWN:
             self.handle_click()
         
@@ -82,7 +81,6 @@ class BuilderMenu:
         for btn_info in active_menu['buttons']:
             btn = btn_info.get('button')
             if btn and btn.collidepoint(mouse_pos):
-                self.event_was_menu_button_hit = True
                 action = btn_info.get('action')
                 target = btn_info.get('target')
                 if action == 'nav':
@@ -104,14 +102,11 @@ class BuilderMenu:
     def perform_add(self, target):
         self.game.state_stack[-1].add_object(target)
 
-    def load_selected_object_menu(self,shape):
-        self.navigate_to(shape.object_type)
+    def load_selected_object_menu(self,object):
+        self.navigate_to(object.object_type)
         active_menu = self.get_active_menu()
-        #for i in range(len(active_menu['inputs'])):
-            #active_menu['inputs'][i]['input_field'].value = str(shape.attributes[i])
-
         for idx, input in enumerate(active_menu['inputs']):
-            input['input_field'].value = str(shape.attributes[idx])
+            input['input_field'].value = str(object.attributes[idx])
 
     def assert_exactly_one_active_menu(self):
         active_menus = [key for key, menu in self.menu_map.items() if menu.get('active')]
