@@ -103,7 +103,7 @@ class BuilderObjects:
         pass
 
     def apply_updated_attributes_to_selected_objects(self):
-        print(f"{self.selected_objects=}, {self.objects=}")
+        # print(f"{self.selected_objects=}, {self.objects=}")
         if len(self.selected_objects) > 0:
             lastly_selected_object_type = self.selected_objects[-1].object_type
             for object in self.selected_objects:
