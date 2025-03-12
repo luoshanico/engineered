@@ -9,6 +9,7 @@ class InputField:
         self.get_display_strings(input_name, default_value)
         self.get_formats()
         self.active = False
+        self.text_selected = False
 
 
     def get_input_field_rectangles(self,border_rect_dims):
@@ -76,17 +77,21 @@ class InputField:
             # Toggle active state if the user clicks inside the input field.
             if self.value_rect.collidepoint(event.pos):
                 self.active = True
+                self.text_selected = True  # Mark the text as selected (highlighted)
             else:
                 self.active = False
         if event.type == pg.KEYDOWN and self.active:
+            # If the text is "highlighted", clear it on first key press.
+            if self.text_selected:
+                self.value = ""
+                self.text_selected = False
             if event.key == pg.K_BACKSPACE:
                 self.value = self.value[:-1]
             elif event.key in (pg.K_RETURN, pg.K_KP_ENTER):
-                # You might decide to deactivate on enter, if desired.
                 self.active = False
-                self.game.state_stack[-1].objects.update_selected_objects()
+                self.game.state_stack[-1].objects.apply_updated_attributes_to_selected_objects()
             else:
-                # Optionally, filter input so only numbers are accepted:
+                # Optionally, filter input so only numbers (and one decimal) are accepted.
                 if event.unicode.isdigit() or (event.unicode == '.' and '.' not in self.value):
                     self.value += event.unicode
             

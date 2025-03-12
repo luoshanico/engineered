@@ -32,13 +32,16 @@ class BuilderObjects:
                         if shape not in self.selected_objects:
                             self.selected_objects.append(selected_object) 
                 else:
-                    self.selected_objects = []
+                    self.clear_selected_objects()
             else:
                 self.grab_object()
         elif event.type == pg.MOUSEBUTTONUP:
             self.release_object()
             
 
+    def clear_selected_objects(self):
+        self.selected_objects = []
+    
     def get_hit_object_if_dynamic(self):
         p = Vec2d(*pg.mouse.get_pos())
         hit = self.game.space.point_query_nearest(p, 5, pymunk.ShapeFilter())
@@ -83,42 +86,42 @@ class BuilderObjects:
         else:
             print("Add object target not recognized:", target)
     
-    def update(self):
+    def update(self): 
         pass
 
-    def update_selected_objects(self):
-        print(self.selected_objects)
+    def apply_updated_attributes_to_selected_objects(self):
+        print(f"{self.selected_objects=}, {self.objects=}")
         if len(self.selected_objects) > 0:
             lastly_selected_object_type = self.selected_objects[-1].object_type
             for object in self.selected_objects:
                 if object.object_type == lastly_selected_object_type:
-                    object.update(self.game)
+                    object.apply_updated_attributes(self.game)
             
 
 
 class Ball:
     def __init__(self,game):
         self.game = game
-        self.get_starting_position()
         self.get_attributes()
-        self.create_physical_ball()
+        self.create_body()
         self.create_shape()
         self.add_labels()
+        self.get_initial_position()
+        self.get_initial_color()
         self.add_to_space()
         
         
-    def get_starting_position(self):
-        self.starting_position = (general_settings.loading_bay['width'] // 2, 250)
+    def get_initial_position(self):
+        self.body.position = (general_settings.loading_bay['width'] // 2, 250)
     
     def get_attributes(self):
         self.attributes = tuple([float(inputs['input_field'].value) for inputs in menu_map['ball']['inputs']])
         self.mass, self.radius, self.elasticity, self.friction = self.attributes
-        self.color = general_settings.BLACK
+        
 
-    def create_physical_ball(self):
+    def create_body(self):
         self.moment = pymunk.moment_for_circle(self.mass, 0, self.radius)
         self.body = pymunk.Body(self.mass, self.moment)
-        self.body.position = self.starting_position
 
     def create_shape(self):
         self.shape = pymunk.Circle(self.body, self.radius)
@@ -130,6 +133,9 @@ class Ball:
         self.object_type = 'ball'
         self.shape.owner = self  # Now when we hit shape with mouse we can identify the underlying object
 
+    def get_initial_color(self):
+        self.color = general_settings.BLACK
+    
     def add_to_space(self):
         self.game.space.add(self.body, self.shape)
         self.game.ball_body = self.body
@@ -140,26 +146,24 @@ class Ball:
         radius = self.radius
         pg.draw.circle(surface, self.color, (int(pos.x), int(pos.y)), int(radius))
 
-    def update(self, game):
-        self.game.space.remove(self.shape)
+    def apply_updated_attributes(self, game):
+        self.store_current_position()
+        self.remove_existing_object()
         self.get_attributes()
-        self.update_physical_ball()
+        self.create_body()
         self.create_shape()
-        # self.add_to_space()
+        self.restore_position()
+        self.add_to_space()
 
-    def delete_previous_shape(self):
-        self.game.space.remove(self.shape)#
+    def remove_existing_object(self):
+        self.game.space.remove(self.body, self.shape)
     
-    def update_physical_ball(self):
-        self.body.mass = self.mass
-        self.moment = pymunk.moment_for_circle(self.mass, 0, self.radius)
-        self.body.moment = self.moment
+    def store_current_position(self):
+        pos = self.body.position
+        self.current_position = (int(pos.x), int(pos.y))
 
-    def update_shape(self):
-        self.shape.body = self.body
-        self.shape.radius = self.radius
-        self.shape.elasticity = self.elasticity
-        self.shape.friction = self.friction
+    def restore_position(self):
+        self.body.position = self.current_position
 
         
         

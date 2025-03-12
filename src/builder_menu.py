@@ -100,6 +100,7 @@ class BuilderMenu:
             print("Target is not a menu, perform alternative action:", target)
 
     def perform_add(self, target):
+        self.game.state_stack[-1].objects.clear_selected_objects()
         self.game.state_stack[-1].add_object(target)
 
     def load_selected_object_menu(self,object):
