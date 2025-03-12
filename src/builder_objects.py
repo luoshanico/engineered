@@ -6,6 +6,7 @@ from settings import general_settings
 from settings.menu_settings import menu_map
 from builder_constraints import DampedSpring
 from collections import namedtuple
+import utils
 
 class BuilderObjects:
     def __init__(self,game):
@@ -22,25 +23,37 @@ class BuilderObjects:
     def get_events(self, event):
         self.mouse_body.position = pg.mouse.get_pos()
         if event.type == pg.MOUSEBUTTONDOWN:
-            if pg.key.get_mods() & pg.KMOD_CTRL:
-                hit, _ = self.get_hit_object_if_dynamic()
-                if hit is not None:
-                    shape = hit.shape
-                    selected_object = getattr(shape, 'owner', None) 
-                    if selected_object is not None:
-                        self.game.state_stack[-1].menu.load_selected_object_menu(selected_object)
-                        if shape not in self.selected_objects:
-                            self.selected_objects.append(selected_object) 
-                else:
-                    self.clear_selected_objects()
-            else:
-                self.grab_object()
+            self.handle_mouse_press()
         elif event.type == pg.MOUSEBUTTONUP:
             self.release_object()
             
+    def handle_mouse_press(self):
+        if pg.key.get_mods() & pg.KMOD_CTRL:
+            self.handle_select_action()
+        else:
+            self.grab_object()
+
+    def handle_select_action(self):
+        hit, _ = self.get_hit_object_if_dynamic()
+        if hit is not None:
+            hit_object = getattr(hit.shape, 'owner', None) 
+            self.select_object(hit_object)
+            
+        else:
+            self.clear_selected_objects()
+
+    def select_object(self, hit_object):
+        if hit_object is not None:
+            self.game.state_stack[-1].menu.load_selected_object_menu(hit_object)
+            if hit_object not in self.selected_objects:
+                self.selected_objects.append(hit_object)
+                hit_object.apply_color_to_indicate_selected()
 
     def clear_selected_objects(self):
+        for object in self.selected_objects:
+            object.apply_deselected_color()
         self.selected_objects = []
+        
     
     def get_hit_object_if_dynamic(self):
         p = Vec2d(*pg.mouse.get_pos())
@@ -134,7 +147,7 @@ class Ball:
         self.shape.owner = self  # Now when we hit shape with mouse we can identify the underlying object
 
     def get_initial_color(self):
-        self.color = general_settings.BLACK
+        self.color = general_settings.BLUE
     
     def add_to_space(self):
         self.game.space.add(self.body, self.shape)
@@ -164,6 +177,14 @@ class Ball:
 
     def restore_position(self):
         self.body.position = self.current_position
+
+    def apply_color_to_indicate_selected(self):
+        self.normal_rgb = self.color
+        self.color = utils.fade_color(self.color)
+
+    def apply_deselected_color(self):
+        self.color = self.normal_rgb
+
 
         
         
