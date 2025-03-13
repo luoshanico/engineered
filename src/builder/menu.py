@@ -22,14 +22,31 @@ class BuilderMenu:
                     default_value
                 )
 
-
     def render(self):
         active_menu = self.get_active_menu()
         for btn in active_menu['buttons']:
-            self.render_button(btn)
+            if self.button_condition_to_render(btn):
+                self.render_button(btn)
         for input in active_menu['inputs']:
             input['input_field'].render(self.game.surface)
                     
+    def button_condition_to_render(self,btn):
+        condition = btn.get('condition')
+        if condition == 0:  # no condition ,always display
+            return True
+        elif condition == 1:  # display if objects selected
+            if len(self.game.state_stack[-1].objects.manager.selected_objects) > 0:
+                return True
+            else:
+                return False
+        elif condition == 2:  # display if exactly 2 objects selected (for adding constraints)
+            if len(self.game.state_stack[-1].objects.manager.selected_objects) == 2:
+                return True
+            else:
+                return False 
+            
+
+    
     def render_button(self,btn):
         pos_index = btn.get('position')
         location = menu_settings.button_locations[pos_index]
