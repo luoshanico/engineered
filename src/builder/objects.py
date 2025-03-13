@@ -19,8 +19,8 @@ class Objects:
     
     def add_to_space(self):
         self.game.space.add(self.body, self.shape)
-        self.game.ball_body = self.body
-        self.game.ball_shape = self.shape
+        # self.game.ball_body = self.body
+        # self.game.ball_shape = self.shape
 
     def apply_updated_attributes(self, game):
         self.store_current_position()
@@ -104,11 +104,34 @@ class Ball(Objects):
     
 class DampedSpring(Objects):
     def __init__(self, game, obj1, obj2):
-        self.spring = pymunk.DampedSpring(obj1.body, obj2.body, (60, 0), (-60, 0), 20, 5, 0.3)
-        game.space.add(self.spring)
+        self.game = game
+        self.get_attributes()
+        self.create_body(obj1, obj2)
+        self.add_labels()
+        self.add_to_space()
+           
+    def get_attributes(self):
+        self.attributes = tuple([float(inputs['input_field'].value) for inputs in menu_map['damped_spring']['inputs']])
+        self.rest_length, self.stiffness, self.damping = self.attributes
 
+    def create_body(self, obj1, obj2):
+        self.body = pymunk.DampedSpring(
+            obj1.body,
+            obj2.body,
+            (60, 0),
+            (-60, 0),
+            self.rest_length, 
+            self.stiffness, 
+            self.damping)
+    
+    def add_labels(self):
+        self.object_type = 'damped_spring'
+        self.owner = self
+
+    def add_to_space(self):
+        self.game.space.add(self.body)
+    
     def render(self, surface):
-        # if you want to add pg shape over the constraint
         pass
     
 
