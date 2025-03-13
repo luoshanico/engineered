@@ -15,7 +15,7 @@ class Objects:
         self.manager = ObjectManager(game)
     
     def get_initial_position(self):
-        self.body.position = (general_settings.loading_bay['width'] // 2, 250)
+        self.body.position = (general_settings.bay1['width'] // 2, 250)
     
     def add_to_space(self):
         self.game.space.add(self.body, self.shape)
@@ -177,7 +177,7 @@ class DampedSpring(Objects):
 
 class Rectangle:
     def __init__(self, game):
-        self.pos = (general_settings.loading_bay['width'] // 2, 250)
+        self.pos = (general_settings.bay1['width'] // 2, 250)
         self.size = self.width, self.height = 20,60
         self.mass = 1
         self.moment = pymunk.moment_for_box(self.mass, self.size)

@@ -9,8 +9,13 @@ world = {
     'friction':0.2
     }
 
-loading_bay = {
+bay1 = {
     'width':200,
+    'height':150
+}
+
+bay2 = {
+    'width':960-200,
     'height':150
 }
 
