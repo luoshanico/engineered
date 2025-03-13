@@ -54,8 +54,13 @@ class BuilderMenu:
         font_color = general_settings.WHITE
         btn['button'] = self.add_button(self.game.surface, location, color, btn['text'], font_size, font_color)
 
-    def get_button_position(self,btn):
-        pos_index = btn.get('position')
+    def get_button_position(self,btn_to_render):
+        # give buttons lowest display position available to avoid gaps
+        pos_index = btn_to_render.get('position')
+        active_menu = self.get_active_menu()
+        pos_index = sum([1 for btn in active_menu['buttons'] 
+                         if (btn.get('position') < pos_index) 
+                         and (self.button_condition_to_render(btn))])      
         return menu_settings.button_locations[pos_index]
 
     def get_button_color(self,btn): 
@@ -74,7 +79,6 @@ class BuilderMenu:
         surface.blit(button_text, text_location)
         return button_rect
     
-
     def center_text_in_rectangle(self, rectangle_dims, font_size, text):
         font = pg.font.Font(None, font_size)
         text_surface = font.render(text, True, (255, 255, 255))
@@ -83,7 +87,6 @@ class BuilderMenu:
         y = rectangle_dims[1] + (rectangle_dims[3] - text_height) // 2
         return (x, y)
 
-    
     def get_events(self,event):
         active_menu = self.get_active_menu()
         for input in active_menu['inputs']:
@@ -91,7 +94,6 @@ class BuilderMenu:
         if event.type == pg.MOUSEBUTTONDOWN:
             self.handle_click()
         
-    
     def update(self):
         pass
 
