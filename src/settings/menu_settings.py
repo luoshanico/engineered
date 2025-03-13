@@ -2,37 +2,37 @@ menu_map = {
     'main': {
         'active': True,
         'buttons': [
-            {'action': 'nav', 'target': 'object', 'button': None, 'text': 'Add object', 'position': 0},
-            {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1},
+            {'action': 'nav', 'target': 'object', 'button': None, 'text': 'Add object', 'position': 0, 'condition':0},
+            {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1, 'condition':0},
         ],
         'inputs': []
     },
     'object': {
         'active': False,
         'buttons': [
-            {'action': 'nav', 'target': 'ball', 'button': None, 'text': 'Ball', 'position': 0},
-            {'action': 'nav', 'target': 'rectangle', 'button': None, 'text': 'Rectangle', 'position': 1},
-            {'action': 'nav', 'target': 'triangle', 'button': None, 'text': 'Triangle', 'position': 2},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 3}
+            {'action': 'nav', 'target': 'ball', 'button': None, 'text': 'Ball', 'position': 0, 'condition':0},
+            {'action': 'nav', 'target': 'rectangle', 'button': None, 'text': 'Rectangle', 'position': 1, 'condition':0},
+            {'action': 'nav', 'target': 'triangle', 'button': None, 'text': 'Triangle', 'position': 2, 'condition':0},
+            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 3, 'condition':0}
         ],
         'inputs': []
     },
     'constraint': {
         'active': False,
         'buttons': [
-            {'action': 'nav', 'target': 'damped_spring', 'button': None, 'text': 'Add Spring', 'position': 0},
-            {'action': 'nav', 'target': 'add_bar', 'button': None, 'text': 'Add Bar', 'position': 1},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 2}
+            {'action': 'nav', 'target': 'damped_spring', 'button': None, 'text': 'Add Spring', 'position': 0, 'condition':0},
+            {'action': 'nav', 'target': 'add_bar', 'button': None, 'text': 'Add Bar', 'position': 1, 'condition':0},
+            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 2, 'condition':0}
         ],
         'inputs': []
     },
     'ball': {
         'active': False,
         'buttons': [
-            {'action': 'add', 'target': 'ball', 'button': None, 'text': 'Add ball', 'position': 0},
-            {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 2},
-            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 3},
+            {'action': 'add', 'target': 'ball', 'button': None, 'text': 'Add ball', 'position': 0, 'condition':0},
+            {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1, 'condition':1},
+            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 2, 'condition':1},
+            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 3, 'condition':0}
         ],
         'inputs': [
             {'input':'mass','default_value':1 ,'entry': 'simple', 'position': 0, 'input_field': None},
@@ -45,8 +45,8 @@ menu_map = {
     'damped_spring': {
         'active': False,
         'buttons': [
-            {'action': 'add', 'target': 'damped_spring', 'button': None, 'text': 'Add Spring', 'position': 0},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 1}
+            {'action': 'add', 'target': 'damped_spring', 'button': None, 'text': 'Add Spring', 'position': 0, 'condition':0},
+            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 1, 'condition':0}
         ],
         'inputs': []
     }
