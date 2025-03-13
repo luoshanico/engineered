@@ -105,34 +105,69 @@ class Ball(Objects):
 class DampedSpring(Objects):
     def __init__(self, game, obj1, obj2):
         self.game = game
+        self.get_constrained_objects(obj1, obj2)
         self.get_attributes()
-        self.create_body(obj1, obj2)
+        self.get_anchors()
+        self.create_body()
+        self.create_sensor_shape()
         self.add_labels()
-        self.add_to_space()
+        self.add_body_to_space()
+        self.add_shape_to_space()
            
+    def get_constrained_objects(self, obj1, obj2):
+        self.obj1 = obj1
+        self.obj2 = obj2
+    
     def get_attributes(self):
         self.attributes = tuple([float(inputs['input_field'].value) for inputs in menu_map['damped_spring']['inputs']])
         self.rest_length, self.stiffness, self.damping = self.attributes
 
-    def create_body(self, obj1, obj2):
+    def get_anchors(self):
+        self.anchor1 = (60, 0)
+        self.anchor2 = (-60, 0)
+    
+    def create_body(self):
         self.body = pymunk.DampedSpring(
-            obj1.body,
-            obj2.body,
-            (60, 0),
-            (-60, 0),
+            self.obj1.body,
+            self.obj2.body,
+            self.anchor1,
+            self.anchor2,
             self.rest_length, 
             self.stiffness, 
             self.damping)
+        
+    def create_sensor_shape(self):
+        anchor2_rel_obj1 = self.get_anchor2_rel_obj1()
+        self.sensor_shape = pymunk.Segment(self.obj1.body, self.anchor1, anchor2_rel_obj1, 10)
+        self.sensor_shape.sensor = True
+    
+    def get_anchor2_rel_obj1(self):       
+        anchor2_world = self.obj2.body.local_to_world(self.anchor2)
+        return self.obj1.body.world_to_local(anchor2_world)
+        
+        # neg_obj1_pos = tuple(element * -1 for element in self.obj1.body.position)        
+        # return tuple(map(sum, zip(self.obj2.body.position, self.anchor2, neg_obj1_pos)))
+
+
+    def delete_sensor_shape(self):
+        self.game.space.remove(self.sensor_shape)
     
     def add_labels(self):
         self.object_type = 'damped_spring'
-        self.owner = self
+        self.sensor_shape.owner = self
 
-    def add_to_space(self):
+    def add_body_to_space(self):
         self.game.space.add(self.body)
+
+    def add_shape_to_space(self):
+        self.game.space.add(self.sensor_shape)
     
     def render(self, surface):
-        pass
+        self.delete_sensor_shape()
+        self.create_sensor_shape()
+        self.add_shape_to_space()
+        print(self.obj2.body.position)
+        
     
 
 
