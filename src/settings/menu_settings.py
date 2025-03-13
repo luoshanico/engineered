@@ -20,8 +20,8 @@ menu_map = {
     'constraint': {
         'active': False,
         'buttons': [
-            {'action': 'nav', 'target': 'damped_spring', 'button': None, 'text': 'Add Spring', 'position': 0, 'condition':0},
-            {'action': 'nav', 'target': 'add_bar', 'button': None, 'text': 'Add Bar', 'position': 1, 'condition':0},
+            {'action': 'nav', 'target': 'damped_spring', 'button': None, 'text': 'Add spring', 'position': 0, 'condition':0},
+            {'action': 'nav', 'target': 'add_bar', 'button': None, 'text': 'Add bar', 'position': 1, 'condition':0},
             {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 2, 'condition':0}
         ],
         'inputs': []
@@ -45,10 +45,15 @@ menu_map = {
     'damped_spring': {
         'active': False,
         'buttons': [
-            {'action': 'add', 'target': 'damped_spring', 'button': None, 'text': 'Add Spring', 'position': 0, 'condition':0},
+            {'action': 'add', 'target': 'damped_spring', 'button': None, 'text': 'add Spring', 'position': 0, 'condition':0},
             {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 1, 'condition':0}
         ],
-        'inputs': []
+        'inputs': [
+            {'input':'rest length','default_value':10 ,'entry': 'simple', 'position': 0, 'input_field': None},
+            {'input':'stiffness','default_value':10 ,'entry': 'simple', 'position': 1, 'input_field': None},
+            {'input':'damping','default_value':0.3 ,'entry': 'simple', 'position': 2, 'input_field': None}
+            # {'input':'colour', 'default value': 'Black','entry': 'dropdown', 'position': 4, 'input_field': None}
+        ]   
     }
 }
 
