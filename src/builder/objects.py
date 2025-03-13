@@ -75,7 +75,7 @@ class Ball(Objects):
         self.add_to_space()
            
     def get_attributes(self):
-        print([inputs['input_field'].value for inputs in menu_map['ball']['inputs']])
+        # print([inputs['input_field'].value for inputs in menu_map['ball']['inputs']])
         self.attributes = tuple([float(inputs['input_field'].value) for inputs in menu_map['ball']['inputs']])
         self.mass, self.radius, self.elasticity, self.friction = self.attributes
 
@@ -113,6 +113,11 @@ class DampedSpring(Objects):
         self.add_labels()
         self.add_body_to_space()
         self.add_shape_to_space()
+        print("Sensor shape properties:")
+        print("Sensor:", self.sensor_shape.sensor)
+        print("Categories:", self.sensor_shape.filter.categories)
+        print("Mask:", self.sensor_shape.filter.mask)
+
            
     def get_constrained_objects(self, obj1, obj2):
         self.obj1 = obj1
@@ -144,10 +149,6 @@ class DampedSpring(Objects):
     def get_anchor2_rel_obj1(self):       
         anchor2_world = self.obj2.body.local_to_world(self.anchor2)
         return self.obj1.body.world_to_local(anchor2_world)
-        
-        # neg_obj1_pos = tuple(element * -1 for element in self.obj1.body.position)        
-        # return tuple(map(sum, zip(self.obj2.body.position, self.anchor2, neg_obj1_pos)))
-
 
     def delete_sensor_shape(self):
         self.game.space.remove(self.sensor_shape)
@@ -165,9 +166,14 @@ class DampedSpring(Objects):
     def render(self, surface):
         self.delete_sensor_shape()
         self.create_sensor_shape()
+        self.add_labels()
         self.add_shape_to_space()
-        print(self.obj2.body.position)
         
+    def apply_color_to_indicate_selected(self):
+        pass
+
+    def apply_deselected_color(self):
+        pass
     
 
 

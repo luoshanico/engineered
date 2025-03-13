@@ -14,6 +14,7 @@ class ObjectControls:
     def get_events(self, event):
         self.mouse_body.position = pg.mouse.get_pos()
         if event.type == pg.MOUSEBUTTONDOWN:
+            # print(f"{self.game.state_stack[-1].objects.manager.objects}")
             self.handle_mouse_press()
         elif event.type == pg.MOUSEBUTTONUP:
             self.release_object()
@@ -26,17 +27,23 @@ class ObjectControls:
 
     def handle_select_action(self):
         hit, _ = self.get_hit_object_if_dynamic()
-        print(f"{hit}")
+        # print(f"{hit}")
         if hit is not None:
             hit_object = getattr(hit.shape, 'owner', None)
-            print(f"{hit_object=}") 
+            #print(f"{hit_object=}") 
             self.game.state_stack[-1].objects.manager.select_object(hit_object)
         else:
             self.game.state_stack[-1].objects.manager.clear_selected_objects()
     
     def get_hit_object_if_dynamic(self):
         p = Vec2d(*pg.mouse.get_pos())
-        hit = self.game.space.point_query_nearest(p, 5, pymunk.ShapeFilter())
+        filter = pymunk.ShapeFilter()
+        nearby_shapes = self.game.space.point_query(p, 5, filter)
+        if nearby_shapes:
+            hit = min(nearby_shapes, key=lambda info: info.distance)
+        else:
+            hit = None
+            
         if hit is not None and hit.shape.body.body_type == pymunk.Body.DYNAMIC:
             return hit, p
         else:
