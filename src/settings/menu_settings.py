@@ -20,8 +20,9 @@ menu_map = {
     'constraint': {
         'active': False,
         'buttons': [
-            {'action': 'nav', 'target': 'damped_spring', 'button': None, 'text': 'Add spring', 'position': 0},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 1}
+            {'action': 'nav', 'target': 'damped_spring', 'button': None, 'text': 'Add Spring', 'position': 0},
+            {'action': 'nav', 'target': 'add_bar', 'button': None, 'text': 'Add Bar', 'position': 1},
+            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 2}
         ],
         'inputs': []
     },
@@ -29,7 +30,9 @@ menu_map = {
         'active': False,
         'buttons': [
             {'action': 'add', 'target': 'ball', 'button': None, 'text': 'Add ball', 'position': 0},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 1}
+            {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1},
+            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 2},
+            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 3},
         ],
         'inputs': [
             {'input':'mass','default_value':1 ,'entry': 'simple', 'position': 0, 'input_field': None},

@@ -1,7 +1,7 @@
 import pygame as pg
 from settings import menu_settings
 from settings import general_settings
-from builder_input_field import InputField
+from builder.input_field import InputField
 
 class BuilderMenu:
     def __init__(self, game):
@@ -87,6 +87,8 @@ class BuilderMenu:
                     self.navigate_to(target)
                 elif action == 'add':
                     self.perform_add(target)
+                elif action == 'delete':
+                    self.perform_delete()
                 break
 
     def navigate_to(self, target):
@@ -100,8 +102,11 @@ class BuilderMenu:
             print("Target is not a menu, perform alternative action:", target)
 
     def perform_add(self, target):
-        self.game.state_stack[-1].objects.clear_selected_objects()
-        self.game.state_stack[-1].add_object(target)
+        self.game.state_stack[-1].objects.manager.add_object(target)
+        
+
+    def perform_delete(self):
+        self.game.state_stack[-1].objects.manager.delete_selected_objects()
 
     def load_selected_object_menu(self,object):
         self.navigate_to(object.object_type)
