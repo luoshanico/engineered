@@ -48,14 +48,24 @@ class BuilderMenu:
 
     
     def render_button(self,btn):
-        pos_index = btn.get('position')
-        location = menu_settings.button_locations[pos_index]
-        color = general_settings.BLUE if btn['target'] != 'main' else general_settings.BLACK
+        location = self.get_button_position(btn)
+        color = self.get_button_color(btn)
         font_size = menu_settings.fontsizes['header_2']
         font_color = general_settings.WHITE
         btn['button'] = self.add_button(self.game.surface, location, color, btn['text'], font_size, font_color)
 
+    def get_button_position(self,btn):
+        pos_index = btn.get('position')
+        return menu_settings.button_locations[pos_index]
 
+    def get_button_color(self,btn): 
+        if btn['action'] == 'delete':
+            return general_settings.RED
+        if btn['target'] != 'main':
+            return general_settings.BLUE
+        else:
+            return general_settings.BLACK
+    
     def add_button(self, surface, location, color, text, font_size, font_color):    
         button_rect = pg.draw.rect(surface, color, location)
         font = pg.font.Font(None, font_size)
