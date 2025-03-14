@@ -23,7 +23,7 @@ class Objects:
     def add_to_space(self):
         self.game.space.add(self.body, self.shape)
 
-    def apply_updated_attributes(self, game):
+    def apply_updated_attributes(self):
         self.store_current_position()
         self.delete()
         self.get_attributes()

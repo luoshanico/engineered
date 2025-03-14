@@ -52,9 +52,19 @@ class Constraints:
             self.anchor2
         )
     
-    def apply_updated_attributes(self, game):
+    def apply_updated_attributes(self):
         self.delete()
         self.get_attributes()
+        # self.restore_constrained_objects_and_anchors()
+        self.create_body()
+        self.create_sensor_shape()
+        self.add_labels()
+        self.add_body_to_space()
+        self.add_shape_to_space()
+
+    def refresh_constraint_after_updated_object(self):
+        self.delete()
+        # self.get_attributes()
         # self.restore_constrained_objects_and_anchors()
         self.create_body()
         self.create_sensor_shape()

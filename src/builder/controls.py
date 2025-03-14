@@ -28,10 +28,8 @@ class ComponentControls:
 
     def handle_select_action(self):
         hit, _ = self.get_hit_component_if_dynamic()
-        # print(f"{hit}")
         if hit is not None:
             hit_component = getattr(hit.shape, 'owner', None)
-            #print(f"{hit_component=}") 
             self.game.state_stack[-1].manager.select_component(hit_component)
         else:
             self.game.state_stack[-1].manager.clear_selected_components()
