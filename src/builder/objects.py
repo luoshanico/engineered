@@ -9,6 +9,13 @@ from settings.menu_settings import menu_map
 class Objects:
     def __init__(self,game):
         self.game = game
+        self.get_attributes()
+        self.create_body()
+        self.create_shape()
+        self.add_labels()
+        self.get_initial_position()
+        self.get_initial_color()
+        self.add_to_space()
     
     def get_initial_position(self):
         self.body.position = (general_settings.bay1['width'] // 2, 250)
@@ -36,7 +43,7 @@ class Objects:
     def restore_position(self):
         self.body.position = self.current_position
 
-    def apply_color_to_indicate_selected(self):
+    def apply_selected_color(self):
         self.normal_rgb = self.color
         self.color = self.fade_color(self.color)
 
@@ -57,19 +64,8 @@ class Objects:
             
 
 
-class Ball(Objects):
-    def __init__(self,game):
-        self.game = game
-        self.get_attributes()
-        self.create_body()
-        self.create_shape()
-        self.add_labels()
-        self.get_initial_position()
-        self.get_initial_color()
-        self.add_to_space()
-           
+class Ball(Objects):          
     def get_attributes(self):
-        # print([inputs['input_field'].value for inputs in menu_map['ball']['inputs']])
         self.attributes = tuple([float(inputs['input_field'].value) for inputs in menu_map['ball']['inputs']])
         self.mass, self.radius, self.elasticity, self.friction = self.attributes
 
@@ -96,77 +92,7 @@ class Ball(Objects):
         pg.draw.circle(surface, self.color, (int(pos.x), int(pos.y)), int(radius))
 
     
-class DampedSpring(Objects):
-    def __init__(self, game, obj1, obj2):
-        self.game = game
-        self.get_constrained_objects(obj1, obj2)
-        self.get_attributes()
-        self.get_anchors()
-        self.create_body()
-        self.create_sensor_shape()
-        self.add_labels()
-        self.add_body_to_space()
-        self.add_shape_to_space()
-               
-    def get_constrained_objects(self, obj1, obj2):
-        self.obj1 = obj1
-        self.obj2 = obj2
-    
-    def get_attributes(self):
-        self.attributes = tuple([float(inputs['input_field'].value) for inputs in menu_map['damped_spring']['inputs']])
-        self.rest_length, self.stiffness, self.damping = self.attributes
-
-    def get_anchors(self):
-        self.anchor1 = (60, 0)
-        self.anchor2 = (-60, 0)
-    
-    def create_body(self):
-        self.body = pymunk.DampedSpring(
-            self.obj1.body,
-            self.obj2.body,
-            self.anchor1,
-            self.anchor2,
-            self.rest_length, 
-            self.stiffness, 
-            self.damping)
-        
-    def create_sensor_shape(self):
-        anchor2_rel_obj1 = self.get_anchor2_rel_obj1()
-        self.sensor_shape = pymunk.Segment(self.obj1.body, self.anchor1, anchor2_rel_obj1, 10)
-        self.sensor_shape.sensor = True
-    
-    def get_anchor2_rel_obj1(self):       
-        anchor2_world = self.obj2.body.local_to_world(self.anchor2)
-        return self.obj1.body.world_to_local(anchor2_world)
-
-    def delete_sensor_shape(self):
-        self.game.space.remove(self.sensor_shape)
-    
-    def add_labels(self):
-        self.component_type = 'damped_spring'
-        self.sensor_shape.owner = self
-
-    def add_body_to_space(self):
-        self.game.space.add(self.body)
-
-    def add_shape_to_space(self):
-        self.game.space.add(self.sensor_shape)
-    
-    def render(self, surface):
-        self.delete_sensor_shape()
-        self.create_sensor_shape()
-        self.add_labels()
-        self.add_shape_to_space()
-        
-    def apply_color_to_indicate_selected(self):
-        pass
-
-    def apply_deselected_color(self):
-        pass
-    
-
-
-        
+      
         
 
 

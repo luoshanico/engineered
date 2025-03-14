@@ -1,4 +1,5 @@
 from builder import objects
+from builder import constraints
 
 class ComponentManager:
     def __init__(self,game):
@@ -22,7 +23,7 @@ class ComponentManager:
             self.components.append(objects.Rectangle(self.game))
         elif target == 'damped_spring':
             if len(self.selected_components) == 2:
-                self.components.append(objects.DampedSpring(self.game, *self.selected_components))
+                self.components.append(constraints.DampedSpring(self.game, *self.selected_components))
             else:
                 print("Select exactly two objects to link")
         else:
@@ -44,7 +45,7 @@ class ComponentManager:
             self.game.state_stack[-1].menu.load_selected_component_menu(hit_component)
             if hit_component not in self.selected_components:
                 self.selected_components.append(hit_component)
-                hit_component.apply_color_to_indicate_selected()
+                hit_component.apply_selected_color()
 
     def clear_selected_components(self):
         for component in self.selected_components:

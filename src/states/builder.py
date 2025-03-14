@@ -2,9 +2,8 @@ import pygame as pg
 from states.state import State
 from builder.menu import BuilderMenu
 from builder.physics import BuilderPhysics 
-from builder.objects import Objects
-from builder.component_manager import ComponentManager
-from builder.component_controls import ComponentControls
+from builder.manager import ComponentManager
+from builder.controls import ComponentControls
 
 
 class Builder(State):
