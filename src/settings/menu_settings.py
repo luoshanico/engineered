@@ -3,7 +3,7 @@ menu_map = {
         'active': True,
         'buttons': [
             {'action': 'nav', 'target': 'object', 'button': None, 'text': 'Add object', 'position': 0, 'condition':0},
-            {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1, 'condition':0},
+            # {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1, 'condition':0},
         ],
         'inputs': []
     },
@@ -45,8 +45,9 @@ menu_map = {
     'damped_spring': {
         'active': False,
         'buttons': [
-            {'action': 'add', 'target': 'damped_spring', 'button': None, 'text': 'add Spring', 'position': 0, 'condition':0},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 1, 'condition':0}
+            {'action': 'add', 'target': 'damped_spring', 'button': None, 'text': 'add Spring', 'position': 0, 'condition':2},
+            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 1, 'condition':1},
+            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 2, 'condition':0}
         ],
         'inputs': [
             {'input':'rest length','default_value':10 ,'entry': 'simple', 'position': 0, 'input_field': None},
