@@ -6,6 +6,7 @@ class ComponentManager:
         self.game = game
         self.components = []
         self.selected_components = []
+        self.constraints = []
 
     def render(self):
         for component in self.components:
@@ -30,12 +31,7 @@ class ComponentManager:
             print("Add object target not recognized:", target)
         self.clear_selected_components()
     
-    def delete_selected_components(self):
-        for component in self.selected_components:
-            component.delete()
-            self.components.remove(component)
-        self.clear_selected_components()
-
+    
     def render(self):
         for object in self.components:
             object.render(self.game.surface)
@@ -54,7 +50,36 @@ class ComponentManager:
 
     def apply_updated_attributes_to_selected_components(self):
         if len(self.selected_components) > 0:
-            lastly_selected_component_type = self.selected_components[-1].component_type
+            lastly_selected_component_subtype = self.selected_components[-1].component_subtype
             for component in self.selected_components:
-                if component.component_type == lastly_selected_component_type:
+                if component.component_subtype == lastly_selected_component_subtype:
                     component.apply_updated_attributes(self.game)
+
+    def store_constraint(self, constraint, obj1, obj2, anchor1, anchor2):
+        self.constraints.append((constraint, obj1, obj2, anchor1, anchor2))
+
+    def delete_selected_components(self):
+        for component in self.selected_components:
+            if component in self.components:
+                self.delete_component(component)
+        self.clear_selected_components()
+
+    def delete_component(self,component):
+        component.delete()
+        self.components.remove(component)
+        self.remove_constraint(component)
+    
+    def remove_constraint(self,component):
+        if component.component_type == 'constraint':  # remove constraint from constraint listing
+            constraint_data = next((c for c in self.constraints if c[0] == component), None)
+            self.constraints.remove(constraint_data)
+        elif component.component_type == 'object':  # delete constraint
+            constraint_data = next((c for c in self.constraints if c[1] == component), None)
+            if not constraint_data:
+                constraint_data = next((c for c in self.constraints if c[2] == component), None)
+            if constraint_data:
+                constraint = constraint_data[0]
+                self.delete_component(constraint)
+
+
+

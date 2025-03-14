@@ -80,7 +80,8 @@ class Ball(Objects):
         self.shape.collision_type = general_settings.OBJECT_CAT
     
     def add_labels(self):
-        self.component_type = 'ball'
+        self.component_type = 'object'
+        self.component_subtype = 'ball'
         self.shape.owner = self  # Now when we hit shape with mouse we can identify the underlying object
 
     def get_initial_color(self):

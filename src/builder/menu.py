@@ -138,7 +138,7 @@ class BuilderMenu:
         self.game.state_stack[-1].manager.delete_selected_components()
 
     def load_selected_component_menu(self,component):
-        self.navigate_to(component.component_type)
+        self.navigate_to(component.component_subtype)
         active_menu = self.get_active_menu()
         for idx, input in enumerate(active_menu['inputs']):
             input['input_field'].value = str(component.attributes[idx])

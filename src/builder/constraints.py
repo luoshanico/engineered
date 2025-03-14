@@ -15,6 +15,7 @@ class Constraints:
         self.add_labels()
         self.add_body_to_space()
         self.add_shape_to_space()
+        self.add_constraint_to_manager()
 
     def get_constrained_objects(self, obj1, obj2):
         self.obj1 = obj1
@@ -41,21 +42,38 @@ class Constraints:
 
     def add_shape_to_space(self):
         self.game.space.add(self.sensor_shape)
+
+    def add_constraint_to_manager(self):
+        self.game.state_stack[-1].manager.store_constraint(
+            self,
+            self.obj1,
+            self.obj2,
+            self.anchor1,
+            self.anchor2
+        )
     
     def apply_updated_attributes(self, game):
-        self.store_constrained_objects()
-        self.store_anchors()
         self.delete()
         self.get_attributes()
-        self.restore_constrained_objects()
-        self.restore_anchors()
+        self.restore_constrained_objects_and_anchors()
         self.create_body()
         self.create_sensor_shape()
         self.add_labels()
         self.add_body_to_space()
         self.add_shape_to_space()
+
+    def delete(self):
+        self.game.space.remove(self.body, self.sensor_shape)
     
-    
+    def restore_constrained_objects_and_anchors(self):
+        constraints = self.game.state_stack[-1].manager.constraints
+        constraint_data = self.find_constraint_in_list(constraints,self)
+        _, self.obj1, self.obj1, self.anchor1, self.anchor2 = constraint_data
+
+    def find_constraint_in_list(constraint_list, constraint):
+        return next((t for t in constraint_list if t[0] == constraint), None)
+
+       
     def render(self, surface):
         self.delete_sensor_shape()
         self.create_sensor_shape()
@@ -89,7 +107,8 @@ class DampedSpring(Constraints):
             self.damping)
         
     def add_labels(self):
-        self.component_type = 'damped_spring'
+        self.component_type = 'constraint'
+        self.component_subtype = 'damped_spring'
         self.sensor_shape.owner = self
 
     
