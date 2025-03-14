@@ -35,12 +35,12 @@ class BuilderMenu:
         if condition == 0:  # no condition ,always display
             return True
         elif condition == 1:  # display if objects selected
-            if len(self.game.state_stack[-1].objects.manager.selected_objects) > 0:
+            if len(self.game.state_stack[-1].manager.selected_objects) > 0:
                 return True
             else:
                 return False
         elif condition == 2:  # display if exactly 2 objects selected (for adding constraints)
-            if len(self.game.state_stack[-1].objects.manager.selected_objects) == 2:
+            if len(self.game.state_stack[-1].manager.selected_objects) == 2:
                 return True
             else:
                 return False 
@@ -131,11 +131,11 @@ class BuilderMenu:
             print("Target is not a menu, perform alternative action:", target)
 
     def perform_add(self, target):
-        self.game.state_stack[-1].objects.manager.add_object(target)
+        self.game.state_stack[-1].manager.add_object(target)
         
 
     def perform_delete(self):
-        self.game.state_stack[-1].objects.manager.delete_selected_objects()
+        self.game.state_stack[-1].manager.delete_selected_objects()
 
     def load_selected_object_menu(self,object):
         self.navigate_to(object.object_type)

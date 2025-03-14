@@ -3,6 +3,8 @@ from states.state import State
 from builder.menu import BuilderMenu
 from builder.physics import BuilderPhysics 
 from builder.objects import Objects
+from builder.object_manager import ObjectManager
+from builder.object_controls import ObjectControls
 
 
 class Builder(State):
@@ -11,15 +13,17 @@ class Builder(State):
         self.menu = BuilderMenu(game)
         self.physics = BuilderPhysics(game)
         self.objects = Objects(game)
+        self.controls = ObjectControls(game)
+        self.manager = ObjectManager(game)
         
     def get_events(self, event):
         self.physics.get_events(event)
         self.menu.get_events(event)
-        self.objects.controls.get_events(event)
+        self.controls.get_events(event)
         
     def update(self):
         self.physics.update()
-        self.objects.manager.update()
+        self.manager.update()
         self.menu.update()
         
     def render(self, game):
@@ -27,4 +31,4 @@ class Builder(State):
         game.draw_text(game.surface, "Builder", (0, 0, 0), 50, 20)  # Render title
         self.menu.render()
         self.physics.render()
-        self.objects.manager.render()
+        self.manager.render()

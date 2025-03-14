@@ -11,16 +11,12 @@ from builder.object_manager import ObjectManager
 class Objects:
     def __init__(self,game):
         self.game = game
-        self.controls = ObjectControls(game)
-        self.manager = ObjectManager(game)
     
     def get_initial_position(self):
         self.body.position = (general_settings.bay1['width'] // 2, 250)
     
     def add_to_space(self):
         self.game.space.add(self.body, self.shape)
-        # self.game.ball_body = self.body
-        # self.game.ball_shape = self.shape
 
     def apply_updated_attributes(self, game):
         self.store_current_position()

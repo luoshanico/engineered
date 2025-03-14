@@ -89,7 +89,7 @@ class InputField:
                 self.value = self.value[:-1]
             elif event.key in (pg.K_RETURN, pg.K_KP_ENTER):
                 self.active = False
-                self.game.state_stack[-1].objects.manager.apply_updated_attributes_to_selected_objects()
+                self.game.state_stack[-1].manager.apply_updated_attributes_to_selected_objects()
             else:
                 # Optionally, filter input so only numbers (and one decimal) are accepted.
                 if event.unicode.isdigit() or (event.unicode == '.' and '.' not in self.value):
