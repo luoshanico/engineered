@@ -27,6 +27,8 @@ class BuilderMenu:
         for btn in active_menu['buttons']:
             if self.button_condition_to_render(btn):
                 self.render_button(btn)
+            else:
+                self.unrender_button(btn)
         for input in active_menu['inputs']:
             input['input_field'].render(self.game.surface)
                     
@@ -53,6 +55,9 @@ class BuilderMenu:
         font_size = menu_settings.fontsizes['header_2']
         font_color = general_settings.WHITE
         btn['button'] = self.add_button(self.game.surface, location, color, btn['text'], font_size, font_color)
+
+    def unrender_button(self,btn):
+        btn['button'] = None
 
     def get_button_position(self,btn_to_render):
         # give buttons lowest display position available to avoid gaps
