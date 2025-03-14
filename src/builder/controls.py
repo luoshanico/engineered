@@ -17,6 +17,8 @@ class ComponentControls:
             self.handle_mouse_press()
         elif event.type == pg.MOUSEBUTTONUP:
             self.release_component()
+        elif event.type == pg.KEYDOWN and event.key == pg.K_DELETE:
+            self.game.state_stack[-1].manager.delete_selected_components()
             
     def handle_mouse_press(self):
         if pg.key.get_mods() & pg.KMOD_CTRL:
