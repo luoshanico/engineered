@@ -5,8 +5,6 @@ import colorsys
 
 from settings import general_settings
 from settings.menu_settings import menu_map
-from builder.object_controls import ObjectControls
-from builder.object_manager import ObjectManager
 
 class Objects:
     def __init__(self,game):
@@ -86,7 +84,7 @@ class Ball(Objects):
         self.shape.collision_type = general_settings.OBJECT_CAT
     
     def add_labels(self):
-        self.object_type = 'ball'
+        self.component_type = 'ball'
         self.shape.owner = self  # Now when we hit shape with mouse we can identify the underlying object
 
     def get_initial_color(self):
@@ -109,12 +107,7 @@ class DampedSpring(Objects):
         self.add_labels()
         self.add_body_to_space()
         self.add_shape_to_space()
-        print("Sensor shape properties:")
-        print("Sensor:", self.sensor_shape.sensor)
-        print("Categories:", self.sensor_shape.filter.categories)
-        print("Mask:", self.sensor_shape.filter.mask)
-
-           
+               
     def get_constrained_objects(self, obj1, obj2):
         self.obj1 = obj1
         self.obj2 = obj2
@@ -150,7 +143,7 @@ class DampedSpring(Objects):
         self.game.space.remove(self.sensor_shape)
     
     def add_labels(self):
-        self.object_type = 'damped_spring'
+        self.component_type = 'damped_spring'
         self.sensor_shape.owner = self
 
     def add_body_to_space(self):

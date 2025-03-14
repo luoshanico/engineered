@@ -34,13 +34,13 @@ class BuilderMenu:
         condition = btn.get('condition')
         if condition == 0:  # no condition ,always display
             return True
-        elif condition == 1:  # display if objects selected
-            if len(self.game.state_stack[-1].manager.selected_objects) > 0:
+        elif condition == 1:  # display if components selected
+            if len(self.game.state_stack[-1].manager.selected_components) > 0:
                 return True
             else:
                 return False
         elif condition == 2:  # display if exactly 2 objects selected (for adding constraints)
-            if len(self.game.state_stack[-1].manager.selected_objects) == 2:
+            if len(self.game.state_stack[-1].manager.selected_components) == 2:
                 return True
             else:
                 return False 
@@ -131,17 +131,17 @@ class BuilderMenu:
             print("Target is not a menu, perform alternative action:", target)
 
     def perform_add(self, target):
-        self.game.state_stack[-1].manager.add_object(target)
+        self.game.state_stack[-1].manager.add_component(target)
         
 
     def perform_delete(self):
-        self.game.state_stack[-1].manager.delete_selected_objects()
+        self.game.state_stack[-1].manager.delete_selected_components()
 
-    def load_selected_object_menu(self,object):
-        self.navigate_to(object.object_type)
+    def load_selected_component_menu(self,component):
+        self.navigate_to(component.component_type)
         active_menu = self.get_active_menu()
         for idx, input in enumerate(active_menu['inputs']):
-            input['input_field'].value = str(object.attributes[idx])
+            input['input_field'].value = str(component.attributes[idx])
 
     def assert_exactly_one_active_menu(self):
         active_menus = [key for key, menu in self.menu_map.items() if menu.get('active')]

@@ -3,8 +3,8 @@ from states.state import State
 from builder.menu import BuilderMenu
 from builder.physics import BuilderPhysics 
 from builder.objects import Objects
-from builder.object_manager import ObjectManager
-from builder.object_controls import ObjectControls
+from builder.component_manager import ComponentManager
+from builder.component_controls import ComponentControls
 
 
 class Builder(State):
@@ -12,9 +12,8 @@ class Builder(State):
         State.__init__(self, game)
         self.menu = BuilderMenu(game)
         self.physics = BuilderPhysics(game)
-        self.objects = Objects(game)
-        self.controls = ObjectControls(game)
-        self.manager = ObjectManager(game)
+        self.controls = ComponentControls(game)
+        self.manager = ComponentManager(game)
         
     def get_events(self, event):
         self.physics.get_events(event)
