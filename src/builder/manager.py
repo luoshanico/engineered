@@ -41,6 +41,12 @@ class ComponentManager:
         if hit_component not in self.selected_components:
             self.selected_components.append(hit_component)
             hit_component.apply_selected_color()
+            self.clear_anchors_if_over_two_selected()
+
+    def clear_anchors_if_over_two_selected(self):
+        if len(self.selected_components) > 2:
+            for component in self.selected_components:
+                component.selected_anchor = None
 
     def clear_selected_components(self):
         for component in self.selected_components:

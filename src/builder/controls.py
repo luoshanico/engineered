@@ -31,7 +31,7 @@ class ComponentControls:
         if hit is not None:
             hit_component = getattr(hit.shape, 'owner', None)
             self.game.state_stack[-1].manager.select_component(hit_component)
-            hit_component.add_anchor_selection(p)
+            self.add_anchors_if_no_more_than_two_selected(hit_component,p)
         else:
             self.game.state_stack[-1].manager.clear_selected_components()
     
@@ -48,6 +48,11 @@ class ComponentControls:
             return hit, p
         else:
             return None, None
+    
+    def add_anchors_if_no_more_than_two_selected(self,hit_component,p):
+        if len(self.game.state_stack[-1].manager.selected_components) <= 2:
+            hit_component.add_anchor_selection(p)
+
     
     def grab_component(self):
         if self.mouse_joint is None:  # Only create a new mouse joint if one doesn't already exist.
