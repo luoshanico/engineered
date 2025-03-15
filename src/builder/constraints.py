@@ -22,8 +22,8 @@ class Constraints:
         self.obj2 = obj2
 
     def get_anchors(self):
-        self.anchor1 = (60, 0)
-        self.anchor2 = (-60, 0)
+        self.anchor1 = self.obj1.selected_anchor
+        self.anchor2 = self.obj2.selected_anchor
 
     def create_sensor_shape(self):
         anchor2_rel_obj1 = self.get_anchor2_rel_obj1()
