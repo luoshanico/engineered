@@ -37,11 +37,10 @@ class ComponentManager:
             object.render(self.game.surface)
 
     def select_component(self, hit_component):
-        if hit_component is not None:
-            self.game.state_stack[-1].menu.load_selected_component_menu(hit_component)
-            if hit_component not in self.selected_components:
-                self.selected_components.append(hit_component)
-                hit_component.apply_selected_color()
+        self.game.state_stack[-1].menu.load_selected_component_menu(hit_component)
+        if hit_component not in self.selected_components:
+            self.selected_components.append(hit_component)
+            hit_component.apply_selected_color()
 
     def clear_selected_components(self):
         for component in self.selected_components:

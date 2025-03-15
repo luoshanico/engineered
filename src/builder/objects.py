@@ -15,6 +15,7 @@ class Objects:
         self.add_labels()
         self.get_initial_position()
         self.get_initial_color()
+        self.selected_anchor = None
         self.add_to_space()
     
     def get_initial_position(self):
