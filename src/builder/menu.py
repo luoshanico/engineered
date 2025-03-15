@@ -138,7 +138,6 @@ class BuilderMenu:
     def perform_add(self, target):
         self.game.state_stack[-1].manager.add_component(target)
         
-
     def perform_delete(self):
         self.game.state_stack[-1].manager.delete_selected_components()
 

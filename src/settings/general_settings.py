@@ -31,3 +31,8 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 GREY = (128, 128, 128)
+
+
+# Controls
+mouse_hit_max_distance = 5
+snap_horizon = 10

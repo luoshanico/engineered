@@ -2,6 +2,7 @@ import pymunk.pygame_util
 import pygame as pg
 from pygame.locals import *
 from pymunk.vec2d import Vec2d
+from settings import general_settings
 
 
 class ComponentControls:
@@ -38,7 +39,8 @@ class ComponentControls:
     def get_hit_component_if_dynamic(self):
         p = Vec2d(*pg.mouse.get_pos())
         filter = pymunk.ShapeFilter()
-        nearby_shapes = self.game.space.point_query(p, 5, filter)
+        max_distance = general_settings.mouse_hit_max_distance
+        nearby_shapes = self.game.space.point_query(p, max_distance, filter)
         if nearby_shapes:
             hit = min(nearby_shapes, key=lambda info: info.distance)
         else:

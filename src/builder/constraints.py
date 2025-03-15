@@ -64,8 +64,6 @@ class Constraints:
 
     def refresh_constraint_after_updated_object(self):
         self.delete()
-        # self.get_attributes()
-        # self.restore_constrained_objects_and_anchors()
         self.create_body()
         self.create_sensor_shape()
         self.add_labels()
@@ -74,14 +72,6 @@ class Constraints:
 
     def delete(self):
         self.game.space.remove(self.body, self.sensor_shape)
-    
-    # def restore_constrained_objects_and_anchors(self):
-    #     constraints = self.game.state_stack[-1].manager.constraints
-    #     constraint_data = self.find_constraint_in_list(constraints,self)
-    #     _, self.obj1, self.obj1, self.anchor1, self.anchor2 = constraint_data
-
-    # def find_constraint_in_list(constraint_list, constraint):
-    #     return next((t for t in constraint_list if t[0] == constraint), None)
 
        
     def render(self, surface):

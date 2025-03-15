@@ -2,6 +2,7 @@ import pymunk.pygame_util
 import pygame as pg
 from pygame.locals import *
 import colorsys
+import math
 
 from settings import general_settings
 from settings.menu_settings import menu_map
@@ -59,8 +60,21 @@ class Objects:
         return (int(r_new * 255), int(g_new * 255), int(b_new * 255))
     
     def add_anchor_selection(self,p):
-        self.selected_anchor = self.body.world_to_local(p)
-        print(f"{self.selected_anchor=}")
+        local_p = self.body.world_to_local(p)
+        self.selected_anchor = self.snap_to_anchor_points(local_p)
+        print(f"{self.selected_anchor}")
+        
+    def snap_to_anchor_points(self, p):
+        snap_horizon = general_settings.snap_horizon
+        snap_points = self.anchor_snap_points()
+        closest = min(snap_points, key=lambda pt: self.distance(p,pt))
+        return p if self.distance(closest,p) > snap_horizon else closest
+
+    def distance(self, p1, p2):
+        return math.hypot(p1[0]-p2[0], p1[1] - p2[1])
+
+
+
 
     def clear_anchor_selection(self):
         self.selected_anchor = None
@@ -106,7 +120,7 @@ class Ball(Objects):
         self.draw_anchor_marker(surface)
 
     def anchor_snap_points(self):
-        pass
+        return [(0,0)]
 
     
       
