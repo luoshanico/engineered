@@ -45,6 +45,7 @@ class ComponentManager:
     def clear_selected_components(self):
         for component in self.selected_components:
             component.apply_deselected_color()
+            component.selected_anchor = None
         self.selected_components = []
 
     def apply_updated_attributes_to_selected_components(self):

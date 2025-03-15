@@ -57,8 +57,19 @@ class Objects:
         s *= fade_factor
         r_new, g_new, b_new = colorsys.hls_to_rgb(h, l, s)
         return (int(r_new * 255), int(g_new * 255), int(b_new * 255))
-
     
+    def add_anchor_selection(self,p):
+        self.selected_anchor = self.body.world_to_local(p)
+        print(f"{self.selected_anchor=}")
+
+    def clear_anchor_selection(self):
+        self.selected_anchor = None
+
+    def draw_anchor_marker(self, surface):
+        if self.selected_anchor:
+            world_anchor = self.body.local_to_world(self.selected_anchor)
+            pg.draw.circle(surface, general_settings.RED, (int(world_anchor.x),int(world_anchor.y)), 2)
+
     def update(self):
         pass
     
@@ -92,6 +103,10 @@ class Ball(Objects):
         pos = self.body.position
         radius = self.radius
         pg.draw.circle(surface, self.color, (int(pos.x), int(pos.y)), int(radius))
+        self.draw_anchor_marker(surface)
+
+    def anchor_snap_points(self):
+        pass
 
     
       

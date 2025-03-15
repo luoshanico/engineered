@@ -99,6 +99,9 @@ class Constraints:
     def apply_deselected_color(self):
         pass
 
+    def add_anchor_selection(self,p):
+        pass
+
 
 
 class DampedSpring(Constraints):

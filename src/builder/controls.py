@@ -27,10 +27,11 @@ class ComponentControls:
             self.grab_component()
 
     def handle_select_action(self):
-        hit, _ = self.get_hit_component_if_dynamic()
+        hit, p = self.get_hit_component_if_dynamic()
         if hit is not None:
             hit_component = getattr(hit.shape, 'owner', None)
             self.game.state_stack[-1].manager.select_component(hit_component)
+            hit_component.add_anchor_selection(p)
         else:
             self.game.state_stack[-1].manager.clear_selected_components()
     
