@@ -1,7 +1,6 @@
 import pymunk
 import pymunk.pygame_util
 import settings.general_settings
-from builder.objects import Ball
 
 class BuilderPhysics:
     def __init__(self, game):
@@ -12,7 +11,7 @@ class BuilderPhysics:
         self.add_bay2()
 
     def setup_space(self):
-        self.game.draw_options = pymunk.pygame_util.DrawOptions(self.game.surface)
+        
         self.game.space = pymunk.Space()
         self.game.space.gravity = 0, 2000
 

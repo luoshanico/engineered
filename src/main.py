@@ -7,6 +7,7 @@ import settings.menu_settings
 from states.main_menu import Title
 
 
+
 class Game():
     def __init__(self):
         pg.init()
@@ -17,7 +18,7 @@ class Game():
         self.clock = pg.time.Clock()
         self.FPS = settings.general_settings.FPS
         self.font = pg.font.Font(None, settings.menu_settings.fontsizes['title'])
-
+        
         self.state_stack = []
 
         self.load_assets()

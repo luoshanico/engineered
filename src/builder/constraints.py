@@ -55,7 +55,6 @@ class Constraints:
     def apply_updated_attributes(self):
         self.delete()
         self.get_attributes()
-        # self.restore_constrained_objects_and_anchors()
         self.create_body()
         self.create_sensor_shape()
         self.add_labels()
