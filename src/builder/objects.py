@@ -121,6 +121,64 @@ class Ball(Objects):
 
     def anchor_snap_points(self):
         return [(0,0)]
+    
+
+class Bar(Objects):          
+    def get_attributes(self):
+        self.attributes = tuple([float(inputs['input_field'].value) for inputs in menu_map['bar']['inputs']])
+        self.mass, self.length, self.thickness, self.elasticity, self.friction = self.attributes
+
+    def create_body(self):
+        self.size = self.length, self.thickness
+        self.moment = pymunk.moment_for_box(self.mass, self.size)
+        self.body = pymunk.Body(self.mass, self.moment)
+
+    def create_shape(self):
+        self.shape = pymunk.Segment(self.body, (0, self.length/2), (0, -self.length/2), self.thickness)
+        self.shape.elasticity = self.elasticity
+        self.shape.friction = self.friction
+        self.shape.collision_type = general_settings.OBJECT_CAT
+    
+    def add_labels(self):
+        self.component_type = 'object'
+        self.component_subtype = 'bar'
+        self.shape.owner = self  # Now when we hit shape with mouse we can identify the underlying object
+
+    def get_initial_color(self):
+        self.color = general_settings.BLACK
+    
+    def render(self, surface):
+        vertices = self.segment_to_poly()
+        # vertices = [v.rotated(self.body.angle) + self.body.position for v in vertices]
+        points = [(int(v.x), int(v.y)) for v in vertices]
+        pg.draw.polygon(surface, self.color, points)
+        self.draw_anchor_marker(surface)
+
+    def anchor_snap_points(self):
+        return [(0,0)]
+    
+    def segment_to_poly(self):
+        # Get endpoints in world coordinates.
+        A = self.shape.body.local_to_world(self.shape.a)
+        B = self.shape.body.local_to_world(self.shape.b)
+        r = self.shape.radius
+        
+        # Compute the normalized vector from A to B.
+        v = (B - A).normalized()
+        # Get a perpendicular vector.
+        p = pymunk.Vec2d(-v.y, v.x)
+        
+        # Compute four vertices representing a rectangle around the segment.
+        vertices = [
+            A - r * v + p * r,  # Top-left
+            B + r * v + p * r,  # Bottom-left
+            B + r * v - p * r,  # Bottom-right
+            A - r * v - p * r   # Top-right
+        ]
+        return vertices
+
+
+
 
     
       

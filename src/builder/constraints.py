@@ -8,8 +8,8 @@ class Constraints:
     def __init__(self, game, obj1, obj2):
         self.game = game
         self.get_constrained_objects(obj1, obj2)
-        self.get_attributes()
         self.get_anchors()
+        self.get_attributes()
         self.create_body()
         self.create_shape()
         self.add_labels()
@@ -92,7 +92,6 @@ class Constraints:
         pass
 
 
-
 class DampedSpring(Constraints):
     def get_attributes(self):
         self.attributes = tuple([float(inputs['input_field'].value) for inputs in menu_map['damped_spring']['inputs']])
@@ -111,6 +110,41 @@ class DampedSpring(Constraints):
     def add_labels(self):
         self.component_type = 'constraint'
         self.component_subtype = 'damped_spring'
+        self.shape.owner = self
+
+
+class PinJoint(Constraints):
+    def get_attributes(self):
+        pass
+
+    def create_body(self):
+        self.body = pymunk.PinJoint(
+            self.obj1.body,
+            self.obj2.body,
+            self.anchor1,
+            self.anchor2)
+
+    def add_labels(self):
+        self.component_type = 'constraint'
+        self.component_subtype = 'pin_joint'
+        self.shape.owner = self
+
+
+class PivotJoint(Constraints):
+    def get_attributes(self):
+        anchor_1_world = self.obj1.body.local_to_world(self.anchor1)
+        anchor_2_world = self.obj2.body.local_to_world(self.anchor2)
+        self.pivot_point = (anchor_2_world + anchor_1_world) // 2 
+
+    def create_body(self):
+        self.body = pymunk.PivotJoint(
+            self.obj1.body,
+            self.obj2.body,
+            self.pivot_point)
+
+    def add_labels(self):
+        self.component_type = 'constraint'
+        self.component_subtype = 'pivot_joint'
         self.shape.owner = self
 
     

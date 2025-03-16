@@ -20,13 +20,17 @@ class ComponentManager:
         print(f"{self.selected_components=}")
         if target == 'ball':
             self.components.append(objects.Ball(self.game))
-        elif target == 'rectangle':
-            self.components.append(objects.Rectangle(self.game))
+        elif target == 'bar':
+            self.components.append(objects.Bar(self.game))
         elif target == 'damped_spring':
             if len(self.selected_components) == 2:
                 self.components.append(constraints.DampedSpring(self.game, *self.selected_components))
-            else:
-                print("Select exactly two objects to link")
+        elif target == 'pin_joint':
+            if len(self.selected_components) == 2:
+                self.components.append(constraints.PinJoint(self.game, *self.selected_components))
+        elif target == 'pivot_joint':
+            if len(self.selected_components) == 2:
+                self.components.append(constraints.PivotJoint(self.game, *self.selected_components))
         else:
             print("Add object target not recognized:", target)
         self.clear_selected_components()

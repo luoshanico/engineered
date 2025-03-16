@@ -14,7 +14,7 @@ class BuilderWorld:
         self.width, self.height = settings.general_settings.RES
 
     def add_box(self):
-        self.box_thickness = 1
+        self.box_thickness = 5
         self.box_dims = [
             ((0, self.height),(self.width, self.height)),  # floor
             ((0, 0),(self.width, 0)),  # ceiling
