@@ -19,10 +19,16 @@ class BuilderPhysics:
         self.game.space.step(1 / self.game.FPS)
 
     def render(self):
+        self.remove_sensor_shapes_pre_render()
+        self.game.space.debug_draw(self.game.draw_options)
+        self.restore_sensor_shapes_post_render()
+
+    def remove_sensor_shapes_pre_render(self):
         for shape in self.game.space.shapes:
             if shape.sensor:
                 self.game.space.remove(shape)
-        self.game.space.debug_draw(self.game.draw_options)
+
+    def restore_sensor_shapes_post_render(self):
         for component in self.game.state_stack[-1].manager.components:
-            if component.component_type == 'constraint':
+            if component.shape.sensor:
                 self.game.space.add(component.shape)
