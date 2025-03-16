@@ -146,5 +146,4 @@ class PivotJoint(Constraints):
         self.component_type = 'constraint'
         self.component_subtype = 'pivot_joint'
         self.shape.owner = self
-
     

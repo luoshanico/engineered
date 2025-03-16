@@ -31,8 +31,9 @@ menu_map = {
         'buttons': [
             {'action': 'add', 'target': 'ball', 'button': None, 'text': 'Add ball', 'position': 0, 'condition':0},
             {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1, 'condition':2},
-            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 2, 'condition':1},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 3, 'condition':0}
+            {'action': 'add', 'target': 'pin', 'button': None, 'text': 'Pin', 'position': 2, 'condition':1},
+            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 3, 'condition':1},
+            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 4, 'condition':0}
         ],
         'inputs': [
             {'input':'mass','default_value':1 ,'entry': 'simple', 'position': 0, 'input_field': None},
@@ -47,8 +48,9 @@ menu_map = {
         'buttons': [
             {'action': 'add', 'target': 'bar', 'button': None, 'text': 'Add bar', 'position': 0, 'condition':0},
             {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1, 'condition':2},
-            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 2, 'condition':1},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 3, 'condition':0}
+            {'action': 'add', 'target': 'pin', 'button': None, 'text': 'Pin', 'position': 2, 'condition':1},
+            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 3, 'condition':1},
+            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 4, 'condition':0}
         ],
         'inputs': [
             {'input':'mass','default_value':1 ,'entry': 'simple', 'position': 0, 'input_field': None},

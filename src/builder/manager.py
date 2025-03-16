@@ -1,5 +1,6 @@
 from builder import objects
 from builder import constraints
+from builder import pins
 
 class ComponentManager:
     def __init__(self,game):
@@ -7,6 +8,7 @@ class ComponentManager:
         self.components = []
         self.selected_components = []
         self.constraints = []
+        self.pins = []
 
     def render(self):
         for component in self.components:
@@ -22,6 +24,8 @@ class ComponentManager:
             self.components.append(objects.Ball(self.game))
         elif target == 'bar':
             self.components.append(objects.Bar(self.game))
+        elif target == 'pin':
+            self.pin_selected_objects()
         elif target == 'damped_spring':
             if len(self.selected_components) == 2:
                 self.components.append(constraints.DampedSpring(self.game, *self.selected_components))
@@ -35,6 +39,10 @@ class ComponentManager:
             print("Add object target not recognized:", target)
         self.clear_selected_components()
     
+    def pin_selected_objects(self):
+        for component in self.selected_components:
+            if component.component_type == 'object':
+                self.components.append(pins.Pins(self.game, component))
     
     def render(self):
         for object in self.components:
@@ -69,6 +77,9 @@ class ComponentManager:
 
     def store_constraint(self, constraint, obj1, obj2, anchor1, anchor2):
         self.constraints.append((constraint, obj1, obj2, anchor1, anchor2))
+
+    def store_pin(self, pin, obj, anchor):
+        self.pins.append((pin, obj, anchor))
 
     def delete_selected_components(self):
         for component in self.selected_components:
