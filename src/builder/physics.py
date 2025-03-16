@@ -69,4 +69,4 @@ class BuilderPhysics:
         self.game.space.debug_draw(self.game.draw_options)
         for component in self.game.state_stack[-1].manager.components:
             if component.component_type == 'constraint':
-                self.game.space.add(component.sensor_shape)
+                self.game.space.add(component.shape)

@@ -11,7 +11,7 @@ class Constraints:
         self.get_attributes()
         self.get_anchors()
         self.create_body()
-        self.create_sensor_shape()
+        self.create_shape()
         self.add_labels()
         self.add_body_to_space()
         self.add_shape_to_space()
@@ -25,23 +25,23 @@ class Constraints:
         self.anchor1 = self.obj1.selected_anchor
         self.anchor2 = self.obj2.selected_anchor
 
-    def create_sensor_shape(self):
+    def create_shape(self):
         anchor2_rel_obj1 = self.get_anchor2_rel_obj1()
-        self.sensor_shape = pymunk.Segment(self.obj1.body, self.anchor1, anchor2_rel_obj1, 10)
-        self.sensor_shape.sensor = True
+        self.shape = pymunk.Segment(self.obj1.body, self.anchor1, anchor2_rel_obj1, 10)
+        self.shape.sensor = True
     
     def get_anchor2_rel_obj1(self):       
         anchor2_world = self.obj2.body.local_to_world(self.anchor2)
         return self.obj1.body.world_to_local(anchor2_world)
 
-    def delete_sensor_shape(self):
-        self.game.space.remove(self.sensor_shape)
+    def delete_shape(self):
+        self.game.space.remove(self.shape)
 
     def add_body_to_space(self):
         self.game.space.add(self.body)
 
     def add_shape_to_space(self):
-        self.game.space.add(self.sensor_shape)
+        self.game.space.add(self.shape)
 
     def add_constraint_to_manager(self):
         self.game.state_stack[-1].manager.store_constraint(
@@ -56,7 +56,7 @@ class Constraints:
         self.delete()
         self.get_attributes()
         self.create_body()
-        self.create_sensor_shape()
+        self.create_shape()
         self.add_labels()
         self.add_body_to_space()
         self.add_shape_to_space()
@@ -64,18 +64,18 @@ class Constraints:
     def refresh_constraint_after_updated_object(self):
         self.delete()
         self.create_body()
-        self.create_sensor_shape()
+        self.create_shape()
         self.add_labels()
         self.add_body_to_space()
         self.add_shape_to_space()
 
     def delete(self):
-        self.game.space.remove(self.body, self.sensor_shape)
+        self.game.space.remove(self.body, self.shape)
 
        
     def render(self, surface):
-        self.delete_sensor_shape()
-        self.create_sensor_shape()
+        self.delete_shape()
+        self.create_shape()
         self.add_labels()
         self.add_shape_to_space()
 
@@ -111,6 +111,6 @@ class DampedSpring(Constraints):
     def add_labels(self):
         self.component_type = 'constraint'
         self.component_subtype = 'damped_spring'
-        self.sensor_shape.owner = self
+        self.shape.owner = self
 
     
