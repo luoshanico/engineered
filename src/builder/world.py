@@ -5,48 +5,35 @@ import settings.general_settings
 class BuilderWorld:
     def __init__(self, game):
         self.game = game
-        self.add_ground()
-        self.add_bay1()
-        self.add_bay2()       
+        self.get_settings()
+        self.add_box()    
 
-    def add_ground(self):
+    def get_settings(self):
+        self.elasticity = 0.8
+        self.friction = 0.2
+        self.width, self.height = settings.general_settings.RES
+
+    def add_box(self):
+        self.box_thickness = 1
+        self.box_dims = [
+            ((0, self.height),(self.width, self.height)),  # floor
+            ((0, 0),(self.width, 0)),  # ceiling
+            ((self.width, 0),(self.width, self.height)),  # right wall
+            ((0, 0),(0, self.height)),  # left wall
+            ]
+        for dims in self.box_dims:
+            self.add_box_side(dims)
+
+    def add_box_side(self,dims):
         segment = pymunk.Segment(
             self.game.space.static_body,
-            (0, settings.general_settings.HEIGHT),
-            (settings.general_settings.RES),
-            20
+            *dims,
+            self.box_thickness
             )
-        segment.elasticity = settings.general_settings.world['elasticity']
-        segment.friction = settings.general_settings.world['friction']
+        segment.elasticity = self.elasticity
+        segment.friction = self.friction
         segment.collision_type = settings.general_settings.WORLD_CAT
         self.game.space.add(segment)
-
-    def add_bay1(self):
-        segment = pymunk.Segment(
-            self.game.space.static_body,
-            (settings.general_settings.bay1['width'], settings.general_settings.HEIGHT-20),
-            (settings.general_settings.bay1['width'],settings.general_settings.HEIGHT-settings.general_settings.bay1['height']),
-            10
-            )
-        segment.elasticity = settings.general_settings.world['elasticity']
-        segment.friction = settings.general_settings.world['friction']
-        segment.collision_type = settings.general_settings.WORLD_CAT
-        self.game.space.add(segment)
-        self.game.draw_text(self.game.surface, "LOADING BAY", settings.general_settings.RED, 200, 200)
-
-    def add_bay2(self):
-        segment = pymunk.Segment(
-            self.game.space.static_body,
-            (settings.general_settings.bay2['width'], settings.general_settings.HEIGHT-20),
-            (settings.general_settings.bay2['width'],settings.general_settings.HEIGHT-settings.general_settings.bay2['height']),
-            10
-            )
-        segment.elasticity = settings.general_settings.world['elasticity']
-        segment.friction = settings.general_settings.world['friction']
-        segment.collision_type = settings.general_settings.WORLD_CAT
-        self.game.space.add(segment)
-        self.game.draw_text(self.game.surface, "LOADING BAY", settings.general_settings.RED, 200, 200)
-
 
     def get_events(self,event):
         pass
