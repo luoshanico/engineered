@@ -64,8 +64,9 @@ class ComponentManager:
                     component.apply_updated_attributes()
                     if component.component_type == 'object':
                         constraint_data = self.find_components_constraint_data(component)
-                        constraint = constraint_data[0]
-                        constraint.refresh_constraint_after_updated_object()
+                        for data in constraint_data:
+                            constraint = data[0]
+                            constraint.refresh_constraint_after_updated_object()
 
 
     def store_constraint(self, constraint, obj1, obj2, anchor1, anchor2):
@@ -86,19 +87,15 @@ class ComponentManager:
         constraint_data = self.find_components_constraint_data(component)
         if constraint_data:
             if component.component_type == 'constraint':  # remove constraint from constraint listing
-                self.constraints.remove(constraint_data)
+                for data in constraint_data:
+                    self.constraints.remove(data)
             elif component.component_type == 'object':  # delete constraint
-                constraint = constraint_data[0]
-                self.delete_component(constraint)
+                for data in constraint_data:
+                    constraint = data[0]
+                    self.delete_component(constraint)
 
     def find_components_constraint_data(self,component):
-        constraint_data = next((c for c in self.constraints if c[0] == component), None)
-        if not constraint_data:
-            constraint_data = next((c for c in self.constraints if c[1] == component), None)
-        if not constraint_data:
-            constraint_data = next((c for c in self.constraints if c[2] == component), None)
-        return constraint_data
-
+        return [c for c in self.constraints if c[0] == component or c[1] == component or c[2] == component]
 
 
 
