@@ -4,6 +4,7 @@ from builder.menu import BuilderMenu
 from builder.physics import BuilderPhysics 
 from builder.manager import ComponentManager
 from builder.controls import ComponentControls
+from builder.world import BuilderWorld
 
 
 class Builder(State):
@@ -11,6 +12,7 @@ class Builder(State):
         State.__init__(self, game)
         self.menu = BuilderMenu(game)
         self.physics = BuilderPhysics(game)
+        self.world = BuilderWorld(game)
         self.controls = ComponentControls(game)
         self.manager = ComponentManager(game)
         
