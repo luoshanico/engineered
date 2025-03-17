@@ -1,6 +1,7 @@
 from builder import objects
 from builder import constraints
 from builder import pins
+from builder import motors
 
 class ComponentManager:
     def __init__(self,game):
@@ -25,7 +26,7 @@ class ComponentManager:
         elif target == 'bar':
             self.components.append(objects.Bar(self.game))
         elif target == 'motor':
-            self.components.append(objects.Motor(self.game))
+            self.add_motor()
         elif target == 'pin':
             self.add_pin()
         elif target == 'damped_spring':
@@ -41,6 +42,11 @@ class ComponentManager:
             print("Add object target not recognized:", target)
         self.clear_selected_components()
     
+    def add_motor(self):
+        for component in self.selected_components:
+            if component.component_type == 'object':
+                self.components.append(motors.Motor(self.game,component))
+
     def add_pin(self, component, p):
         if component.component_type == 'object':
             self.components.append(pins.Pins(self.game, component, p))

@@ -185,5 +185,8 @@ class Bar(Objects):
              ]
         end_points_local = [self.body.world_to_local(p) for p in end_points]
         return end_points_local
+    
+
+
 
 

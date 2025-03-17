@@ -30,6 +30,6 @@ class BuilderPhysics:
 
     def restore_sensor_shapes_post_render(self):
         for component in self.game.state_stack[-1].manager.components:
-            if component.component_type != 'pin':
+            if component.component_type == 'constraint':
                 if component.shape.sensor:
                     self.game.space.add(component.shape)

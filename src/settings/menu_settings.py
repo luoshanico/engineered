@@ -67,7 +67,7 @@ menu_map = {
     'motor': {
         'active': False,
         'buttons': [
-            {'action': 'add', 'target': 'motor', 'button': None, 'text': 'Add motor', 'position': 0, 'condition':6},
+            {'action': 'add', 'target': 'motor', 'button': None, 'text': 'Add motor', 'position': 0, 'condition':1},
             {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1, 'condition':2},
             {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 2, 'condition':1},
             {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 3, 'condition':0},
@@ -75,7 +75,7 @@ menu_map = {
             {'action': 'delete_selected_pins', 'target': None, 'button': None, 'text': 'Delete pins', 'position': 5, 'condition':5}
         ],
         'inputs': [
-            {'input':'rmp','default_value':5 ,'entry': 'simple', 'position': 0, 'input_field': None},
+            {'input':'rpm','default_value':5 ,'entry': 'simple', 'position': 0, 'input_field': None},
             {'input':'max_force','default_value':50 ,'entry': 'simple', 'position': 1, 'input_field': None}
         ]   
     },
@@ -118,7 +118,8 @@ button_locations = [
     (160, 40, 120, 30),
     (300, 40, 120, 30),
     (440, 40, 120, 30),
-    (580, 40, 120, 30)
+    (580, 40, 120, 30),
+    (720, 40, 120, 30)
 ]
 
 input_locations = [

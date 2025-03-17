@@ -1,7 +1,5 @@
 import pymunk.pygame_util
-import pygame as pg
 from pygame.locals import *
-from settings import general_settings
 from settings.menu_settings import menu_map
 
 class Constraints:
