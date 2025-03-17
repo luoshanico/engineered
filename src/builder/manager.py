@@ -24,6 +24,8 @@ class ComponentManager:
             self.components.append(objects.Ball(self.game))
         elif target == 'bar':
             self.components.append(objects.Bar(self.game))
+        elif target == 'motor':
+            self.components.append(objects.Motor(self.game))
         elif target == 'pin':
             self.add_pin()
         elif target == 'damped_spring':
@@ -107,7 +109,7 @@ class ComponentManager:
         for component in self.selected_components:
             if component.component_type == 'object':
                 self.remove_constraints(component)
-        
+
     def remove_constraints(self,component):
         constraint_data = self.find_components_constraint_data(component)
         if constraint_data:

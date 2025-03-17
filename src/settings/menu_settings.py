@@ -31,10 +31,11 @@ menu_map = {
         'buttons': [
             {'action': 'add', 'target': 'ball', 'button': None, 'text': 'Add ball', 'position': 0, 'condition':0},
             {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1, 'condition':2},
-            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 2, 'condition':1},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 3, 'condition':0},
-            {'action': 'delete_constraints', 'target': None, 'button': None, 'text': 'Delete constraints', 'position': 4, 'condition':4},
-            {'action': 'delete_selected_pins', 'target': None, 'button': None, 'text': 'Delete pins', 'position': 5, 'condition':5}
+            {'action': 'nav', 'target': 'motor', 'button': None, 'text': 'Add motor', 'position': 2, 'condition':1},
+            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 3, 'condition':1},
+            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 4, 'condition':0},
+            {'action': 'delete_constraints', 'target': None, 'button': None, 'text': 'Delete constraints', 'position': 5, 'condition':4},
+            {'action': 'delete_selected_pins', 'target': None, 'button': None, 'text': 'Delete pins', 'position': 6, 'condition':5}
         ],
         'inputs': [
             {'input':'mass','default_value':1 ,'entry': 'simple', 'position': 0, 'input_field': None},
@@ -49,10 +50,11 @@ menu_map = {
         'buttons': [
             {'action': 'add', 'target': 'bar', 'button': None, 'text': 'Add bar', 'position': 0, 'condition':0},
             {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1, 'condition':2},
-            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 2, 'condition':1},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 3, 'condition':0},
-            {'action': 'delete_constraints', 'target': None, 'button': None, 'text': 'Delete constraints', 'position': 4, 'condition':4},
-            {'action': 'delete_selected_pins', 'target': None, 'button': None, 'text': 'Delete pins', 'position': 5, 'condition':5}
+            {'action': 'nav', 'target': 'motor', 'button': None, 'text': 'Add motor', 'position': 2, 'condition':1},
+            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 3, 'condition':1},
+            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 4, 'condition':0},
+            {'action': 'delete_constraints', 'target': None, 'button': None, 'text': 'Delete constraints', 'position': 5, 'condition':4},
+            {'action': 'delete_selected_pins', 'target': None, 'button': None, 'text': 'Delete pins', 'position': 6, 'condition':5}
         ],
         'inputs': [
             {'input':'mass','default_value':1 ,'entry': 'simple', 'position': 0, 'input_field': None},
@@ -60,6 +62,21 @@ menu_map = {
             {'input':'elasticity','default_value':0.9 ,'entry': 'simple', 'position': 2, 'input_field': None},
             {'input':'friction','default_value':0.3,'entry': 'simple', 'position': 3, 'input_field': None}
             # {'input':'colour', 'default value': 'Black','entry': 'dropdown', 'position': 4, 'input_field': None}
+        ]   
+    },
+    'motor': {
+        'active': False,
+        'buttons': [
+            {'action': 'add', 'target': 'motor', 'button': None, 'text': 'Add motor', 'position': 0, 'condition':6},
+            {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1, 'condition':2},
+            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 2, 'condition':1},
+            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 3, 'condition':0},
+            {'action': 'delete_constraints', 'target': None, 'button': None, 'text': 'Delete constraints', 'position': 4, 'condition':4},
+            {'action': 'delete_selected_pins', 'target': None, 'button': None, 'text': 'Delete pins', 'position': 5, 'condition':5}
+        ],
+        'inputs': [
+            {'input':'rmp','default_value':5 ,'entry': 'simple', 'position': 0, 'input_field': None},
+            {'input':'max_force','default_value':50 ,'entry': 'simple', 'position': 1, 'input_field': None}
         ]   
     },
     'damped_spring': {

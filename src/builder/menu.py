@@ -45,7 +45,7 @@ class BuilderMenu:
         elif condition == 4:
             return self.check_if_at_least_one_constraint_in_selected_components() 
         elif condition == 5:
-            return self.check_if_at_least_one_pin_in_selected_components() 
+            return self.check_if_at_least_one_pin_in_selected_components()
 
 
     def check_if_at_least_one_component_selected(self):
@@ -66,8 +66,6 @@ class BuilderMenu:
         selected_components = self.game.state_stack[-1].manager.selected_components
         pins = self.game.state_stack[-1].manager.pins
         return any(pin for pin in pins for component in selected_components if component == pin[1])
-
-            
 
     
     def render_button(self,btn):
