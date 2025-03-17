@@ -43,10 +43,11 @@ class BuilderMenu:
         elif condition == 3:
             return self.check_if_at_least_one_pin_exists()
         elif condition == 4:
+            return self.check_if_at_least_one_constraint_in_selected_components() 
+        elif condition == 5:
             return self.check_if_at_least_one_pin_in_selected_components() 
 
-            
-            
+
     def check_if_at_least_one_component_selected(self):
         return True if len(self.game.state_stack[-1].manager.selected_components) > 0 else False
         
@@ -55,6 +56,11 @@ class BuilderMenu:
         
     def check_if_at_least_one_pin_exists(self):
         return True if len(self.game.state_stack[-1].manager.pins) > 0 else False
+    
+    def check_if_at_least_one_constraint_in_selected_components(self):
+        selected_components = self.game.state_stack[-1].manager.selected_components
+        constraints = self.game.state_stack[-1].manager.constraints
+        return any(c for c in constraints for component in selected_components if component == c[1] or component == c[2])
     
     def check_if_at_least_one_pin_in_selected_components(self):
         selected_components = self.game.state_stack[-1].manager.selected_components
@@ -138,6 +144,8 @@ class BuilderMenu:
                     self.perform_add(target)
                 elif action == 'delete':
                     self.perform_delete()
+                elif action == 'delete_constraints':
+                    self.perform_delete_constraints()
                 elif action == 'delete_all_pins':
                     self.delete_all_pins()
                 elif action == 'delete_selected_pins':
@@ -159,6 +167,9 @@ class BuilderMenu:
         
     def perform_delete(self):
         self.game.state_stack[-1].manager.delete_selected_components()
+
+    def perform_delete_constraints(self):
+        self.game.state_stack[-1].manager.delete_constraints_from_selected_objects()
     
     def delete_all_pins(self):
         self.game.state_stack[-1].manager.delete_all_pins()

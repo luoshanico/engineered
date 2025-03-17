@@ -67,6 +67,7 @@ class Objects:
     def snap_to_anchor_points(self, p):
         snap_horizon = general_settings.snap_horizon
         snap_points = self.anchor_snap_points()
+        print(f"{snap_points=}")
         closest = min(snap_points, key=lambda pt: self.distance(p,pt))
         return p if self.distance(closest,p) > snap_horizon else closest
 
@@ -123,15 +124,16 @@ class Ball(Objects):
 class Bar(Objects):          
     def get_attributes(self):
         self.attributes = tuple([float(inputs['input_field'].value) for inputs in menu_map['bar']['inputs']])
-        self.mass, self.length, self.thickness, self.elasticity, self.friction = self.attributes
+        self.mass, self.length, self.elasticity, self.friction = self.attributes
 
     def create_body(self):
+        self.thickness = 10
         self.size = self.length, self.thickness
         self.moment = pymunk.moment_for_box(self.mass, self.size)
         self.body = pymunk.Body(self.mass, self.moment)
 
     def create_shape(self):
-        self.shape = pymunk.Segment(self.body, (0, self.length/2), (0, -self.length/2), self.thickness)
+        self.shape = pymunk.Segment(self.body, (0, self.length//2), (0, -self.length//2), self.thickness//2)
         self.shape.elasticity = self.elasticity
         self.shape.friction = self.friction
         self.shape.collision_type = general_settings.OBJECT_CAT
@@ -152,7 +154,7 @@ class Bar(Objects):
         self.draw_anchor_marker(surface)
 
     def anchor_snap_points(self):
-        return [(0,0)]
+        return [(0,0), *self.end_points()]
     
     def segment_to_poly(self):
         # Get endpoints in world coordinates.
@@ -169,37 +171,19 @@ class Bar(Objects):
         vertices = [
             A - r * v + p * r,  # Top-left
             B + r * v + p * r,  # Bottom-left
-            B + r * v - p * r,  # Bottom-right
-            A - r * v - p * r   # Top-right
+            B + r * v - p * r,   # Bottom-right
+            A - r * v - p * r  # Top-right
+            
         ]
         return vertices
-
-
-
-
     
-      
-        
+    def end_points(self):
+        vertices = self.segment_to_poly()
+        end_points = [
+            (vertices[0] + vertices[3]) // 2,
+            (vertices[1] + vertices[2]) // 2            
+             ]
+        end_points_local = [self.body.world_to_local(p) for p in end_points]
+        return end_points_local
 
 
-class Rectangle:
-    def __init__(self, game):
-        self.pos = (general_settings.bay1['width'] // 2, 250)
-        self.size = self.width, self.height = 20,60
-        self.mass = 1
-        self.moment = pymunk.moment_for_box(self.mass, self.size)
-        self.body = pymunk.Body(self.mass, self.moment)
-        self.body.position = self.pos
-        self.body.angle = 0
-        self.shape = pymunk.Poly.create_box(self.body, self.size)
-        self.shape.elasticity = 0.8
-        self.shape.friction = 0.5
-        self.color = general_settings.RED
-        self.shape.collision_type = general_settings.OBJECT_CAT
-        game.space.add(self.body, self.shape)
-
-    def render(self, surface):
-        vertices = self.shape.get_vertices()
-        vertices = [v.rotated(self.body.angle) + self.body.position for v in vertices]
-        points = [(int(v.x), int(v.y)) for v in vertices]
-        pg.draw.polygon(surface, self.color, points)

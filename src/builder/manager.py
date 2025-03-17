@@ -61,17 +61,28 @@ class ComponentManager:
 
     def apply_updated_attributes_to_selected_components(self):
         if len(self.selected_components) > 0:
-            lastly_selected_component_subtype = self.selected_components[-1].component_subtype
+            updated_subtype = self.selected_components[-1].component_subtype
             for component in self.selected_components:
-                if component.component_subtype == lastly_selected_component_subtype:  
-                    # e.g. if the last item I selected was a ball then update all selected balls
-                    # but do not update any selected springs or update any unselected balls
+                if component.component_subtype == updated_subtype:  # only update same subtype
                     component.apply_updated_attributes()
-                    if component.component_type == 'object':
-                        constraint_data = self.find_components_constraint_data(component)
-                        for data in constraint_data:
-                            constraint = data[0]
-                            constraint.refresh_constraint_after_updated_object()
+                    self.refresh_constraints(component)
+                    self.refresh_pins(component)
+                    
+                    
+                    
+    def refresh_constraints(self,component):
+        if component.component_type == 'object':
+            constraint_data = self.find_components_constraint_data(component)
+            for data in constraint_data:
+                constraint = data[0]
+                constraint.refresh_constraint_after_updated_object()
+
+    def refresh_pins(self,component):
+        if component.component_type == 'object':
+            pin_data = [pins for pins in self.pins if pins[1]==component]
+            for data in pin_data:
+                pin = data[0]
+                pin.refresh_pin_after_updated_object()
 
 
     def store_constraint(self, constraint, obj1, obj2, anchor1, anchor2):
@@ -92,6 +103,11 @@ class ComponentManager:
         self.remove_constraints(component)
         self.delete_pins_from_component(component)
     
+    def delete_constraints_from_selected_objects(self):
+        for component in self.selected_components:
+            if component.component_type == 'object':
+                self.remove_constraints(component)
+        
     def remove_constraints(self,component):
         constraint_data = self.find_components_constraint_data(component)
         if constraint_data:
