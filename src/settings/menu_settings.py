@@ -35,7 +35,8 @@ menu_map = {
             {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 3, 'condition':1},
             {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 4, 'condition':0},
             {'action': 'delete_constraints', 'target': None, 'button': None, 'text': 'Delete constraints', 'position': 5, 'condition':4},
-            {'action': 'delete_selected_pins', 'target': None, 'button': None, 'text': 'Delete pins', 'position': 6, 'condition':5}
+            {'action': 'delete_selected_pins', 'target': None, 'button': None, 'text': 'Delete pins', 'position': 6, 'condition':5},
+            {'action': 'delete_selected_motors', 'target': None, 'button': None, 'text': 'Delete motor', 'position': 7, 'condition':6}
         ],
         'inputs': [
             {'input':'mass','default_value':1 ,'entry': 'simple', 'position': 0, 'input_field': None},
@@ -54,7 +55,8 @@ menu_map = {
             {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 3, 'condition':1},
             {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 4, 'condition':0},
             {'action': 'delete_constraints', 'target': None, 'button': None, 'text': 'Delete constraints', 'position': 5, 'condition':4},
-            {'action': 'delete_selected_pins', 'target': None, 'button': None, 'text': 'Delete pins', 'position': 6, 'condition':5}
+            {'action': 'delete_selected_pins', 'target': None, 'button': None, 'text': 'Delete pins', 'position': 6, 'condition':5},
+            {'action': 'delete_selected_motors', 'target': None, 'button': None, 'text': 'Delete motor', 'position': 7, 'condition':6}
         ],
         'inputs': [
             {'input':'mass','default_value':1 ,'entry': 'simple', 'position': 0, 'input_field': None},
@@ -75,7 +77,7 @@ menu_map = {
             {'action': 'delete_selected_pins', 'target': None, 'button': None, 'text': 'Delete pins', 'position': 5, 'condition':5}
         ],
         'inputs': [
-            {'input':'rpm','default_value':5 ,'entry': 'simple', 'position': 0, 'input_field': None},
+            {'input':'rpm','default_value':100 ,'entry': 'simple', 'position': 0, 'input_field': None},
             {'input':'max_force','default_value':50 ,'entry': 'simple', 'position': 1, 'input_field': None}
         ]   
     },
@@ -114,20 +116,23 @@ menu_map = {
 }
 
 button_locations = [
-    (20, 40, 120, 30),
-    (160, 40, 120, 30),
-    (300, 40, 120, 30),
-    (440, 40, 120, 30),
-    (580, 40, 120, 30),
-    (720, 40, 120, 30)
+    (20, 40, 100, 30),
+    (140, 40, 100, 30),
+    (260, 40, 100, 30),
+    (380, 40, 100, 30),
+    (500, 40, 100, 30),
+    (620, 40, 100, 30),
+    (740, 40, 100, 30),
+    (860, 40, 100, 30)
+
 ]
 
 input_locations = [
-    (20, 80, 120, 30),
-    (160, 80, 120, 30),
-    (300, 80, 120, 30),
-    (440, 80, 120, 30),
-    (580, 80, 120, 30)
+    (20, 80, 100, 30),
+    (140, 80, 100, 30),
+    (260, 80, 100, 30),
+    (380, 80, 100, 30),
+    (500, 80, 100, 30)
 ]
 
 fontsizes = {

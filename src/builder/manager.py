@@ -10,6 +10,7 @@ class ComponentManager:
         self.selected_components = []
         self.constraints = []
         self.pins = []
+        self.motors = []
 
     def render(self):
         for component in self.components:
@@ -75,6 +76,7 @@ class ComponentManager:
                     component.apply_updated_attributes()
                     self.refresh_constraints(component)
                     self.refresh_pins(component)
+                    self.refresh_motors(component)
                     
                     
                     
@@ -92,12 +94,22 @@ class ComponentManager:
                 pin = data[0]
                 pin.refresh_pin_after_updated_object()
 
+    def refresh_motors(self,component):
+        if component.component_type == 'object':
+            motor_data = [motors for motors in self.motors if motors[1]==component]
+            for data in motor_data:
+                motor = data[0]
+                motor.refresh_motor_after_updated_object()
+
 
     def store_constraint(self, constraint, obj1, obj2, anchor1, anchor2):
         self.constraints.append((constraint, obj1, obj2, anchor1, anchor2))
 
     def store_pin(self, pin, obj, anchor):
         self.pins.append((pin, obj, anchor))
+
+    def store_motor(self, motor, obj):
+        self.motors.append((motor, obj))
 
     def delete_selected_components(self):
         for component in self.selected_components:
@@ -110,6 +122,7 @@ class ComponentManager:
         self.components.remove(component)
         self.remove_constraints(component)
         self.delete_pins_from_component(component)
+        self.delete_motors_from_component(component)
     
     def delete_constraints_from_selected_objects(self):
         for component in self.selected_components:
@@ -136,9 +149,6 @@ class ComponentManager:
             for data in pin_data:
                 pin = data[0]
                 self.delete_component(pin)
-                print(f"{self.pins=}")
-                print(f"{pin_data=}")
-                print(f"{pin=}")
                 self.pins.remove(data)
 
     def delete_all_pins(self):
@@ -150,6 +160,19 @@ class ComponentManager:
     def delete_selected_pins(self):
         for component in self.selected_components:
             self.delete_pins_from_component(component)
+
+    def delete_motors_from_component(self,component):
+        motor_data = [m for m in self.motors if m[1] == component]
+        if motor_data:
+            for data in motor_data:
+                motor = data[0]
+                self.delete_component(motor)
+                self.motors.remove(data)
+
+    def delete_selected_motors(self):
+        for component in self.selected_components:
+            self.delete_motors_from_component(component)
+
 
 
 

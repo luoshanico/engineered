@@ -46,6 +46,8 @@ class BuilderMenu:
             return self.check_if_at_least_one_constraint_in_selected_components() 
         elif condition == 5:
             return self.check_if_at_least_one_pin_in_selected_components()
+        elif condition == 6:
+            return self.check_if_motor_exists_for_selected_object()
 
 
     def check_if_at_least_one_component_selected(self):
@@ -66,6 +68,11 @@ class BuilderMenu:
         selected_components = self.game.state_stack[-1].manager.selected_components
         pins = self.game.state_stack[-1].manager.pins
         return any(pin for pin in pins for component in selected_components if component == pin[1])
+    
+    def check_if_motor_exists_for_selected_object(self):
+        selected_components = self.game.state_stack[-1].manager.selected_components
+        motors = self.game.state_stack[-1].manager.motors
+        return any(motor for motor in motors for component in selected_components if component == motor[1])
 
     
     def render_button(self,btn):
@@ -148,6 +155,8 @@ class BuilderMenu:
                     self.delete_all_pins()
                 elif action == 'delete_selected_pins':
                     self.delete_selected_pins()
+                elif action == 'delete_selected_motors':
+                    self.delete_selected_motors()
                 break
 
     def navigate_to(self, target):
@@ -174,6 +183,9 @@ class BuilderMenu:
 
     def delete_selected_pins(self):
         self.game.state_stack[-1].manager.delete_selected_pins()
+
+    def delete_selected_motors(self):
+        self.game.state_stack[-1].manager.delete_selected_motors()    
 
     def load_selected_component_menu(self,component):
         self.navigate_to(component.component_subtype)
