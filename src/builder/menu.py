@@ -34,18 +34,33 @@ class BuilderMenu:
                     
     def button_condition_to_render(self,btn):
         condition = btn.get('condition')
-        if condition == 0:  # no condition ,always display
-            return True
-        elif condition == 1:  # display if components selected
-            if len(self.game.state_stack[-1].manager.selected_components) > 0:
-                return True
-            else:
-                return False
-        elif condition == 2:  # display if exactly 2 objects selected (for adding constraints)
-            if len(self.game.state_stack[-1].manager.selected_components) == 2:
-                return True
-            else:
-                return False 
+        if condition == 0: 
+            return True  # always display
+        elif condition == 1:
+            return self.check_if_at_least_one_component_selected()
+        elif condition == 2: 
+            return self.check_if_exactly_two_components_selected()
+        elif condition == 3:
+            return self.check_if_at_least_one_pin_exists()
+        elif condition == 4:
+            return self.check_if_at_least_one_pin_in_selected_components() 
+
+            
+            
+    def check_if_at_least_one_component_selected(self):
+        return True if len(self.game.state_stack[-1].manager.selected_components) > 0 else False
+        
+    def check_if_exactly_two_components_selected(self):
+        return True if len(self.game.state_stack[-1].manager.selected_components) == 2 else False
+        
+    def check_if_at_least_one_pin_exists(self):
+        return True if len(self.game.state_stack[-1].manager.pins) > 0 else False
+    
+    def check_if_at_least_one_pin_in_selected_components(self):
+        selected_components = self.game.state_stack[-1].manager.selected_components
+        pins = self.game.state_stack[-1].manager.pins
+        return any(pin for pin in pins for component in selected_components if component == pin[1])
+
             
 
     
@@ -123,6 +138,10 @@ class BuilderMenu:
                     self.perform_add(target)
                 elif action == 'delete':
                     self.perform_delete()
+                elif action == 'delete_all_pins':
+                    self.delete_all_pins()
+                elif action == 'delete_selected_pins':
+                    self.delete_selected_pins()
                 break
 
     def navigate_to(self, target):
@@ -140,6 +159,12 @@ class BuilderMenu:
         
     def perform_delete(self):
         self.game.state_stack[-1].manager.delete_selected_components()
+    
+    def delete_all_pins(self):
+        self.game.state_stack[-1].manager.delete_all_pins()
+
+    def delete_selected_pins(self):
+        self.game.state_stack[-1].manager.delete_selected_pins()
 
     def load_selected_component_menu(self,component):
         self.navigate_to(component.component_subtype)

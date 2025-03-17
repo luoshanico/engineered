@@ -90,7 +90,7 @@ class ComponentManager:
         component.delete()
         self.components.remove(component)
         self.remove_constraints(component)
-        self.remove_pins(component)
+        self.delete_pins_from_component(component)
     
     def remove_constraints(self,component):
         constraint_data = self.find_components_constraint_data(component)
@@ -106,12 +106,27 @@ class ComponentManager:
     def find_components_constraint_data(self,component):
         return [c for c in self.constraints if c[0] == component or c[1] == component or c[2] == component]
     
-    def remove_pins(self,component):
+    def delete_pins_from_component(self,component):
         pin_data = [p for p in self.pins if p[1] == component]
         if pin_data:
             for data in pin_data:
                 pin = data[0]
                 self.delete_component(pin)
+                print(f"{self.pins=}")
+                print(f"{pin_data=}")
+                print(f"{pin=}")
+                self.pins.remove(data)
+
+    def delete_all_pins(self):
+        for pin_data in self.pins:
+            pin = pin_data[0]
+            self.delete_component(pin)
+        self.pins = []
+
+    def delete_selected_pins(self):
+        for component in self.selected_components:
+            self.delete_pins_from_component(component)
+
 
 
 

@@ -3,7 +3,7 @@ menu_map = {
         'active': True,
         'buttons': [
             {'action': 'nav', 'target': 'object', 'button': None, 'text': 'Add object', 'position': 0, 'condition':0},
-            # {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1, 'condition':0},
+            {'action': 'delete_all_pins', 'target': None, 'button': None, 'text': 'Remove all pins', 'position': 1, 'condition':3},
         ],
         'inputs': []
     },
@@ -32,7 +32,8 @@ menu_map = {
             {'action': 'add', 'target': 'ball', 'button': None, 'text': 'Add ball', 'position': 0, 'condition':0},
             {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1, 'condition':2},
             {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 2, 'condition':1},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 3, 'condition':0}
+            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 3, 'condition':0},
+            {'action': 'delete_selected_pins', 'target': None, 'button': None, 'text': 'Delete pins', 'position': 4, 'condition':4}
         ],
         'inputs': [
             {'input':'mass','default_value':1 ,'entry': 'simple', 'position': 0, 'input_field': None},
@@ -48,7 +49,8 @@ menu_map = {
             {'action': 'add', 'target': 'bar', 'button': None, 'text': 'Add bar', 'position': 0, 'condition':0},
             {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': 1, 'condition':2},
             {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': 2, 'condition':1},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 3, 'condition':0}
+            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 3, 'condition':0},
+            {'action': 'delete_selected_pins', 'target': None, 'button': None, 'text': 'Delete pins', 'position': 4, 'condition':4}
         ],
         'inputs': [
             {'input':'mass','default_value':1 ,'entry': 'simple', 'position': 0, 'input_field': None},
