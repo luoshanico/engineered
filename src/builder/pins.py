@@ -2,18 +2,18 @@ import pymunk.pygame_util
 from pygame.locals import *
 
 class Pins:
-    def __init__(self, game, obj):
+    def __init__(self, game, obj, pivot_point):
         self.game = game
         self.obj = obj
-        self.anchor = self.obj.selected_anchor
+        self.pivot_point = pivot_point
         self.get_attributes()
         self.create_body()
         self.add_labels()
         self.add_body_to_space()
         self.add_pin_to_manager()
-
+    
     def get_attributes(self):
-        self.pivot_point = self.obj.body.local_to_world(self.anchor)
+        self.pivot_point = self.pivot_point
     
     def create_body(self):
         self.body = pymunk.PivotJoint(
@@ -35,7 +35,7 @@ class Pins:
         self.game.state_stack[-1].manager.store_pin(
             self,
             self.obj,
-            self.anchor
+            self.pivot_point
         )
     
     def apply_updated_attributes(self):

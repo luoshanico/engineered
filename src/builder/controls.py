@@ -21,7 +21,8 @@ class ComponentControls:
         elif event.type == pg.KEYDOWN and event.key == pg.K_DELETE:
             self.game.state_stack[-1].manager.delete_selected_components()
         elif event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
-            self.game.state_stack[-1].manager.pin_selected_objects()
+            self.add_pin()
+            
             
     def handle_mouse_press(self):
         if pg.key.get_mods() & pg.KMOD_CTRL:
@@ -47,7 +48,6 @@ class ComponentControls:
             hit = min(nearby_shapes, key=lambda info: info.distance)
         else:
             hit = None
-
         if hit is not None and hit.shape.body.body_type == pymunk.Body.DYNAMIC:
             return hit, p
         else:
@@ -76,4 +76,9 @@ class ComponentControls:
             self.game.space.remove(self.mouse_joint)
             self.mouse_joint = None
 
+    def add_pin(self):
+        hit, p = self.get_hit_component_if_dynamic()
+        if hit is not None:
+            hit_component = getattr(hit.shape, 'owner', None)
+            self.game.state_stack[-1].manager.add_pin(hit_component, p)
     

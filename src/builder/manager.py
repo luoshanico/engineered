@@ -25,7 +25,7 @@ class ComponentManager:
         elif target == 'bar':
             self.components.append(objects.Bar(self.game))
         elif target == 'pin':
-            self.pin_selected_objects()
+            self.add_pin()
         elif target == 'damped_spring':
             if len(self.selected_components) == 2:
                 self.components.append(constraints.DampedSpring(self.game, *self.selected_components))
@@ -39,10 +39,9 @@ class ComponentManager:
             print("Add object target not recognized:", target)
         self.clear_selected_components()
     
-    def pin_selected_objects(self):
-        for component in self.selected_components:
-            if component.component_type == 'object':
-                self.components.append(pins.Pins(self.game, component))
+    def add_pin(self, component, p):
+        if component.component_type == 'object':
+            self.components.append(pins.Pins(self.game, component, p))
     
     def render(self):
         for object in self.components:
