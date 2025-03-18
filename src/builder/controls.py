@@ -14,12 +14,12 @@ class ComponentControls:
     def get_events(self, event):
         self.mouse_body.position = pg.mouse.get_pos()
         if event.type == pg.MOUSEBUTTONDOWN:
-            # print(f"{self.game.state_stack[-1].manager.components}")
             self.handle_mouse_press()
         elif event.type == pg.MOUSEBUTTONUP:
             self.release_component()
         elif event.type == pg.KEYDOWN and event.key == pg.K_DELETE:
             self.game.state_stack[-1].manager.delete_selected_components()
+            self.game.state_stack[-1].menu_manager.mark_dirty()
         elif event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
             self.add_pin()
             
@@ -27,6 +27,7 @@ class ComponentControls:
     def handle_mouse_press(self):
         if pg.key.get_mods() & pg.KMOD_CTRL:
             self.handle_select_action()
+            self.game.state_stack[-1].menu_manager.mark_dirty()
         else:
             self.grab_component()
 

@@ -5,12 +5,14 @@ from builder.physics import BuilderPhysics
 from builder.manager import ComponentManager
 from builder.controls import ComponentControls
 from builder.world import BuilderWorld
+from builder.menu_manager import MenuManager
 
 
 class Builder(State):
     def __init__(self, game):
         State.__init__(self, game)
         self.menu = BuilderMenu(game)
+        self.menu_manager = MenuManager(game)
         self.physics = BuilderPhysics(game)
         self.world = BuilderWorld(game)
         self.controls = ComponentControls(game)
@@ -20,6 +22,7 @@ class Builder(State):
         self.physics.get_events(event)
         self.menu.get_events(event)
         self.controls.get_events(event)
+        self.menu_manager.recalc_if_needed()
         
     def update(self):
         self.physics.update()

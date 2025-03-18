@@ -3,6 +3,7 @@ from settings import menu_settings
 from settings import general_settings
 from builder.input_field import InputField
 
+
 class BuilderMenu:
     def __init__(self, game):
         self.game = game
@@ -25,15 +26,15 @@ class BuilderMenu:
     def render(self):
         active_menu = self.get_active_menu()
         for btn in active_menu['buttons']:
-            if self.button_condition_to_render(btn):
+            if self.check_condition_to_render(btn):
                 self.render_button(btn)
             else:
                 self.unrender_button(btn)
         for input in active_menu['inputs']:
             input['input_field'].render(self.game.surface)
                     
-    def button_condition_to_render(self,btn):
-        condition = btn.get('condition')
+    def check_condition_to_render(self,menu_item):
+        condition = menu_item.get('condition')
         if condition == 0: 
             return True  # always display
         elif condition == 1:
@@ -48,6 +49,8 @@ class BuilderMenu:
             return self.check_if_at_least_one_pin_in_selected_components()
         elif condition == 6:
             return self.check_if_motor_exists_for_selected_object()
+        elif condition == 7:
+            return not self.check_if_at_least_one_component_selected() # only show if nothing selected
 
 
     def check_if_at_least_one_component_selected(self):
@@ -73,6 +76,7 @@ class BuilderMenu:
         selected_components = self.game.state_stack[-1].manager.selected_components
         motors = self.game.state_stack[-1].manager.motors
         return any(motor for motor in motors for component in selected_components if component == motor[1])
+    
 
     
     def render_button(self,btn):
@@ -87,13 +91,7 @@ class BuilderMenu:
         btn['button'] = None
 
     def get_button_position(self,btn_to_render):
-        # give buttons lowest display position available to avoid gaps
-        stated_pos_index = btn_to_render.get('position')
-        active_menu = self.get_active_menu()
-        pos_index = sum([1 for btn in active_menu['buttons'] 
-                         if (btn.get('position') < stated_pos_index) 
-                         and (self.button_condition_to_render(btn))])
-        pos_index += sum([1 for input in active_menu['inputs'] if input.get('position') < stated_pos_index])      
+        pos_index = btn_to_render.get('position')
         return menu_settings.menu_locations[pos_index]
 
     def get_button_color(self,btn): 
@@ -136,6 +134,24 @@ class BuilderMenu:
             if menu.get('active'):
                 return menu
         return None
+    
+    def calculate_menu_positions(self):
+        active_menu = self.get_active_menu()
+        for category in ['text', 'buttons', 'inputs']: 
+            items = active_menu.get(category, [])
+            for item in items:
+                item['position'] = None
+            
+            # Filter items that should render.
+            filtered_items = [item for item in items if self.check_condition_to_render(item)]
+            
+            # Assign new sequential positions
+            for pos, item in enumerate(filtered_items):
+                item['position'] = pos
+                
+        
+
+
 
     def handle_click(self): 
         mouse_pos = pg.mouse.get_pos()
@@ -159,7 +175,7 @@ class BuilderMenu:
                     self.delete_selected_pins()
                 elif action == 'delete_selected_motors':
                     self.delete_selected_motors()
-                break
+                self.game.state_stack[-1].menu_manager.mark_dirty()
 
     def navigate_to(self, target):
         # Deactivate all menus
