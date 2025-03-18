@@ -5,9 +5,9 @@ menu_map = {
         'active': True,
         'text': [],
         'buttons': [
-            {'action': 'nav', 'target': 'ball', 'button': None, 'text': 'Add ball', 'position': None, 'condition':0},
-            {'action': 'nav', 'target': 'bar', 'button': None, 'text': 'Add bar', 'position': None, 'condition':0},
-            {'action': 'delete_all_pins', 'target': None, 'button': None, 'text': 'Remove all pins', 'position': 2, 'condition':3}
+            {'action': 'nav', 'target': 'ball', 'object': None, 'text': 'Add ball', 'condition':0},
+            {'action': 'nav', 'target': 'bar', 'object': None, 'text': 'Add bar', 'condition':0},
+            {'action': 'delete_all_pins', 'target': None, 'object': None, 'text': 'Remove all pins', 'condition':3}
         ],
         'inputs': []
     },
@@ -15,94 +15,94 @@ menu_map = {
         'active': False,
         'text': [],
         'buttons': [
-            {'action': 'nav', 'target': 'damped_spring', 'button': None, 'text': 'Add spring', 'position': None, 'condition':0},
-            {'action': 'nav', 'target': 'pin_joint', 'button': None, 'text': 'Add pin joint', 'position': None, 'condition':0},
-            {'action': 'nav', 'target': 'pivot_joint', 'button': None, 'text': 'Add pivot joint', 'position': None, 'condition':0},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': 3, 'condition':None}
+            {'action': 'nav', 'target': 'damped_spring', 'object': None, 'text': 'Add spring', 'condition':0},
+            {'action': 'nav', 'target': 'pin_joint', 'object': None, 'text': 'Add pin joint', 'condition':0},
+            {'action': 'nav', 'target': 'pivot_joint', 'object': None, 'text': 'Add pivot joint', 'condition':0},
+            {'action': 'nav', 'target': 'main', 'object': None, 'text': 'Back', 'condition':None}
         ],
         'inputs': []
     },
     'ball': {
         'active': False,
-        'text' : [{'text':'Edit ball', 'position':0, 'condition': 1}],
+        'text' : [{'text':'Edit ball','condition': 1}],
         'buttons': [
-            {'action': 'add', 'target': 'ball', 'button': None, 'text': 'Add ball', 'position': None, 'condition':7},  
-            {'action': 'nav', 'target': 'bar', 'button': None, 'text': 'Add bar', 'position': None, 'condition':7},
-            {'action': 'add', 'target': 'ball', 'button': None, 'text': 'Add new ball', 'position': None, 'condition':1},
-            {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': None, 'condition':2},
-            {'action': 'nav', 'target': 'motor', 'button': None, 'text': 'Add motor', 'position': None, 'condition':1},
-            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete selected', 'position': None, 'condition':1},
-            {'action': 'delete_constraints', 'target': None, 'button': None, 'text': 'Delete constraints', 'position': None, 'condition':4},
-            {'action': 'delete_selected_pins', 'target': None, 'button': None, 'text': 'Delete pins', 'position': None, 'condition':5},
-            {'action': 'delete_selected_motors', 'target': None, 'button': None, 'text': 'Delete motor', 'position': None, 'condition':6},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': None, 'condition':0}
+            {'action': 'add', 'target': 'ball', 'object': None, 'text': 'Add ball', 'condition':7},  
+            {'action': 'nav', 'target': 'bar', 'object': None, 'text': 'Add bar', 'condition':7},
+            {'action': 'add', 'target': 'ball', 'object': None, 'text': 'Add new ball', 'condition':1},
+            {'action': 'nav', 'target': 'constraint', 'object': None, 'text': 'Add constraint', 'condition':2},
+            {'action': 'nav', 'target': 'motor', 'object': None, 'text': 'Add motor', 'condition':1},
+            {'action': 'delete', 'target': None, 'object': None, 'text': 'Delete selected', 'condition':1},
+            {'action': 'delete_constraints', 'target': None, 'object': None, 'text': 'Delete constraints', 'condition':4},
+            {'action': 'delete_selected_pins', 'target': None, 'object': None, 'text': 'Delete pins', 'condition':5},
+            {'action': 'delete_selected_motors', 'target': None, 'object': None, 'text': 'Delete motor', 'condition':6},
+            {'action': 'nav', 'target': 'main', 'object': None, 'text': 'Back', 'condition':0}
         ],
         'inputs': [
-            {'input':'mass','default_value':1 ,'entry': 'simple', 'position': None, 'condition':0, 'input_field': None},
-            {'input':'radius','default_value':60 ,'entry': 'simple', 'position': None, 'condition':0, 'input_field': None},
-            {'input':'elasticity','default_value':0.9 ,'entry': 'simple', 'position': None, 'condition':0, 'input_field': None},
-            {'input':'friction','default_value':0.3,'entry': 'simple', 'position': None, 'condition':0, 'input_field': None}
-            # {'input':'colour', 'default value': 'Black','entry': 'dropdown', 'position': None, 'input_field': None}
+            {'input':'mass','default_value':1 ,'entry': 'simple', 'condition':0, 'object': None},
+            {'input':'radius','default_value':60 ,'entry': 'simple', 'condition':0, 'object': None},
+            {'input':'elasticity','default_value':0.9 ,'entry': 'simple', 'condition':0, 'object': None},
+            {'input':'friction','default_value':0.3,'entry': 'simple', 'condition':0, 'object': None}
+            # {'input':'colour', 'default value': 'Black','entry': 'dropdown', 'object': None}
         ]   
     },
     'bar': {
         'active': False,
-        'text' : [{'text':'Edit ball', 'position':0, 'condition': 1}],
+        'text' : [{'text':'Edit ball', 'condition': 1}],
         'buttons': [
-            {'action': 'nav', 'target': 'ball', 'button': None, 'text': 'Add ball', 'position': None, 'condition':7},
-            {'action': 'add', 'target': 'bar', 'button': None, 'text': 'Add bar', 'position': None, 'condition':7},
-            {'action': 'add', 'target': 'bar', 'button': None, 'text': 'Add new bar', 'position': None, 'condition':1},
-            {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': None, 'condition':2},
-            {'action': 'nav', 'target': 'motor', 'button': None, 'text': 'Add motor', 'position': None, 'condition':1},
-            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete selected', 'position': None, 'condition':1},
-            {'action': 'delete_constraints', 'target': None, 'button': None, 'text': 'Delete constraints', 'position': None, 'condition':4},
-            {'action': 'delete_selected_pins', 'target': None, 'button': None, 'text': 'Delete pins', 'position': None, 'condition':5},
-            {'action': 'delete_selected_motors', 'target': None, 'button': None, 'text': 'Delete motor', 'position': None, 'condition':6},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': None, 'condition':0}
+            {'action': 'nav', 'target': 'ball', 'object': None, 'text': 'Add ball', 'condition':7},
+            {'action': 'add', 'target': 'bar', 'object': None, 'text': 'Add bar', 'condition':7},
+            {'action': 'add', 'target': 'bar', 'object': None, 'text': 'Add new bar', 'condition':1},
+            {'action': 'nav', 'target': 'constraint', 'object': None, 'text': 'Add constraint', 'condition':2},
+            {'action': 'nav', 'target': 'motor', 'object': None, 'text': 'Add motor', 'condition':1},
+            {'action': 'delete', 'target': None, 'object': None, 'text': 'Delete selected', 'condition':1},
+            {'action': 'delete_constraints', 'target': None, 'object': None, 'text': 'Delete constraints', 'condition':4},
+            {'action': 'delete_selected_pins', 'target': None, 'object': None, 'text': 'Delete pins', 'condition':5},
+            {'action': 'delete_selected_motors', 'target': None, 'object': None, 'text': 'Delete motor', 'condition':6},
+            {'action': 'nav', 'target': 'main', 'object': None, 'text': 'Back', 'condition':0}
         ],
         'inputs': [
-            {'input':'mass','default_value':1 ,'entry': 'simple', 'position': None, 'condition':0, 'input_field': None},
-            {'input':'length','default_value':100 ,'entry': 'simple', 'position': None, 'condition':0, 'input_field': None},
-            {'input':'elasticity','default_value':0.9 ,'entry': 'simple', 'position': None, 'condition':0, 'input_field': None},
-            {'input':'friction','default_value':0.3,'entry': 'simple', 'position': None, 'condition':0, 'input_field': None}
-            # {'input':'colour', 'default value': 'Black','entry': 'dropdown', 'position': None, 'input_field': None}
+            {'input':'mass','default_value':1 ,'entry': 'simple', 'condition':0, 'object': None},
+            {'input':'length','default_value':100 ,'entry': 'simple', 'condition':0, 'object': None},
+            {'input':'elasticity','default_value':0.9 ,'entry': 'simple', 'condition':0, 'object': None},
+            {'input':'friction','default_value':0.3,'entry': 'simple', 'condition':0, 'object': None}
+            # {'input':'colour', 'default value': 'Black','entry': 'dropdown', 'object': None}
         ]   
     },
     'motor': {
         'active': False,
         'text': [],
         'buttons': [
-            {'action': 'add', 'target': 'motor', 'button': None, 'text': 'Add motor', 'position': None, 'condition':1},
-            {'action': 'nav', 'target': 'constraint', 'button': None, 'text': 'Add constraint', 'position': None, 'condition':2},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': None, 'condition':0}
+            {'action': 'add', 'target': 'motor', 'object': None, 'text': 'Add motor', 'condition':1},
+            {'action': 'nav', 'target': 'constraint', 'object': None, 'text': 'Add constraint', 'condition':2},
+            {'action': 'nav', 'target': 'main', 'object': None, 'text': 'Back', 'condition':0}
         ],
         'inputs': [
-            {'input':'rpm','default_value':100 ,'entry': 'simple', 'position': None, 'input_field': None},
-            {'input':'max_force','default_value':50 ,'entry': 'simple', 'position': None, 'input_field': None}
+            {'input':'rpm','default_value':100 ,'entry': 'simple', 'object': None},
+            {'input':'max_force','default_value':50 ,'entry': 'simple', 'object': None}
         ]   
     },
     'damped_spring': {
         'active': False,
         'text': [],
         'buttons': [
-            {'action': 'add', 'target': 'damped_spring', 'button': None, 'text': 'add Spring', 'position': None, 'condition':2},
-            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': None, 'condition':1},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': None, 'condition':0}
+            {'action': 'add', 'target': 'damped_spring', 'object': None, 'text': 'add Spring', 'condition':2},
+            {'action': 'delete', 'target': None, 'object': None, 'text': 'Delete', 'condition':1},
+            {'action': 'nav', 'target': 'main', 'object': None, 'text': 'Back', 'condition':0}
         ],
         'inputs': [
-            {'input':'rest length','default_value':10 ,'entry': 'simple', 'position': None, 'condition':0, 'input_field': None},
-            {'input':'stiffness','default_value':10 ,'entry': 'simple', 'position': None, 'condition':0, 'input_field': None},
-            {'input':'damping','default_value':0.3 ,'entry': 'simple', 'position': None, 'condition':0, 'input_field': None}
-            # {'input':'colour', 'default value': 'Black','entry': 'dropdown', 'position': None, 'input_field': None}
+            {'input':'rest length','default_value':10 ,'entry': 'simple', 'condition':0, 'object': None},
+            {'input':'stiffness','default_value':10 ,'entry': 'simple', 'condition':0, 'object': None},
+            {'input':'damping','default_value':0.3 ,'entry': 'simple', 'condition':0, 'object': None}
+            # {'input':'colour', 'default value': 'Black','entry': 'dropdown', 'object': None}
         ]   
     },
     'pin_joint': {
         'active': False,
         'text': [],
         'buttons': [
-            {'action': 'add', 'target': 'pin_joint', 'button': None, 'text': 'Add pin joint', 'position': None, 'condition':2},
-            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': None, 'condition':1},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': None, 'condition':0}
+            {'action': 'add', 'target': 'pin_joint', 'object': None, 'text': 'Add pin joint', 'condition':2},
+            {'action': 'delete', 'target': None, 'object': None, 'text': 'Delete', 'condition':1},
+            {'action': 'nav', 'target': 'main', 'object': None, 'text': 'Back', 'condition':0}
         ],
         'inputs': []   
     },
@@ -110,9 +110,9 @@ menu_map = {
         'active': False,
         'text': [],
         'buttons': [
-            {'action': 'add', 'target': 'pivot_joint', 'button': None, 'text': 'Add pivot joint', 'position': None, 'condition':2},
-            {'action': 'delete', 'target': None, 'button': None, 'text': 'Delete', 'position': None, 'condition':1},
-            {'action': 'nav', 'target': 'main', 'button': None, 'text': 'Back', 'position': None, 'condition':0}
+            {'action': 'add', 'target': 'pivot_joint', 'object': None, 'text': 'Add pivot joint', 'condition':2},
+            {'action': 'delete', 'target': None, 'object': None, 'text': 'Delete', 'condition':1},
+            {'action': 'nav', 'target': 'main', 'object': None, 'text': 'Back', 'condition':0}
         ],
         'inputs': []   
     }

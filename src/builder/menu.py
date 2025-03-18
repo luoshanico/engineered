@@ -1,37 +1,47 @@
 import pygame as pg
 from settings import menu_settings
 from settings import general_settings
-from builder.input_field import InputField
+from builder.menu_text import MenuText
+from builder.menu_button import Button
+from builder.menu_input import InputField
+
 
 
 class BuilderMenu:
     def __init__(self, game):
         self.game = game
         self.menu_map = menu_settings.menu_map
+        self.initialise_text()
+        self.initialse_buttons()
         self.initialise_input_fields()
+        self.calculate_menu_positions()
+    
+    def initialse_buttons(self):
+        for _, menu in self.menu_map.items():
+            for button in menu['buttons']:
+                button['object'] = Button(
+                    self.game,
+                    button
+                )
     
     def initialise_input_fields(self):
-        for key, menu in self.menu_map.items():
+        for _, menu in self.menu_map.items():
             for input in menu['inputs']:
-                border_rect_dims = menu_settings.menu_locations[input['position']]
                 input_name = input['input']
                 default_value = input['default_value']
-                input['input_field'] = InputField(
+                input['object'] = InputField(
                     self.game,
-                    border_rect_dims,
                     input_name,
                     default_value
                 )
 
     def render(self):
         active_menu = self.get_active_menu()
-        for btn in active_menu['buttons']:
-            if self.check_condition_to_render(btn):
-                self.render_button(btn)
-            else:
-                self.unrender_button(btn)
-        for input in active_menu['inputs']:
-            input['input_field'].render(self.game.surface)
+        for category in ['text','buttons','inputs']:
+            for item in active_menu[category]:
+                if self.check_condition_to_render(item):
+                    item.render()
+
                     
     def check_condition_to_render(self,menu_item):
         condition = menu_item.get('condition')
@@ -77,46 +87,7 @@ class BuilderMenu:
         motors = self.game.state_stack[-1].manager.motors
         return any(motor for motor in motors for component in selected_components if component == motor[1])
     
-
     
-    def render_button(self,btn):
-        location = self.get_button_position(btn)
-        radius = menu_settings.button_radius
-        color = self.get_button_color(btn)
-        font_size = menu_settings.fontsizes['header_2']
-        font_color = general_settings.WHITE
-        btn['button'] = self.add_button(self.game.surface, location, radius, color, btn['text'], font_size, font_color)
-
-    def unrender_button(self,btn):
-        btn['button'] = None
-
-    def get_button_position(self,btn_to_render):
-        pos_index = btn_to_render.get('position')
-        return menu_settings.menu_locations[pos_index]
-
-    def get_button_color(self,btn): 
-        if 'delete' in btn['action']:
-            return general_settings.RED
-        if btn['target'] != 'main':
-            return general_settings.BLUE
-        else:
-            return general_settings.BLACK
-    
-    def add_button(self, surface, location, radius, color, text, font_size, font_color):    
-        button_rect = pg.draw.rect(surface, color, location, border_radius=radius)
-        font = pg.font.Font(None, font_size)
-        button_text = font.render(text, True, font_color)
-        text_location = self.center_text_in_rectangle(location, font_size, text)
-        surface.blit(button_text, text_location)
-        return button_rect
-    
-    def center_text_in_rectangle(self, rectangle_dims, font_size, text):
-        font = pg.font.Font(None, font_size)
-        text_surface = font.render(text, True, (255, 255, 255))
-        text_width, text_height = text_surface.get_size()
-        x = rectangle_dims[0] + (rectangle_dims[2] - text_width) // 2
-        y = rectangle_dims[1] + (rectangle_dims[3] - text_height) // 2
-        return (x, y)
 
     def get_events(self,event):
         active_menu = self.get_active_menu()
@@ -139,26 +110,21 @@ class BuilderMenu:
         active_menu = self.get_active_menu()
         for category in ['text', 'buttons', 'inputs']: 
             items = active_menu.get(category, [])
-            for item in items:
-                item['position'] = None
             
             # Filter items that should render.
             filtered_items = [item for item in items if self.check_condition_to_render(item)]
             
             # Assign new sequential positions
             for pos, item in enumerate(filtered_items):
-                item['position'] = pos
+                item['object'].get_position(pos)
                 
-        
-
-
-
+    
     def handle_click(self): 
         mouse_pos = pg.mouse.get_pos()
         active_menu = self.get_active_menu()
         for btn_info in active_menu['buttons']:
-            btn = btn_info.get('button')
-            if btn and btn.collidepoint(mouse_pos):
+            btn_shape = btn_info.get('button').shape
+            if btn_shape and btn_shape.collidepoint(mouse_pos):
                 action = btn_info.get('action')
                 target = btn_info.get('target')
                 if action == 'nav':

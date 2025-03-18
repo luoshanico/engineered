@@ -3,25 +3,28 @@ from settings import general_settings
 from settings import menu_settings
 
 class InputField:
-    def __init__(self, game, border_rect_dims, input_name="", default_value=""):
+    def __init__(self, game, input_name, default_value):
         self.game = game
-        self.get_input_field_rectangles(border_rect_dims)
-        self.get_display_strings(input_name, default_value)
+        self.get_display_strings(input_name,default_value)
         self.get_formats()
         self.active = False
         self.text_selected = False
 
+    def get_position(self,position):
+        self.position = position
+        self.location = menu_settings.menu_locations(self.position)
+        self.get_input_field_rectangles()
 
-    def get_input_field_rectangles(self,border_rect_dims):
-        self.border_rect = pg.Rect(border_rect_dims)
-        self.value_rect_dims = self.get_value_rect_dims(border_rect_dims)
+    def get_input_field_rectangles(self):
+        self.border_rect = pg.Rect(self.location)
+        self.value_rect_dims = self.get_value_rect_dims()
         self.value_rect = pg.Rect(self.value_rect_dims)
 
-    def get_value_rect_dims(self, border_rect):
-        x_pos, y_pos, width, height = border_rect
+    def get_value_rect_dims(self):
+        x_pos, y_pos, width, height = self.border_rect
         return (x_pos + width * (2/3), y_pos , width * (1/3), height)
 
-    def get_display_strings(self,input_name, default_value):
+    def get_display_strings(self, input_name, default_value):
         self.input_name = str(input_name)
         self.value = str(default_value)
     
@@ -35,19 +38,22 @@ class InputField:
         self.bg_color = general_settings.WHITE
         self.border_color = general_settings.BLACK
 
-    def draw(self, surface):
-        self.draw_input_name(surface)
-        self.draw_value_rectangle(surface)
-        self.draw_value(surface)
+    def render(self):
+        self.draw()
+    
+    def draw(self):
+        self.draw_input_name()
+        self.draw_value_rectangle()
+        self.draw_value()
         
-    def draw_input_name(self,surface):
+    def draw_input_name(self):
         input_name_surface = self.input_name_font.render(self.input_name, True, self.input_name_color)
         text_location = self.align_left_middle_text_in_rectangle(
             self.border_rect,
             self.input_name_font_size,
             self.input_name,
             5)
-        surface.blit(input_name_surface, text_location)
+        self.game.surface.blit(input_name_surface, text_location)
 
     def align_left_middle_text_in_rectangle(self, rectangle_dims, font_size, text, left_margin):
         font = pg.font.Font(None, font_size)
@@ -57,21 +63,20 @@ class InputField:
         y = rectangle_dims[1] + (rectangle_dims[3] - text_height) // 2
         return (x, y)
 
-    def draw_value_rectangle(self, surface):
-        pg.draw.rect(surface, self.bg_color, self.value_rect)
+    def draw_value_rectangle(self):
+        pg.draw.rect(self.game.surface, self.bg_color, self.value_rect)
         border_color = self.border_color if not self.active else (0, 255, 0)
-        pg.draw.rect(surface, border_color, self.value_rect, 2)
+        pg.draw.rect(self.game.surface, border_color, self.value_rect, 2)
 
-    def draw_value(self, surface):
+    def draw_value(self):
         value_surface = self.value_font.render(self.value, True, self.value_color)
         text_location = self.align_left_middle_text_in_rectangle(
             self.value_rect,
             self.value_font_size,
             self.value,
             5)
-        surface.blit(value_surface, text_location)
+        self.game.surface.blit(value_surface, text_location)
 
-    
     def get_events(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
             # Toggle active state if the user clicks inside the input field.
@@ -99,6 +104,5 @@ class InputField:
     def update(self):
         pass
 
-    def render(self, surface):
-        self.draw(surface)
+    
 
