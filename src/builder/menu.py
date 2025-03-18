@@ -12,7 +12,7 @@ class BuilderMenu:
     def initialise_input_fields(self):
         for key, menu in self.menu_map.items():
             for input in menu['inputs']:
-                border_rect_dims = menu_settings.input_locations[input['position']]
+                border_rect_dims = menu_settings.menu_locations[input['position']]
                 input_name = input['input']
                 default_value = input['default_value']
                 input['input_field'] = InputField(
@@ -77,33 +77,35 @@ class BuilderMenu:
     
     def render_button(self,btn):
         location = self.get_button_position(btn)
+        radius = menu_settings.button_radius
         color = self.get_button_color(btn)
         font_size = menu_settings.fontsizes['header_2']
         font_color = general_settings.WHITE
-        btn['button'] = self.add_button(self.game.surface, location, color, btn['text'], font_size, font_color)
+        btn['button'] = self.add_button(self.game.surface, location, radius, color, btn['text'], font_size, font_color)
 
     def unrender_button(self,btn):
         btn['button'] = None
 
     def get_button_position(self,btn_to_render):
         # give buttons lowest display position available to avoid gaps
-        pos_index = btn_to_render.get('position')
+        stated_pos_index = btn_to_render.get('position')
         active_menu = self.get_active_menu()
         pos_index = sum([1 for btn in active_menu['buttons'] 
-                         if (btn.get('position') < pos_index) 
-                         and (self.button_condition_to_render(btn))])      
-        return menu_settings.button_locations[pos_index]
+                         if (btn.get('position') < stated_pos_index) 
+                         and (self.button_condition_to_render(btn))])
+        pos_index += sum([1 for input in active_menu['inputs'] if input.get('position') < stated_pos_index])      
+        return menu_settings.menu_locations[pos_index]
 
     def get_button_color(self,btn): 
-        if btn['action'] == 'delete':
+        if 'delete' in btn['action']:
             return general_settings.RED
         if btn['target'] != 'main':
             return general_settings.BLUE
         else:
             return general_settings.BLACK
     
-    def add_button(self, surface, location, color, text, font_size, font_color):    
-        button_rect = pg.draw.rect(surface, color, location)
+    def add_button(self, surface, location, radius, color, text, font_size, font_color):    
+        button_rect = pg.draw.rect(surface, color, location, border_radius=radius)
         font = pg.font.Font(None, font_size)
         button_text = font.render(text, True, font_color)
         text_location = self.center_text_in_rectangle(location, font_size, text)

@@ -6,23 +6,23 @@ import settings.general_settings
 import settings.menu_settings
 from states.main_menu import Title
 
-
-
 class Game():
     def __init__(self):
         pg.init()
-
-        self.surface = pg.Surface(settings.general_settings.RES)
-        self.screen = pg.display.set_mode(settings.general_settings.RES)
+        self.load_display()
         self.running, self.playing = True, True
-        self.clock = pg.time.Clock()
-        self.FPS = settings.general_settings.FPS
-        self.font = pg.font.Font(None, settings.menu_settings.fontsizes['title'])
-        
-        self.state_stack = []
-
+        self.load_time()
         self.load_assets()
         self.load_states()
+
+    def load_display(self):
+        self.width, self.height = self.RES = settings.general_settings.RES
+        self.surface = pg.Surface(self.RES)
+        self.screen = pg.display.set_mode(self.RES)
+
+    def load_time(self):
+        self.clock = pg.time.Clock()
+        self.FPS = settings.general_settings.FPS
 
     def game_loop(self):
         while self.playing:
@@ -47,6 +47,7 @@ class Game():
         pg.display.flip()
 
     def draw_text(self, surface, text, color, x, y):
+        self.font = pg.font.Font(None, settings.menu_settings.fontsizes['title'])
         text_surface = self.font.render(text, True, color)
         text_rect = text_surface.get_rect()
         text_rect.center = (x,y)
@@ -56,6 +57,7 @@ class Game():
         pass
 
     def load_states(self):
+        self.state_stack = []
         self.title_screen = Title(self)
         self.state_stack.append(self.title_screen)
         print(self.state_stack[-1])

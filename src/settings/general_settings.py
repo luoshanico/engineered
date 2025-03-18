@@ -1,5 +1,6 @@
 # Game constants
-RES = WIDTH, HEIGHT = 960, 540
+WIDTH, HEIGHT = RES = (1600, 900)
+side_bar_width = 250
 FPS = 60
 
 # Collision categories
