@@ -90,8 +90,13 @@ class Objects:
 
 class Ball(Objects):          
     def get_attributes(self):
-        self.attributes = tuple([float(inputs['input_field'].value) for inputs in menu_map['ball']['inputs']])
+        self.get_input_fields()
+        self.attributes = tuple([float(input_field.value) for input_field in self.input_fields])
         self.mass, self.radius, self.elasticity, self.friction = self.attributes
+
+    def get_input_fields(self):
+        menu_section = self.game.state_stack[-1].menu.menu_map['ball']['items']
+        self.input_fields = [item['object'] for item in menu_section if item['type']=='input']
 
     def create_body(self):
         self.moment = pymunk.moment_for_circle(self.mass, 0, self.radius)
@@ -123,9 +128,14 @@ class Ball(Objects):
 
 class Bar(Objects):          
     def get_attributes(self):
-        self.attributes = tuple([float(inputs['input_field'].value) for inputs in menu_map['bar']['inputs']])
+        self.get_input_fields()
+        self.attributes = tuple([float(input_field.value) for input_field in self.input_fields])
         self.mass, self.length, self.elasticity, self.friction = self.attributes
 
+    def get_input_fields(self):
+        menu_section = self.game.state_stack[-1].menu.menu_map['bar']['items']
+        self.input_fields = [item['object'] for item in menu_section if item['type']=='input']
+    
     def create_body(self):
         self.thickness = 10
         self.size = self.length, self.thickness

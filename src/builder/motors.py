@@ -14,13 +14,16 @@ class Motor:
         self.add_body_to_space()
         self.add_motor_to_manager()
         
-    
     def get_attributes(self):
-        self.attributes = tuple([float(inputs['input_field'].value) for inputs in menu_map['motor']['inputs']])
+        self.get_input_fields()
+        self.attributes = tuple([float(input_field.value) for input_field in self.input_fields])
         self.rpm = self.attributes[0]
         self.angular_velocity = self.rpm * (2 * pi) / 60
         self.max_force = self.attributes[1] * 1000
 
+    def get_input_fields(self):
+        menu_section = self.game.state_stack[-1].menu.menu_map['motor']['items']
+        self.input_fields = [item['object'] for item in menu_section if item['type']=='input']
     
     def add_labels(self):
         self.component_type = 'motor'

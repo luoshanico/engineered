@@ -92,8 +92,13 @@ class Constraints:
 
 class DampedSpring(Constraints):
     def get_attributes(self):
-        self.attributes = tuple([float(inputs['input_field'].value) for inputs in menu_map['damped_spring']['inputs']])
+        self.get_input_fields()
+        self.attributes = tuple([float(input_field.value) for input_field in self.input_fields])
         self.rest_length, self.stiffness, self.damping = self.attributes
+
+    def get_input_fields(self):
+        menu_section = self.game.state_stack[-1].menu.menu_map['damped_spring']['items']
+        self.input_fields = [item['object'] for item in menu_section if item['type']=='input']
     
     def create_body(self):
         self.body = pymunk.DampedSpring(

@@ -3,20 +3,19 @@ from settings import general_settings
 from settings import menu_settings
 
 class InputField:
-    def __init__(self, game, input_name, default_value):
+    def __init__(self, game, menu_item):
         self.game = game
-        self.get_display_strings(input_name,default_value)
+        self.get_display_strings(menu_item)
         self.get_formats()
         self.active = False
         self.text_selected = False
 
-    def get_position(self,position):
-        self.position = position
-        self.location = menu_settings.menu_locations(self.position)
+    def get_position(self,pos_idx):
+        self.position = menu_settings.menu_positions[pos_idx]
         self.get_input_field_rectangles()
 
     def get_input_field_rectangles(self):
-        self.border_rect = pg.Rect(self.location)
+        self.border_rect = pg.Rect(self.position)
         self.value_rect_dims = self.get_value_rect_dims()
         self.value_rect = pg.Rect(self.value_rect_dims)
 
@@ -24,9 +23,9 @@ class InputField:
         x_pos, y_pos, width, height = self.border_rect
         return (x_pos + width * (2/3), y_pos , width * (1/3), height)
 
-    def get_display_strings(self, input_name, default_value):
-        self.input_name = str(input_name)
-        self.value = str(default_value)
+    def get_display_strings(self, menu_item):
+        self.input_name = str(menu_item['input'])
+        self.value = str(menu_item['default_value'])
     
     def get_formats(self):
         self.input_name_font_size = menu_settings.fontsizes['header_2']
@@ -39,12 +38,9 @@ class InputField:
         self.border_color = general_settings.BLACK
 
     def render(self):
-        self.draw()
-    
-    def draw(self):
         self.draw_input_name()
         self.draw_value_rectangle()
-        self.draw_value()
+        self.draw_value()        
         
     def draw_input_name(self):
         input_name_surface = self.input_name_font.render(self.input_name, True, self.input_name_color)

@@ -14,33 +14,32 @@ class BuilderMenu:
         self.initialise_text()
         self.initialse_buttons()
         self.initialise_input_fields()
-        self.calculate_menu_positions()
+        # self.calculate_menu_positions()
+    
+    def initialise_text(self):
+        for _, menu in self.menu_map.items():
+            for menu_item in menu['items']:
+                if menu_item['type'] == 'text':
+                    menu_item['object'] = MenuText(self.game,menu_item)
     
     def initialse_buttons(self):
-        for _, menu in self.menu_map.items():
-            for button in menu['buttons']:
-                button['object'] = Button(
-                    self.game,
-                    button
-                )
+       for _, menu in self.menu_map.items():
+            for menu_item in menu['items']:
+                if menu_item['type'] == 'button':
+                    menu_item['object'] = Button(self.game,menu_item)
+
     
     def initialise_input_fields(self):
         for _, menu in self.menu_map.items():
-            for input in menu['inputs']:
-                input_name = input['input']
-                default_value = input['default_value']
-                input['object'] = InputField(
-                    self.game,
-                    input_name,
-                    default_value
-                )
+            for menu_item in menu['items']:
+                if menu_item['type'] == 'input':
+                    menu_item['object'] = InputField(self.game,menu_item)
 
     def render(self):
-        active_menu = self.get_active_menu()
-        for category in ['text','buttons','inputs']:
-            for item in active_menu[category]:
-                if self.check_condition_to_render(item):
-                    item.render()
+        for menu_item in self.get_active_menu()['items']:
+            if self.check_condition_to_render(menu_item):
+                if menu_item['object']:
+                    menu_item['object'].render()
 
                     
     def check_condition_to_render(self,menu_item):
@@ -91,8 +90,9 @@ class BuilderMenu:
 
     def get_events(self,event):
         active_menu = self.get_active_menu()
-        for input in active_menu['inputs']:
-            input['input_field'].get_events(event)
+        for item in active_menu['items']:
+            if item['type'] == 'input':
+                item['object'].get_events(event)
         if event.type == pg.MOUSEBUTTONDOWN:
             self.handle_click()
         
@@ -101,57 +101,50 @@ class BuilderMenu:
 
     def get_active_menu(self):
         self.assert_exactly_one_active_menu()
-        for _, menu in self.menu_map.items():
-            if menu.get('active'):
-                return menu
+        for _, menu_item in self.menu_map.items():
+            if menu_item.get('active'):
+                return menu_item
         return None
     
     def calculate_menu_positions(self):
         active_menu = self.get_active_menu()
-        for category in ['text', 'buttons', 'inputs']: 
-            items = active_menu.get(category, [])
-            
-            # Filter items that should render.
-            filtered_items = [item for item in items if self.check_condition_to_render(item)]
-            
-            # Assign new sequential positions
-            for pos, item in enumerate(filtered_items):
-                item['object'].get_position(pos)
+        filtered_items = [item for item in active_menu['items'] if self.check_condition_to_render(item)]
+        for pos_idx, item in enumerate(filtered_items):
+            item['object'].get_position(pos_idx)
                 
     
     def handle_click(self): 
         mouse_pos = pg.mouse.get_pos()
         active_menu = self.get_active_menu()
-        for btn_info in active_menu['buttons']:
-            btn_shape = btn_info.get('button').shape
-            if btn_shape and btn_shape.collidepoint(mouse_pos):
-                action = btn_info.get('action')
-                target = btn_info.get('target')
-                if action == 'nav':
-                    self.navigate_to(target)
-                elif action == 'add':
-                    self.perform_add(target)
-                elif action == 'delete':
-                    self.perform_delete()
-                elif action == 'delete_constraints':
-                    self.perform_delete_constraints()
-                elif action == 'delete_all_pins':
-                    self.delete_all_pins()
-                elif action == 'delete_selected_pins':
-                    self.delete_selected_pins()
-                elif action == 'delete_selected_motors':
-                    self.delete_selected_motors()
-                self.game.state_stack[-1].menu_manager.mark_dirty()
+        for item in active_menu['items']:
+            if item['type'] == 'button':
+                btn_shape = item.get('object').shape
+                if btn_shape and btn_shape.collidepoint(mouse_pos):
+                    action = item.get('action')
+                    target = item.get('target')
+
+                    if action == 'nav':
+                        self.navigate_to(target)
+                    elif action == 'add':
+                        self.perform_add(target)
+                    elif action == 'delete':
+                        self.perform_delete()
+                    elif action == 'delete_constraints':
+                        self.perform_delete_constraints()
+                    elif action == 'delete_all_pins':
+                        self.delete_all_pins()
+                    elif action == 'delete_selected_pins':
+                        self.delete_selected_pins()
+                    elif action == 'delete_selected_motors':
+                        self.delete_selected_motors()
+                    self.game.state_stack[-1].menu_manager.mark_dirty()
 
     def navigate_to(self, target):
         # Deactivate all menus
         for key in self.menu_map:
             self.menu_map[key]['active'] = False
-        # If target exists as a menu key, activate it; otherwise, perform other action.
         if target in self.menu_map:
             self.menu_map[target]['active'] = True
-        else:
-            print("Target is not a menu, perform alternative action:", target)
 
     def perform_add(self, target):
         self.game.state_stack[-1].manager.add_component(target)
@@ -173,9 +166,9 @@ class BuilderMenu:
 
     def load_selected_component_menu(self,component):
         self.navigate_to(component.component_subtype)
-        active_menu = self.get_active_menu()
-        for idx, input in enumerate(active_menu['inputs']):
-            input['input_field'].value = str(component.attributes[idx])
+        active_inputs = [items for items in self.get_active_menu()['items'] if items['type']=='input']
+        for idx, item in enumerate(active_inputs):
+            item['object'].value = str(component.attributes[idx])
 
     def assert_exactly_one_active_menu(self):
         active_menus = [key for key, menu in self.menu_map.items() if menu.get('active')]
