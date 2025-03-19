@@ -31,22 +31,35 @@ class ComponentManager:
         elif target == 'pin':
             self.add_pin()
         elif target == 'damped_spring':
-            if len(self.selected_components) == 2:
-                self.components.append(constraints.DampedSpring(self.game, *self.selected_components))
+            self.add_damped_spring()
         elif target == 'pin_joint':
-            if len(self.selected_components) == 2:
-                self.components.append(constraints.PinJoint(self.game, *self.selected_components))
+            self.add_pin_joint()
         elif target == 'pivot_joint':
-            if len(self.selected_components) == 2:
-                self.components.append(constraints.PivotJoint(self.game, *self.selected_components))
+            self.add_pivot_joint()
         else:
             print("Add object target not recognized:", target)
         self.clear_selected_components()
+    
+    def add_damped_spring(self):
+        if len(self.selected_components) == 2:
+            self.components.append(constraints.DampedSpring(self.game, *self.selected_components))
+            self.game.state_stack[-1].menu.navigate_to('main')
+
+    def add_pin_joint(self):
+        if len(self.selected_components) == 2:
+            self.components.append(constraints.PinJoint(self.game, *self.selected_components))
+            self.game.state_stack[-1].menu.navigate_to('main')
+
+    def add_pivot_joint(self):
+        if len(self.selected_components) == 2:
+            self.components.append(constraints.PivotJoint(self.game, *self.selected_components))
+            self.game.state_stack[-1].menu.navigate_to('main')
     
     def add_motor(self):
         for component in self.selected_components:
             if component.component_type == 'object':
                 self.components.append(motors.Motor(self.game,component))
+                self.game.state_stack[-1].menu.navigate_to('main')
 
     def add_pin(self, component, p):
         if component.component_type == 'object':
