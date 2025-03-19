@@ -1,11 +1,10 @@
-import pygame as pg
 from states.state import State
-from builder.menu import BuilderMenu
+from builder.menu.menu import BuilderMenu
 from builder.physics import BuilderPhysics 
-from builder.manager import ComponentManager
-from builder.controls import ComponentControls
+from builder.components.manager import ComponentManager
+from builder.components.controls import ComponentControls
 from builder.world import BuilderWorld
-from builder.menu_manager import MenuManager
+from builder.menu.menu_manager import MenuManager
 
 
 class Builder(State):

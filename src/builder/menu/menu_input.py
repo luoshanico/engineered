@@ -6,8 +6,9 @@ class InputField:
         self.game = game
         self.get_display_strings(menu_item)
         self.get_formats()
-        self.active = False
-        self.text_selected = False
+        self.selected = False
+        self.text_highlighted = False
+        self.active = True
 
     def get_position(self,pos_idx):
         self.position = self.game.state_stack[-1].menu.menu_positions[pos_idx]
@@ -60,7 +61,7 @@ class InputField:
 
     def draw_value_rectangle(self):
         pg.draw.rect(self.game.surface, self.bg_color, self.value_rect)
-        border_color = self.border_color if not self.active else (0, 255, 0)
+        border_color = self.border_color if not self.selected else (0, 255, 0)
         pg.draw.rect(self.game.surface, border_color, self.value_rect, 2)
 
     def draw_value(self):
@@ -76,19 +77,19 @@ class InputField:
         if event.type == pg.MOUSEBUTTONDOWN:
             # Toggle active state if the user clicks inside the input field.
             if self.value_rect.collidepoint(event.pos):
-                self.active = True
-                self.text_selected = True  # Mark the text as selected (highlighted)
+                self.selected = True
+                self.text_highlighted = True  # Mark the text as selected (highlighted)
             else:
-                self.active = False
-        if event.type == pg.KEYDOWN and self.active:
+                self.selected = False
+        if event.type == pg.KEYDOWN and self.selected:
             # If the text is "highlighted", clear it on first key press.
-            if self.text_selected:
+            if self.text_highlighted:
                 self.value = ""
-                self.text_selected = False
+                self.text_highlighted = False
             if event.key == pg.K_BACKSPACE:
                 self.value = self.value[:-1]
             elif event.key in (pg.K_RETURN, pg.K_KP_ENTER):
-                self.active = False
+                self.selected = False
                 self.game.state_stack[-1].manager.apply_updated_attributes_to_selected_components()
             else:
                 # Optionally, filter input so only numbers (and one decimal) are accepted.

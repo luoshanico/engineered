@@ -1,7 +1,7 @@
-from builder import objects
-from builder import constraints
-from builder import pins
-from builder import motors
+from builder.components import objects
+from builder.components import constraints
+from builder.components import pins
+from builder.components import motors
 
 class ComponentManager:
     def __init__(self,game):

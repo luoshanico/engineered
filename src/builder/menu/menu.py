@@ -1,9 +1,9 @@
 import pygame as pg
 from settings import menu_map
 from settings import settings
-from builder.menu_text import MenuText
-from builder.menu_button import Button
-from builder.menu_input import InputField
+from builder.menu.menu_text import MenuText
+from builder.menu.menu_button import Button
+from builder.menu.menu_input import InputField
 
 
 
@@ -50,6 +50,9 @@ class BuilderMenu:
                 if self.check_condition_to_render(menu_item):
                     if menu_item['object']:
                         menu_item['object'].render()
+                        menu_item['object'].active = True  # determines if button can be clicked
+                else:
+                    menu_item['object'].active = False
         self.is_renderable = True
 
                     
@@ -129,26 +132,26 @@ class BuilderMenu:
         active_menu = self.get_active_menu()
         for item in active_menu['items']:
             if item['type'] == 'button':
-                btn_shape = item.get('object').shape
-                if btn_shape and btn_shape.collidepoint(mouse_pos):
-                    action = item.get('action')
-                    target = item.get('target')
-
-                    if action == 'nav':
-                        self.navigate_to(target)
-                    elif action == 'add':
-                        self.perform_add(target)
-                    elif action == 'delete':
-                        self.perform_delete()
-                    elif action == 'delete_constraints':
-                        self.perform_delete_constraints()
-                    elif action == 'delete_all_pins':
-                        self.delete_all_pins()
-                    elif action == 'delete_selected_pins':
-                        self.delete_selected_pins()
-                    elif action == 'delete_selected_motors':
-                        self.delete_selected_motors()
-                    self.game.state_stack[-1].menu_manager.mark_dirty()
+                if item['object'].active:
+                    btn_shape = item.get('object').shape
+                    if btn_shape and btn_shape.collidepoint(mouse_pos):
+                        action = item.get('action')
+                        target = item.get('target')
+                        if action == 'nav':
+                            self.navigate_to(target)
+                        elif action == 'add':
+                            self.perform_add(target)
+                        elif action == 'delete':
+                            self.perform_delete()
+                        elif action == 'delete_constraints':
+                            self.perform_delete_constraints()
+                        elif action == 'delete_all_pins':
+                            self.delete_all_pins()
+                        elif action == 'delete_selected_pins':
+                            self.delete_selected_pins()
+                        elif action == 'delete_selected_motors':
+                            self.delete_selected_motors()
+                        self.game.state_stack[-1].menu_manager.mark_dirty()
 
     def navigate_to(self, target):
         # Deactivate all menus

@@ -8,6 +8,7 @@ class MenuText():
         self.font_size = settings.fontsizes['header_1']
         self.font_color = settings.BLACK
         self.text_position = (0,0,0,0)
+        self.active = True
 
     def get_position(self,pos_idx):
         self.item_position = self.game.state_stack[-1].menu.menu_positions[pos_idx]

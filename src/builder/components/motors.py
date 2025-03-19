@@ -1,6 +1,5 @@
 import pymunk.pygame_util
 from pygame.locals import *
-from settings.menu_map import menu_map
 from math import pi
 
 

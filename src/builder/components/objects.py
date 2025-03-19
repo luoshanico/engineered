@@ -20,7 +20,7 @@ class Objects:
         self.add_to_space()
     
     def get_initial_position(self):
-        self.body.position = (150, 250)
+        self.body.position = (400, 500)
     
     def add_to_space(self):
         self.game.space.add(self.body, self.shape)

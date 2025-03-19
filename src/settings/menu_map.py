@@ -86,8 +86,8 @@ menu_map = {
         'active': False,
         'items': [
             {'type':'text', 'text':'Edit spring', 'object':None, 'condition': 1},
-            {'type':'button', 'action': 'add', 'target': 'damped_spring', 'object': None, 'text': 'add Spring', 'condition':2},
-            {'type':'input', 'input':'rest length','default_value':10 ,'entry': 'simple', 'condition':0, 'object': None},
+            {'type':'button', 'action': 'add', 'target': 'damped_spring', 'object': None, 'text': 'Add spring', 'condition':2},
+            {'type':'input', 'input':'rest length','default_value':100 ,'entry': 'simple', 'condition':0, 'object': None},
             {'type':'input', 'input':'stiffness','default_value':10 ,'entry': 'simple', 'condition':0, 'object': None},
             {'type':'input', 'input':'damping','default_value':0.3 ,'entry': 'simple', 'condition':0, 'object': None},
             
@@ -102,6 +102,7 @@ menu_map = {
     'pin_joint': {
         'active': False,
         'items': [
+            {'type':'text', 'text':'Edit pin joint', 'object':None, 'condition': 1},
             {'type':'button', 'action': 'add', 'target': 'pin_joint', 'object': None, 'text': 'Add pin joint', 'condition':2},
             {'type':'button', 'action': 'delete', 'target': None, 'object': None, 'text': 'Delete', 'condition':1},
             {'type':'button', 'action': 'nav', 'target': 'main', 'object': None, 'text': 'Back', 'condition':0}
@@ -110,6 +111,7 @@ menu_map = {
     'pivot_joint': {
         'active': False,
         'items': [
+            {'type':'text', 'text':'Edit pivot joint', 'object':None, 'condition': 1},
             {'type':'button', 'action': 'add', 'target': 'pivot_joint', 'object': None, 'text': 'Add pivot joint', 'condition':2},
             {'type':'button', 'action': 'delete', 'target': None, 'object': None, 'text': 'Delete', 'condition':1},
             {'type':'button', 'action': 'nav', 'target': 'main', 'object': None, 'text': 'Back', 'condition':0}

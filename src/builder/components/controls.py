@@ -39,6 +39,7 @@ class ComponentControls:
             hit_component.add_anchor_selection(p)
         else:
             self.game.state_stack[-1].manager.clear_selected_components()
+            self.game.state_stack[-1].menu.navigate_to('main')
     
     def get_hit_component_if_dynamic(self):
         p = Vec2d(*pg.mouse.get_pos())

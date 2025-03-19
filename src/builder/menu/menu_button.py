@@ -10,6 +10,7 @@ class Button():
         self.text = btn_data['text']
         self.position = (0,0,0,0)
         self.shape = None
+        self.active = True
         
     def get_position(self,pos_idx):
         self.position = self.game.state_stack[-1].menu.menu_positions[pos_idx]
