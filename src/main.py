@@ -4,6 +4,7 @@ from pygame.locals import *
 pymunk.pygame_util.positive_y_is_up = False
 from settings import settings
 from states.main_menu import Title
+from assets import Assets
 
 class Game():
     def __init__(self):
@@ -11,7 +12,7 @@ class Game():
         self.load_display()
         self.running, self.playing = True, True
         self.load_time()
-        self.load_assets()
+        self.assets = Assets()
         self.load_states()
 
     def load_display(self):
@@ -51,9 +52,6 @@ class Game():
         text_rect = text_surface.get_rect()
         text_rect.center = (x,y)
         surface.blit(text_surface, text_rect)
-
-    def load_assets(self):
-        pass
 
     def load_states(self):
         self.state_stack = []
