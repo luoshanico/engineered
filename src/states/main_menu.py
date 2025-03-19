@@ -8,7 +8,7 @@ class Title(State):
 
     def get_events(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
-            print("updating to Builder")
+            print("Loading Builder State")
             new_state = Builder(self.game)
             new_state.enter_state()
     

@@ -1,6 +1,6 @@
 import pymunk
 import pymunk.pygame_util
-import settings.settings
+from settings import settings
 
 class BuilderWorld:
     def __init__(self, game):
@@ -11,15 +11,16 @@ class BuilderWorld:
     def get_settings(self):
         self.elasticity = 0.8
         self.friction = 0.2
+        self.x_start = settings.side_bar_width
         self.width, self.height = self.game.RES
 
     def add_box(self):
         self.box_thickness = 10
         self.box_dims = [
-            ((0, self.height),(self.width, self.height)),  # floor
-            ((0, 0),(self.width, 0)),  # ceiling
+            ((self.x_start, self.height),(self.width, self.height)),  # floor
+            ((self.x_start, 0),(self.width, 0)),  # ceiling
             ((self.width, 0),(self.width, self.height)),  # right wall
-            ((0, 0),(0, self.height)),  # left wall
+            ((self.x_start, 0),(self.x_start, self.height)),  # left wall
             ]
         for dims in self.box_dims:
             self.add_box_side(dims)
@@ -32,7 +33,7 @@ class BuilderWorld:
             )
         segment.elasticity = self.elasticity
         segment.friction = self.friction
-        segment.collision_type = settings.settings.WORLD_CAT
+        segment.collision_type = settings.WORLD_CAT
         self.game.space.add(segment)
 
     def get_events(self,event):

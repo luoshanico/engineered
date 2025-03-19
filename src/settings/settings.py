@@ -1,6 +1,6 @@
 # Game dimensions
 WIDTH, HEIGHT = RES = (1600, 900)
-side_bar_width = 250
+side_bar_width = 200
 
 # Game constants
 FPS = 60
@@ -20,10 +20,10 @@ GREY = (128, 128, 128)
 
 # Menu dimensions
 menu_dims = {
-    'button_radius' : 10,
-    'button_width' : 125,
+    'button_radius' : 18,
+    'button_width' : 150,
     'button_height' : 35,
-    'button_start_x' : 20,
+    'button_start_x' : 25,
     'button_start_y' : 60,
     'button_gap' : 15
 }

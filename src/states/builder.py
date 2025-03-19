@@ -11,8 +11,8 @@ from builder.menu_manager import MenuManager
 class Builder(State):
     def __init__(self, game):
         State.__init__(self, game)
-        self.menu = BuilderMenu(game)
         self.menu_manager = MenuManager(game)
+        self.menu = BuilderMenu(game)
         self.physics = BuilderPhysics(game)
         self.world = BuilderWorld(game)
         self.controls = ComponentControls(game)

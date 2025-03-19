@@ -2,8 +2,9 @@ menu_map = {
     'main': {
         'active': True,
         'items': [
-            {'type':'button', 'action': 'nav', 'target': 'ball', 'object': None, 'text': 'Add ball', 'condition':0},
-            {'type':'button', 'action': 'nav', 'target': 'bar', 'object': None, 'text': 'Add bar', 'condition':0},
+            {'type':'text', 'text':'Add item', 'object':None, 'condition': 0},
+            {'type':'button', 'action': 'nav', 'target': 'ball', 'object': None, 'text': 'Ball', 'condition':0},
+            {'type':'button', 'action': 'nav', 'target': 'bar', 'object': None, 'text': 'Bar', 'condition':0},
             {'type':'button', 'action': 'delete_all_pins', 'target': None, 'object': None, 'text': 'Remove all pins', 'condition':3}
         ]
     },

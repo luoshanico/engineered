@@ -11,6 +11,7 @@ class BuilderMenu:
     def __init__(self, game):
         self.game = game
         self.menu_map = menu_map.menu_map
+        self.is_renderable = False
         self.get_menu_dimensions()
         self.initialise_text()
         self.initialse_buttons()
@@ -44,10 +45,12 @@ class BuilderMenu:
                     menu_item['object'] = InputField(self.game,menu_item)
 
     def render(self):
-        for menu_item in self.get_active_menu()['items']:
-            if self.check_condition_to_render(menu_item):
-                if menu_item['object']:
-                    menu_item['object'].render()
+        if self.is_renderable:
+            for menu_item in self.get_active_menu()['items']:
+                if self.check_condition_to_render(menu_item):
+                    if menu_item['object']:
+                        menu_item['object'].render()
+        self.is_renderable = True
 
                     
     def check_condition_to_render(self,menu_item):
