@@ -4,21 +4,27 @@ import pygame as pg
 
 class Assets():
     def __init__(self):
-        self.fonts = {}
+        self.font_paths = {}
         self.icons = {}
         self.load_fonts()
         self.load_icons()
 
     def load_fonts(self):
-        """Load all fonts from the assets/fonts folder."""
         fonts_path = os.path.join(os.path.dirname(__file__), "..", "assets", "fonts")
         for filename in os.listdir(fonts_path):
             if filename.lower().endswith((".ttf", ".otf")):
                 full_path = os.path.join(fonts_path, filename)
                 font_key = os.path.splitext(filename)[0]
-                self.fonts[font_key] = pg.font.Font(full_path, 24)
-        print("Loaded fonts:", list(self.fonts.keys()))
-    
+                self.font_paths[font_key] = full_path
+        print("Loaded fonts:", list(self.font_paths.keys()))
+
+    def get_font(self, font_name, size):
+        if font_name in self.font_paths:
+            return pg.font.Font(self.font_paths[font_name], size)
+        else:
+            raise ValueError(f"Font '{font_name}' not found.")
+
+
     def load_icons(self):
         """Load all icons from the assets/icons folder."""
         icons_path = os.path.join(os.path.dirname(__file__), "..", "assets", "icons")

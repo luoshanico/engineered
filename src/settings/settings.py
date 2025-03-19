@@ -25,7 +25,8 @@ menu_dims = {
     'button_height' : 35,
     'button_start_x' : 25,
     'button_start_y' : 60,
-    'button_gap' : 15
+    'button_gap' : 15,
+    'input_value_radius': 18
 }
 
 
@@ -35,7 +36,10 @@ fontsizes = {
     'title':30,
     'header_1':25,
     'header_2':20,
-    'text':15
+    'text':14,
+    'button':13,
+    'input_name':13,
+    'input_value':13
 }
 
 

@@ -129,6 +129,7 @@ class ComponentManager:
             if component in self.components:
                 self.delete_component(component)
         self.clear_selected_components()
+        self.game.state_stack[-1].menu.navigate_to('main')
 
     def delete_component(self,component):
         component.delete()

@@ -5,6 +5,7 @@ from builder.components.manager import ComponentManager
 from builder.components.controls import ComponentControls
 from builder.world import BuilderWorld
 from builder.menu.menu_manager import MenuManager
+from settings import settings
 
 
 class Builder(State):
@@ -28,9 +29,19 @@ class Builder(State):
         self.manager.update()
         self.menu.update()
         
-    def render(self, game):
-        game.surface.fill((255, 255, 255))  # Clear the background
-        game.draw_text(game.surface, "Builder", (0, 0, 0), 50, 20)  # Render title
+    def render(self):
+        self.game.surface.fill(settings.WHITE)  # Clear the background
+        self.draw_title()
         self.menu.render()
         self.physics.render()
         self.manager.render()
+
+    def draw_title(self):
+        text = 'Engineered'
+        colour = settings.BLACK
+        fontsize = 30
+        font = self.game.assets.get_font('Advent-Bold',fontsize)
+        location = (settings.side_bar_width/2, 35)
+        self.game.draw_text(self.game.surface, text, font, colour, location)
+
+    

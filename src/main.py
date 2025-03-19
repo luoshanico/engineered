@@ -42,15 +42,14 @@ class Game():
         self.state_stack[-1].update()
 
     def render(self):
-        self.state_stack[-1].render(self)
+        self.state_stack[-1].render()
         self.screen.blit(self.surface, (0,0))
         pg.display.flip()
 
-    def draw_text(self, surface, text, color, x, y):
-        self.font = pg.font.Font(None, settings.fontsizes['title'])
-        text_surface = self.font.render(text, True, color)
+    def draw_text(self, surface, text, font, color, location):
+        text_surface = font.render(text, True, color)
         text_rect = text_surface.get_rect()
-        text_rect.center = (x,y)
+        text_rect.center = location
         surface.blit(text_surface, text_rect)
 
     def load_states(self):

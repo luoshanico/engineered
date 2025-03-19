@@ -55,7 +55,6 @@ class BuilderMenu:
                     menu_item['object'].active = False
         self.is_renderable = True
 
-                    
     def check_condition_to_render(self,menu_item):
         condition = menu_item.get('condition')
         if condition == 0: 

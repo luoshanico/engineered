@@ -21,14 +21,15 @@ menu_map = {
         'active': False,
         'items': [
             {'type':'text', 'text':'Edit ball', 'object':None, 'condition': 1},
+            {'type':'text', 'text':'Add item', 'object':None, 'condition': 7},
             {'type':'button', 'action': 'add', 'target': 'ball', 'object': None, 'text': 'Add ball', 'condition':7},
+            
             {'type':'input', 'input':'mass','default_value':1 ,'entry': 'simple', 'condition':0, 'object': None},
             {'type':'input', 'input':'radius','default_value':60 ,'entry': 'simple', 'condition':0, 'object': None},
             {'type':'input', 'input':'elasticity','default_value':0.9 ,'entry': 'simple', 'condition':0, 'object': None},
             {'type':'input', 'input':'friction','default_value':0.3,'entry': 'simple', 'condition':0, 'object': None},
-
-            {'type':'text', 'text':'', 'object':None, 'condition': 0},
             {'type':'button', 'action': 'nav', 'target': 'bar', 'object': None, 'text': 'Add bar', 'condition':7},
+            
             {'type':'button', 'action': 'add', 'target': 'ball', 'object': None, 'text': 'Add new ball', 'condition':1},
             {'type':'button', 'action': 'nav', 'target': 'constraint', 'object': None, 'text': 'Add constraint', 'condition':2},
             {'type':'button', 'action': 'nav', 'target': 'motor', 'object': None, 'text': 'Add motor', 'condition':1},
@@ -48,14 +49,15 @@ menu_map = {
         'active': False,
         'items': [
             {'type':'text', 'text':'Edit bar', 'object':None, 'condition': 1},
+            {'type':'text', 'text':'Add item', 'object':None, 'condition': 7},
             {'type':'button', 'action': 'nav', 'target': 'ball', 'object': None, 'text': 'Add ball', 'condition':7},
             {'type':'button', 'action': 'add', 'target': 'bar', 'object': None, 'text': 'Add bar', 'condition':7},
+            
             {'type':'input', 'input':'mass','default_value':1 ,'entry': 'simple', 'condition':0, 'object': None},
             {'type':'input', 'input':'length','default_value':100 ,'entry': 'simple', 'condition':0, 'object': None},
             {'type':'input', 'input':'elasticity','default_value':0.9 ,'entry': 'simple', 'condition':0, 'object': None},
             {'type':'input', 'input':'friction','default_value':0.3,'entry': 'simple', 'condition':0, 'object': None},
 
-            {'type':'text', 'text':'', 'object':None, 'condition': 0},
             {'type':'button', 'action': 'add', 'target': 'bar', 'object': None, 'text': 'Add new bar', 'condition':1},
             {'type':'button', 'action': 'nav', 'target': 'constraint', 'object': None, 'text': 'Add constraint', 'condition':2},
             {'type':'button', 'action': 'nav', 'target': 'motor', 'object': None, 'text': 'Add motor', 'condition':1},
@@ -90,8 +92,6 @@ menu_map = {
             {'type':'input', 'input':'rest length','default_value':100 ,'entry': 'simple', 'condition':0, 'object': None},
             {'type':'input', 'input':'stiffness','default_value':10 ,'entry': 'simple', 'condition':0, 'object': None},
             {'type':'input', 'input':'damping','default_value':0.3 ,'entry': 'simple', 'condition':0, 'object': None},
-            
-            {'type':'text', 'text':'', 'object':None, 'condition': 0},
             {'type':'button', 'action': 'delete', 'target': None, 'object': None, 'text': 'Delete', 'condition':1},
 
             {'type':'text', 'text':'', 'object':None, 'condition': 0},
