@@ -4,8 +4,8 @@ from pygame.locals import *
 import colorsys
 import math
 
-from settings import general_settings
-from settings.menu_settings import menu_map
+from settings import settings
+from settings.menu_map import menu_map
 
 class Objects:
     def __init__(self,game):
@@ -65,7 +65,7 @@ class Objects:
         print(f"{self.selected_anchor}")
         
     def snap_to_anchor_points(self, p):
-        snap_horizon = general_settings.snap_horizon
+        snap_horizon = settings.snap_horizon
         snap_points = self.anchor_snap_points()
         print(f"{snap_points=}")
         closest = min(snap_points, key=lambda pt: self.distance(p,pt))
@@ -80,7 +80,7 @@ class Objects:
     def draw_anchor_marker(self, surface):
         if self.selected_anchor:
             world_anchor = self.body.local_to_world(self.selected_anchor)
-            pg.draw.circle(surface, general_settings.RED, (int(world_anchor.x),int(world_anchor.y)), 2)
+            pg.draw.circle(surface, settings.RED, (int(world_anchor.x),int(world_anchor.y)), 2)
 
     def update(self):
         pass
@@ -106,7 +106,7 @@ class Ball(Objects):
         self.shape = pymunk.Circle(self.body, self.radius)
         self.shape.elasticity = self.elasticity
         self.shape.friction = self.friction
-        self.shape.collision_type = general_settings.OBJECT_CAT
+        self.shape.collision_type = settings.OBJECT_CAT
     
     def add_labels(self):
         self.component_type = 'object'
@@ -114,7 +114,7 @@ class Ball(Objects):
         self.shape.owner = self  # Now when we hit shape with mouse we can identify the underlying object
 
     def get_initial_color(self):
-        self.color = general_settings.GREEN
+        self.color = settings.GREEN
     
     def render(self, surface):
         pos = self.body.position
@@ -146,7 +146,7 @@ class Bar(Objects):
         self.shape = pymunk.Segment(self.body, (0, self.length//2), (0, -self.length//2), self.thickness//2)
         self.shape.elasticity = self.elasticity
         self.shape.friction = self.friction
-        self.shape.collision_type = general_settings.OBJECT_CAT
+        self.shape.collision_type = settings.OBJECT_CAT
     
     def add_labels(self):
         self.component_type = 'object'
@@ -154,7 +154,7 @@ class Bar(Objects):
         self.shape.owner = self  # Now when we hit shape with mouse we can identify the underlying object
 
     def get_initial_color(self):
-        self.color = general_settings.BLUE
+        self.color = settings.BLUE
     
     def render(self, surface):
         vertices = self.segment_to_poly()

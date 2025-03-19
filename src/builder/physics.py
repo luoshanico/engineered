@@ -1,6 +1,6 @@
 import pymunk
 import pymunk.pygame_util
-import settings.general_settings
+import settings.settings
 
 class BuilderPhysics:
     def __init__(self, game):

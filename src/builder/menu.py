@@ -1,6 +1,6 @@
 import pygame as pg
-from settings import menu_settings
-from settings import general_settings
+from settings import menu_map
+from settings import settings
 from builder.menu_text import MenuText
 from builder.menu_button import Button
 from builder.menu_input import InputField
@@ -10,11 +10,19 @@ from builder.menu_input import InputField
 class BuilderMenu:
     def __init__(self, game):
         self.game = game
-        self.menu_map = menu_settings.menu_map
+        self.menu_map = menu_map.menu_map
+        self.get_menu_dimensions()
         self.initialise_text()
         self.initialse_buttons()
-        self.initialise_input_fields()
-        # self.calculate_menu_positions()
+        self.initialise_input_fields()    
+    
+    def get_menu_dimensions(self):
+        menu_dims = settings.menu_dims
+        max_buttons = (settings.HEIGHT - menu_dims['button_start_y']) // (menu_dims['button_height'] + menu_dims['button_gap'])
+        self.menu_positions = [(menu_dims['button_start_x'], menu_dims['button_start_y'] 
+                                + i * (menu_dims['button_height'] + menu_dims['button_gap']), 
+                                menu_dims['button_width'], menu_dims['button_height'])
+                                for i in range(max_buttons)]
     
     def initialise_text(self):
         for _, menu in self.menu_map.items():

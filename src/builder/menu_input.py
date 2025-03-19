@@ -1,6 +1,5 @@
 import pygame as pg
-from settings import general_settings
-from settings import menu_settings
+from settings import settings
 
 class InputField:
     def __init__(self, game, menu_item):
@@ -11,7 +10,7 @@ class InputField:
         self.text_selected = False
 
     def get_position(self,pos_idx):
-        self.position = menu_settings.menu_positions[pos_idx]
+        self.position = self.game.state_stack[-1].menu.menu_positions[pos_idx]
         self.get_input_field_rectangles()
 
     def get_input_field_rectangles(self):
@@ -28,14 +27,14 @@ class InputField:
         self.value = str(menu_item['default_value'])
     
     def get_formats(self):
-        self.input_name_font_size = menu_settings.fontsizes['header_2']
+        self.input_name_font_size = settings.fontsizes['header_2']
         self.input_name_font = pg.font.Font(None, self.input_name_font_size)
-        self.value_font_size = menu_settings.fontsizes['header_2']
+        self.value_font_size = settings.fontsizes['header_2']
         self.value_font = pg.font.Font(None, self.value_font_size)
-        self.input_name_color = general_settings.BLACK
-        self.value_color = general_settings.BLACK
-        self.bg_color = general_settings.WHITE
-        self.border_color = general_settings.BLACK
+        self.input_name_color = settings.BLACK
+        self.value_color = settings.BLACK
+        self.bg_color = settings.WHITE
+        self.border_color = settings.BLACK
 
     def render(self):
         self.draw_input_name()

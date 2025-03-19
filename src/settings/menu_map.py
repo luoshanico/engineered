@@ -1,5 +1,3 @@
-import settings.general_settings
-
 menu_map = {
     'main': {
         'active': True,
@@ -118,40 +116,4 @@ menu_map = {
     }
 }
 
-button_radius = 5
-button_width = 100
-button_height = 30
-button_start_x = 20
-button_start_y = 100
-button_gap = 20
-max_buttons = (settings.general_settings.HEIGHT - button_start_y) // (button_height + button_gap)
-
-menu_positions = [(button_start_x, button_start_y + i * (button_height + button_gap), button_width, button_height) for i in range(max_buttons)]
-
-
-button_locations = [
-    (20, 40, 100, 30),
-    (140, 40, 100, 30),
-    (260, 40, 100, 30),
-    (380, 40, 100, 30),
-    (500, 40, 100, 30),
-    (620, 40, 100, 30),
-    (740, 40, 100, 30),
-    (860, 40, 100, 30)
-]
-
-input_locations = [
-    (20, 80, 100, 30),
-    (140, 80, 100, 30),
-    (260, 80, 100, 30),
-    (380, 80, 100, 30),
-    (500, 80, 100, 30)
-]
-
-fontsizes = {
-    'title':30,
-    'header_1':25,
-    'header_2':20,
-    'text':15
-}
 

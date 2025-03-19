@@ -2,8 +2,7 @@ import pymunk.pygame_util
 import pygame as pg
 from pygame.locals import *
 pymunk.pygame_util.positive_y_is_up = False
-import settings.general_settings
-import settings.menu_settings
+from settings import settings
 from states.main_menu import Title
 
 class Game():
@@ -16,13 +15,13 @@ class Game():
         self.load_states()
 
     def load_display(self):
-        self.width, self.height = self.RES = settings.general_settings.RES
+        self.width, self.height = self.RES = settings.RES
         self.surface = pg.Surface(self.RES)
         self.screen = pg.display.set_mode(self.RES)
 
     def load_time(self):
         self.clock = pg.time.Clock()
-        self.FPS = settings.general_settings.FPS
+        self.FPS = settings.FPS
 
     def game_loop(self):
         while self.playing:
@@ -47,7 +46,7 @@ class Game():
         pg.display.flip()
 
     def draw_text(self, surface, text, color, x, y):
-        self.font = pg.font.Font(None, settings.menu_settings.fontsizes['title'])
+        self.font = pg.font.Font(None, settings.fontsizes['title'])
         text_surface = self.font.render(text, True, color)
         text_rect = text_surface.get_rect()
         text_rect.center = (x,y)

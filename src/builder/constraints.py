@@ -1,6 +1,6 @@
 import pymunk.pygame_util
 from pygame.locals import *
-from settings.menu_settings import menu_map
+from settings.menu_map import menu_map
 
 class Constraints:
     def __init__(self, game, obj1, obj2):

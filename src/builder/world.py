@@ -1,6 +1,6 @@
 import pymunk
 import pymunk.pygame_util
-import settings.general_settings
+import settings.settings
 
 class BuilderWorld:
     def __init__(self, game):
@@ -32,7 +32,7 @@ class BuilderWorld:
             )
         segment.elasticity = self.elasticity
         segment.friction = self.friction
-        segment.collision_type = settings.general_settings.WORLD_CAT
+        segment.collision_type = settings.settings.WORLD_CAT
         self.game.space.add(segment)
 
     def get_events(self,event):
