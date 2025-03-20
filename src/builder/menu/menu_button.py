@@ -31,7 +31,7 @@ class Button():
     def get_button_color(self): 
         if 'delete' in self.action:
             return settings.PINK
-        if self.text == 'Back':
+        if self.text in ['Back','Controls']:
             return settings.GREY
         else:
             return settings.GREEN

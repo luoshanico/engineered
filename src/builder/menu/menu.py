@@ -138,11 +138,14 @@ class BuilderMenu:
                     if btn_shape and btn_shape.collidepoint(mouse_pos):
                         action = item.get('action')
                         target = item.get('target')
+                        self.game.state_stack[-1].menu_manager.mark_dirty()
                         if action == 'nav':
                             self.navigate_to(target)
                         if action == 'back':
                             self.unselect_all()
                             self.navigate_to(target)
+                        if action == 'controls':
+                            self.game.state_stack[-1].prev_state.enter_state()
                         elif action == 'add':
                             self.perform_add(target)
                         elif action == 'delete':
@@ -155,7 +158,6 @@ class BuilderMenu:
                             self.delete_selected_pins()
                         elif action == 'delete_selected_motors':
                             self.delete_selected_motors()
-                        self.game.state_stack[-1].menu_manager.mark_dirty()
 
     def navigate_to(self, target):
         # Deactivate all menus

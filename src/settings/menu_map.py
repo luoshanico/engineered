@@ -5,7 +5,8 @@ menu_map = {
             {'type':'text', 'text':'Add item', 'object':None, 'condition': 0},
             {'type':'button', 'action': 'nav', 'target': 'ball', 'object': None, 'text': 'Ball', 'icon':'object', 'condition':0},
             {'type':'button', 'action': 'nav', 'target': 'bar', 'object': None, 'text': 'Bar', 'icon':'object', 'condition':0},
-            {'type':'button', 'action': 'delete_all_pins', 'target': None, 'object': None, 'text': 'Remove all pins', 'icon':'object', 'condition':3}
+            {'type':'button', 'action': 'delete_all_pins', 'target': None, 'object': None, 'text': 'Remove all pins', 'icon':'object', 'condition':3},
+            {'type':'button', 'action': 'controls', 'target': None, 'object': None, 'text': 'Controls', 'icon':'back',  'condition':0}
         ]
     },
     'constraint': {
@@ -15,7 +16,8 @@ menu_map = {
             {'type':'button', 'action': 'nav', 'target': 'damped_spring', 'object': None, 'text': 'Add spring', 'icon':'constraint',  'condition':0},
             {'type':'button', 'action': 'add', 'target': 'pin_joint', 'object': None, 'text': 'Add pin joint', 'icon':'constraint',  'condition':0},
             {'type':'button', 'action': 'add', 'target': 'pivot_joint', 'object': None, 'text': 'Add pivot joint', 'icon':'constraint',  'condition':0},
-            {'type':'button', 'action': 'back', 'target': 'main', 'object': None, 'text': 'Back', 'icon':'back',  'condition':None}
+            {'type':'button', 'action': 'back', 'target': 'main', 'object': None, 'text': 'Back', 'icon':'back',  'condition':0},
+            {'type':'button', 'action': 'controls', 'target': None, 'object': None, 'text': 'Controls', 'icon':'back',  'condition':0}
         ]
     },
     'ball': {

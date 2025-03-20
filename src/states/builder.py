@@ -21,8 +21,9 @@ class Builder(State):
     def get_events(self, event):
         self.physics.get_events(event)
         self.menu.get_events(event)
-        self.controls.get_events(event)
-        self.menu_manager.recalc_if_needed()
+        if isinstance(self.game.state_stack[-1],Builder):
+            self.controls.get_events(event)
+            self.menu_manager.recalc_if_needed()
         
     def update(self):
         self.physics.update()

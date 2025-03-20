@@ -3,7 +3,7 @@ import pygame as pg
 from pygame.locals import *
 pymunk.pygame_util.positive_y_is_up = False
 from settings import settings
-from states.main_menu import Title
+from states.title import Title
 from assets import Assets
 
 class Game():
