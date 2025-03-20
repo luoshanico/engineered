@@ -41,19 +41,25 @@ class ComponentManager:
         self.clear_selected_components()
     
     def add_damped_spring(self):
-        if len(self.selected_components) == 2:
+        if self.check_selected_components_are_two_objects():
             self.components.append(constraints.DampedSpring(self.game, *self.selected_components))
-            self.game.state_stack[-1].menu.navigate_to('main')
+        self.game.state_stack[-1].menu.navigate_to('main')
 
     def add_pin_joint(self):
-        if len(self.selected_components) == 2:
+        if self.check_selected_components_are_two_objects():
             self.components.append(constraints.PinJoint(self.game, *self.selected_components))
-            self.game.state_stack[-1].menu.navigate_to('main')
+        self.game.state_stack[-1].menu.navigate_to('main')
 
     def add_pivot_joint(self):
-        if len(self.selected_components) == 2:
+        if self.check_selected_components_are_two_objects():
             self.components.append(constraints.PivotJoint(self.game, *self.selected_components))
-            self.game.state_stack[-1].menu.navigate_to('main')
+        self.game.state_stack[-1].menu.navigate_to('main')
+    
+    def check_selected_components_are_two_objects(self):
+        if len(self.selected_components) == 2:
+            return all([component.component_type == 'object' for component in self.selected_components])
+        else:
+            return False
     
     def add_motor(self):
         for component in self.selected_components:

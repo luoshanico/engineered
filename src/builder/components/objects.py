@@ -154,7 +154,7 @@ class Bar(Objects):
         self.shape.owner = self  # Now when we hit shape with mouse we can identify the underlying object
 
     def get_initial_color(self):
-        self.color = settings.GREEN
+        self.color = settings.DARK_BLUE
     
     def render(self, surface):
         vertices = self.segment_to_poly()
