@@ -11,12 +11,15 @@ WORLD_CAT = 2
 MENU_CAT = 3
 
 # Colours
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (223, 108, 79)
-GREEN = (73, 197, 182)
-BLUE = (39, 121, 167)
-GREY = (128, 128, 128)
+WHITE = (248,248,249,1)
+BLACK = (0,0,0)
+RED = (223,108,79)
+GREEN = (141,237,199,1)
+DARK_BLUE = (0,26,61,1)
+PINK = (239,212,225,1)
+BLUE = (39,121,167)
+GREY = (230,230,230,1)
+OFFWHITE = (250,250,250,1)
 
 # Menu dimensions
 menu_dims = {
@@ -26,7 +29,8 @@ menu_dims = {
     'button_start_x' : 25,
     'button_start_y' : 60,
     'button_gap' : 15,
-    'input_value_radius': 18
+    'input_value_radius' : 18,
+    'button_text_left_margin' : 7
 }
 
 

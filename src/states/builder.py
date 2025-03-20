@@ -30,15 +30,17 @@ class Builder(State):
         self.menu.update()
         
     def render(self):
-        self.game.surface.fill(settings.WHITE)  # Clear the background
-        self.draw_title()
-        self.menu.render()
+        self.game.surface.fill(settings.OFFWHITE)  # Clear the background
         self.physics.render()
         self.manager.render()
+        self.world.render()
+        self.menu.render()
+        self.draw_title()
+
 
     def draw_title(self):
         text = 'Engineered'
-        colour = settings.BLACK
+        colour = settings.GREEN
         fontsize = 30
         font = self.game.assets.get_font('Advent-Bold',fontsize)
         location = (settings.side_bar_width/2, 35)

@@ -53,7 +53,7 @@ class Objects:
         self.color = self.normal_rgb
 
     def fade_color(self, rgb, fade_factor=0.5):
-        r, g, b = [x / 255.0 for x in rgb]
+        r, g, b, _ = [x / 255.0 for x in rgb]
         h, l, s = colorsys.rgb_to_hls(r, g, b)
         s *= fade_factor
         r_new, g_new, b_new = colorsys.hls_to_rgb(h, l, s)
@@ -154,11 +154,10 @@ class Bar(Objects):
         self.shape.owner = self  # Now when we hit shape with mouse we can identify the underlying object
 
     def get_initial_color(self):
-        self.color = settings.BLUE
+        self.color = settings.GREEN
     
     def render(self, surface):
         vertices = self.segment_to_poly()
-        # vertices = [v.rotated(self.body.angle) + self.body.position for v in vertices]
         points = [(int(v.x), int(v.y)) for v in vertices]
         pg.draw.polygon(surface, self.color, points)
         self.draw_anchor_marker(surface)

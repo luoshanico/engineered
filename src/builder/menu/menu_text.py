@@ -6,7 +6,7 @@ class MenuText():
         self.game = game
         self.text = text['text']
         self.font_size = settings.fontsizes['text']
-        self.font_color = settings.BLACK
+        self.font_color = settings.GREEN
         self.text_position = (0,0,0,0)
         self.active = True
 

@@ -35,10 +35,10 @@ class InputField:
         self.input_name_font = self.game.assets.get_font('Roobert-Regular',self.input_name_font_size)
         self.value_font_size = settings.fontsizes['input_value']
         self.value_font = self.game.assets.get_font('Roobert-Medium',self.value_font_size)
-        self.input_name_color = settings.BLACK
-        self.value_color = settings.BLACK
-        self.bg_color = settings.WHITE
-        self.border_color = settings.BLACK
+        self.input_name_color = settings.GREY
+        self.value_color = settings.GREEN
+        self.bg_color = settings.DARK_BLUE
+        self.border_color = settings.GREEN
 
     def render(self):
         self.draw_input_name()
@@ -60,6 +60,13 @@ class InputField:
         x = rectangle_dims[0] + left_margin
         y = rectangle_dims[1] + (rectangle_dims[3] - text_height) // 2
         return (x, y)
+    
+    def center_text_in_rectangle(self,text,font,rect):
+        text_surface = font.render(text, True, settings.WHITE)
+        text_width, text_height = text_surface.get_size()
+        x = rect[0] + (rect[2] - text_width) // 2
+        y = rect[1] + (rect[3] - text_height) // 2
+        return (x, y)
 
     def draw_value_rectangle(self):
         pg.draw.rect(self.game.surface, self.bg_color, self.value_rect, border_radius=self.value_rect_radius)
@@ -68,11 +75,11 @@ class InputField:
 
     def draw_value(self):
         value_surface = self.value_font.render(self.value, True, self.value_color)
-        text_location = self.align_left_middle_text_in_rectangle(
-            self.value_rect,
-            self.value_font,
+        text_location = self.center_text_in_rectangle(
             self.value,
-            5)
+            self.value_font,
+            self.value_rect,
+            )
         self.game.surface.blit(value_surface, text_location)
 
     def get_events(self, event):

@@ -73,6 +73,8 @@ class BuilderMenu:
             return self.check_if_motor_exists_for_selected_object()
         elif condition == 7:
             return not self.check_if_at_least_one_component_selected() # only show if nothing selected
+        elif condition == 8: 
+            return not self.check_if_exactly_two_components_selected()
 
 
     def check_if_at_least_one_component_selected(self):
@@ -138,6 +140,9 @@ class BuilderMenu:
                         target = item.get('target')
                         if action == 'nav':
                             self.navigate_to(target)
+                        if action == 'back':
+                            self.unselect_all()
+                            self.navigate_to(target)
                         elif action == 'add':
                             self.perform_add(target)
                         elif action == 'delete':
@@ -162,6 +167,9 @@ class BuilderMenu:
     def perform_add(self, target):
         self.game.state_stack[-1].manager.add_component(target)
         
+    def unselect_all(self):
+        self.game.state_stack[-1].manager.clear_selected_components()
+    
     def perform_delete(self):
         self.game.state_stack[-1].manager.delete_selected_components()
 
