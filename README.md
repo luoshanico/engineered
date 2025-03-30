@@ -17,7 +17,7 @@ This simulator can be a fun and powerful educational tool:
 - Visualizing Newtonian physics concepts (e.g. forces, motion, energy).
 - Experimenting with springs, e.g. demonstrating Hooke's law
 - Demonstrating conservation laws e.g. energy, angular momentum.
-- Modelling friction and elasticity
+- Modelling friction, elasticity and damping
 - Even demonstrating statistical laws e.g. by building a Galton Board. 
 - Teaching coding and physics principles together.
 
@@ -26,8 +26,9 @@ This simulator can be a fun and powerful educational tool:
 ## Features
 
 - **Interactive Physics**: Add, move, and modify dynamic objects in a live simulation environment.
-- **Constraints System**: Connect objects with damped springs, pins, pivot joints, and motors.
+- **Constraints System**: Connect objects with damped springs, pivot joints, and motors.
 - **Object Anchoring**: Precisely control interaction points using anchor markers.
+- **Static objects**: Create static objects by pinning objects to the background. 
   
 ---
 
@@ -75,12 +76,18 @@ python src/main.py
 - **Space bar:** pin grabbed object to background
 - **Delete:** delete object
 
+---
+
 ## Contributing
 Pull requests and ideas welcome! Feel free to open an issue to discuss improvements or features.
 
+---
+
 ## Author
 Nico Worrall
-github.com/yourusername
+github.com/luoshanico
+
+---
 
 ## License
 MIT License. See LICENSE for details.
