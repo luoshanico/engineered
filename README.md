@@ -6,8 +6,10 @@ The user interface is built using [Pygame](https://www.pygame.org/).
 
 **Note:** I'm hoping to develop this further into a game where the user has to build a vehicle to overcome obstacle courses of increasing difficulty. But for now you just get the vehicle building stage, which is essentially a physics simulator.  
 
-![Simulator Overview](# "Add screenshot of main simulation screen here")
-![Interactive Menu](# "Add screenshot of interactive menu here")
+![Hooke's Law](assets/screenshots/hookes-law.png)
+![Three body problem](assets/screenshots/three-body-problem.png)
+![Motorized car clears ramp](assets/screenshots/motorized-car-clears-ramp.gif)
+
 
 --- 
 
